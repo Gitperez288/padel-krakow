@@ -1,4 +1,3 @@
-// components/CourtMap.tsx
 "use client";
 
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
@@ -40,7 +39,7 @@ export default function CourtMap({
   courts: Court[];
   focusId?: string | null;
 }) {
-  const defaultCenter: [number, number] = [50.0614, 19.9372]; // Kraków
+  const defaultCenter: [number, number] = [50.0614, 19.9372];
   const focused = courts.find((c) => c.id === focusId);
 
   return (
@@ -61,7 +60,12 @@ export default function CourtMap({
             <div className="space-y-1">
               <div className="font-semibold">{c.name}</div>
               <div className="text-sm text-gray-600">{c.address}</div>
-              <a className="text-amber-700 underline text-sm" href={c.link} target="_blank" rel="noopener noreferrer">
+              <a
+                href={c.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-amber-700 underline text-sm"
+              >
                 Open in Google Maps
               </a>
             </div>
