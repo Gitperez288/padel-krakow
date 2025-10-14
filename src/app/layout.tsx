@@ -1,68 +1,35 @@
-import Footer from "@/app/_components/footer";
-import { CMS_NAME, HOME_OG_IMAGE_URL } from "@/lib/constants";
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import cn from "classnames";
-import { ThemeSwitcher } from "./_components/theme-switcher";
-
+// app/layout.tsx
 import "./globals.css";
+import Link from "next/link";
+import type { ReactNode } from "react";
 
-const inter = Inter({ subsets: ["latin"] });
-
-export const metadata: Metadata = {
-  title: `Next.js Blog Example with ${CMS_NAME}`,
-  description: `A statically generated blog example using Next.js and ${CMS_NAME}.`,
-  openGraph: {
-    images: [HOME_OG_IMAGE_URL],
-  },
+export const metadata = {
+  title: "Padel Kraków Community",
+  description: "Padel community of Kraków and Małopolska – courts, levels, groups, and blog.",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
-      <head>
-        <link
-          rel="apple-touch-icon"
-          sizes="180x180"
-          href="/favicon/apple-touch-icon.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="32x32"
-          href="/favicon/favicon-32x32.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="16x16"
-          href="/favicon/favicon-16x16.png"
-        />
-        <link rel="manifest" href="/favicon/site.webmanifest" />
-        <link
-          rel="mask-icon"
-          href="/favicon/safari-pinned-tab.svg"
-          color="#000000"
-        />
-        <link rel="shortcut icon" href="/favicon/favicon.ico" />
-        <meta name="msapplication-TileColor" content="#000000" />
-        <meta
-          name="msapplication-config"
-          content="/favicon/browserconfig.xml"
-        />
-        <meta name="theme-color" content="#000" />
-        <link rel="alternate" type="application/rss+xml" href="/feed.xml" />
-      </head>
-      <body
-        className={cn(inter.className, "dark:bg-slate-900 dark:text-slate-400")}
-      >
-        <ThemeSwitcher />
-        <div className="min-h-screen">{children}</div>
-        <Footer />
+      <body className="min-h-screen bg-gradient-to-b from-amber-50 to-orange-100 text-gray-900 flex flex-col">
+        {/* Header */}
+        <header className="flex justify-between items-center px-6 py-4 bg-white shadow-md sticky top-0 z-10">
+          <Link href="/" className="text-xl font-extrabold text-amber-700">
+            Kraków Padel Community
+          </Link>
+          <nav className="space-x-6">
+            <Link href="/levels" className="hover:text-amber-600 font-medium">Levels</Link>
+            <Link href="/courts" className="hover:text-amber-600 font-medium">Courts</Link>
+            <Link href="/groups" className="hover:text-amber-600 font-medium">Groups</Link>
+            <Link href="/blog" className="hover:text-amber-600 font-medium">Blog</Link>
+          </nav>
+        </header>
+
+        <main className="flex-1">{children}</main>
+
+        <footer className="mt-auto py-6 text-center text-sm text-gray-500 bg-white/70 backdrop-blur">
+          © {new Date().getFullYear()} Kraków Padel Community. All rights reserved.
+        </footer>
       </body>
     </html>
   );
