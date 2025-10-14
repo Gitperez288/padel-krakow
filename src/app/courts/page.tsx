@@ -3,7 +3,15 @@
 
 import dynamic from "next/dynamic";
 import { useState } from "react";
-import type { Court } from "@/components/CourtMap";
+
+type Court = {
+  id: string;
+  name: string;
+  address: string;
+  lat: number;
+  lng: number;
+  link: string;
+};
 
 const CourtMap = dynamic(() => import("@/components/CourtMap"), { ssr: false });
 
@@ -21,7 +29,7 @@ export default function CourtsPage() {
     <div className="px-4 py-10 mx-auto max-w-6xl">
       <h2 className="text-3xl font-extrabold text-amber-700 mb-6 text-center">📍 Court Locations</h2>
       <p className="max-w-2xl text-gray-700 mb-8 leading-relaxed text-center mx-auto">
-        Explore courts across Kraków and Małopolska. Click a name to focus the map or open in Google Maps.
+        Click a court on the list to focus the map or open it in Google Maps.
       </p>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -40,7 +48,7 @@ export default function CourtsPage() {
                   <h3 className="text-lg font-bold text-amber-700">{c.name}</h3>
                   <p className="text-gray-600 text-sm">{c.address}</p>
                 </div>
-                <a href={c.link} target="_blank" rel="noopener noreferrer" className="text-amber-700 underline text-sm">
+                <a href={c.link} target="_blank" rel="noopener noreferrer" className="text-amber-700 underline text-sm" onClick={(e)=>e.stopPropagation()}>
                   Maps →
                 </a>
               </div>
