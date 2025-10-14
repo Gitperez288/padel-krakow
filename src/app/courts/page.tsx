@@ -13,7 +13,7 @@ type Court = {
   link: string;
 };
 
-const CourtMap = dynamic(() => import("@/components/CourtMap"), { ssr: false });
+const CourtMap = dynamic(() => import("../../components/CourtMap"), { ssr: false });
 
 export default function CourtsPage() {
   const [focusId, setFocusId] = useState<string | null>(null);
