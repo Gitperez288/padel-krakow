@@ -130,7 +130,9 @@ export default function LevelsPage() {
         {levels.map(({ level, title, letter, desc, skills }, i) => (
           <div
             key={level}
-            ref={(el) => (cardRefs.current[i] = el)}
+            ref={(el) => {
+              cardRefs.current[i] = el;
+            }}
             className={`p-6 bg-white rounded-2xl shadow transition-all duration-300 text-left cursor-pointer ${
               activeIndex === i
                 ? "ring-2 ring-amber-500 scale-[1.02] shadow-xl"
