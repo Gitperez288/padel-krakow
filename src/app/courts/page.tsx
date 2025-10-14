@@ -18,7 +18,7 @@ const baseCourts: (Omit<CourtExtended, "lat" | "lng"> & Partial<Court>)[] = [
   { id: "bajada", name: "Bajada Sports Club", address: "Tyniecka 215, 30-381 Kraków",
     link: "https://maps.google.com/?q=Bajada+Sports+Club+Kraków",
     doubles: 2, singles: 1, indoor: true, lat: 50.0251188, lng: 19.8333971,
-    booking: "Reservise App" },
+    booking: "Reservise (Playmore) App" },
   { id: "fame", name: "Fame Sports Club", address: "Jana Dekerta 21, 30-703 Kraków",
     link: "https://maps.google.com/?q=Fame+Sports+Club+Kraków",
     doubles: 2, indoor: "mixed", lat: 50.0467165, lng: 19.9649943,
@@ -167,7 +167,7 @@ export default function CourtsPage() {
             className="px-3 py-2 rounded-lg border border-gray-300 text-gray-700 focus:ring-2 focus:ring-amber-400 outline-none"
           >
             <option value="all">All Booking Methods</option>
-            <option value="reservise">Reservise</option>
+            <option value="reservise">Reservise (Playmore)</option>
             <option value="tenis4u">Tenis4U</option>
             <option value="padel mates">Padel Mates</option>
             <option value="phone">Phone Call</option>
