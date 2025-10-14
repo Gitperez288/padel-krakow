@@ -1,4 +1,3 @@
-// app/groups/page.tsx
 export default function GroupsPage() {
   const groups = [
     { name: "WhatsApp Group", desc: "Find partners and organize matches.", link: "https://chat.whatsapp.com/" },
