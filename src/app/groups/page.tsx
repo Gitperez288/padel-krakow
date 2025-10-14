@@ -5,7 +5,7 @@ import { useState } from "react";
 type Group = {
   name: string;
   platform: "WhatsApp" | "Facebook";
-  encodedLink?: string; // optional for placeholders
+  encodedLink?: string;
   desc: string;
   available: boolean;
 };
@@ -15,7 +15,7 @@ export default function GroupsPage() {
     {
       name: "Padel Kraków & Małopolska Community",
       platform: "WhatsApp",
-      encodedLink: "aHR0cHM6Ly9jaGF0LndoYXRzYXBwLmNvbS9MZWRjYTF3ZFN6UzgzbXhtbVlUUnBi", // encoded main link
+      encodedLink: "aHR0cHM6Ly9jaGF0LndoYXRzYXBwLmNvbS9MZWRjYTF3ZFN6UzgzbXhtbVlUUnBi", // main community
       desc: "Our main regional group — connect with players across Małopolska, find matches, share news, and join events.",
       available: true,
     },
@@ -44,7 +44,7 @@ export default function GroupsPage() {
   const reveal = (id: string) => {
     setTimeout(() => {
       setRevealed((prev) => ({ ...prev, [id]: true }));
-    }, 1200); // small anti-bot delay
+    }, 1200); // anti-bot delay
   };
 
   const decodeLink = (encoded?: string) => {
@@ -67,17 +67,18 @@ export default function GroupsPage() {
         To protect against spam bots, click <strong>“Reveal link”</strong> to view the invite.
       </p>
 
-      {/* Main Community Highlight */}
-      <div className="max-w-2xl mx-auto mb-12">
+      {/* --- Main Community Hero --- */}
+      <div className="relative max-w-2xl mx-auto mb-16">
+        <div className="absolute -inset-0.5 bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 rounded-3xl blur-lg opacity-60 animate-pulse"></div>
         {groups
           .filter((g) => g.name.includes("Padel Kraków"))
           .map(({ name, platform, encodedLink, desc }) => (
             <div
               key={name}
-              className="p-8 bg-amber-50 rounded-2xl border border-amber-200 shadow-md hover:shadow-lg transition text-left"
+              className="relative p-10 bg-gradient-to-br from-amber-50 to-white rounded-3xl border border-amber-200 shadow-xl hover:shadow-2xl transition text-left"
             >
-              <h3 className="text-2xl font-bold text-amber-700 mb-2">
-                {name}
+              <h3 className="text-2xl font-bold text-amber-700 mb-2 flex items-center gap-2">
+                <span>🌟</span> {name}
               </h3>
               <p className="text-sm text-gray-600 mb-4">{platform}</p>
               <p className="text-gray-700 mb-6 leading-relaxed">{desc}</p>
@@ -89,12 +90,12 @@ export default function GroupsPage() {
                   rel="noopener noreferrer"
                   className="inline-block bg-amber-600 text-white font-semibold px-6 py-3 rounded-full shadow hover:bg-amber-700 transition"
                 >
-                  🔗 Open {platform} Group
+                  🔗 Join {platform} Group
                 </a>
               ) : (
                 <button
                   onClick={() => reveal(name)}
-                  className="inline-block bg-gray-100 text-gray-700 font-medium px-6 py-3 rounded-full border border-gray-300 hover:bg-gray-200 transition"
+                  className="inline-block bg-white text-amber-700 font-semibold px-6 py-3 rounded-full border border-amber-400 hover:bg-amber-50 transition"
                 >
                   👀 Reveal Link
                 </button>
@@ -103,7 +104,7 @@ export default function GroupsPage() {
           ))}
       </div>
 
-      {/* Club Groups Grid */}
+      {/* --- Club Groups Grid --- */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
         {groups
           .filter((g) => !g.name.includes("Padel Kraków"))
@@ -147,12 +148,12 @@ export default function GroupsPage() {
           ))}
       </div>
 
-      {/* Closing Message */}
+      {/* --- Closing Message --- */}
       <div className="mt-16 max-w-3xl mx-auto text-gray-700 leading-relaxed text-lg">
         <p>
-          Thanks to our <span className="font-semibold text-amber-700">Padel Kraków & Małopolska community</span>,
-          players can now connect and organize matches anywhere — from Kraków to Niepołomice, Skawina, and beyond.  
-          Use the groups to coordinate, meet new partners, and grow the padel movement across the region. 💪
+          Thanks to our <span className="font-semibold text-amber-700">Padel Kraków & Małopolska Community</span>,
+          players can connect and organize matches anywhere — from Kraków to Niepołomice, Skawina, and beyond.  
+          Use these groups to meet new partners, schedule games, and grow the sport together. 💪
         </p>
       </div>
     </div>
