@@ -10,9 +10,9 @@ import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
 
 const DefaultIcon = L.icon({
-  iconUrl: markerIcon.src ?? markerIcon,
-  iconRetinaUrl: markerIcon2x.src ?? markerIcon2x,
-  shadowUrl: markerShadow.src ?? markerShadow,
+  iconUrl: (markerIcon as any).src ?? (markerIcon as any),
+  iconRetinaUrl: (markerIcon2x as any).src ?? (markerIcon2x as any),
+  shadowUrl: (markerShadow as any).src ?? (markerShadow as any),
 });
 L.Marker.prototype.options.icon = DefaultIcon;
 
@@ -33,8 +33,14 @@ function FlyTo({ lat, lng }: { lat: number; lng: number }) {
   return null;
 }
 
-export default function CourtMap({ courts, focusId }: { courts: Court[]; focusId?: string | null }) {
-  const defaultCenter: [number, number] = [50.0614, 19.9372];
+export default function CourtMap({
+  courts,
+  focusId,
+}: {
+  courts: Court[];
+  focusId?: string | null;
+}) {
+  const defaultCenter: [number, number] = [50.0614, 19.9372]; // Kraków
   const focused = courts.find((c) => c.id === focusId);
 
   return (
@@ -55,8 +61,8 @@ export default function CourtMap({ courts, focusId }: { courts: Court[]; focusId
             <div className="space-y-1">
               <div className="font-semibold">{c.name}</div>
               <div className="text-sm text-gray-600">{c.address}</div>
-              <a href={c.link} target="_blank" rel="noopener noreferrer" className="text-amber-700 underline text-sm">
-                Open in Maps
+              <a className="text-amber-700 underline text-sm" href={c.link} target="_blank" rel="noopener noreferrer">
+                Open in Google Maps
               </a>
             </div>
           </Popup>
