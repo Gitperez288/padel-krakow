@@ -94,13 +94,13 @@ export default function LevelsPage() {
         understand what each stage of progress looks like.
       </p>
 
-      {/* --- Interactive Level Ladder --- */}
-      <div className="relative max-w-5xl mx-auto mb-12">
-        <div className="flex justify-between items-center w-full">
+      {/* --- Responsive Interactive Level Ladder --- */}
+      <div className="relative max-w-5xl mx-auto mb-12 overflow-x-auto scrollbar-thin scrollbar-thumb-amber-300 scrollbar-track-transparent">
+        <div className="flex justify-between items-center w-[650px] sm:w-full px-2 sm:px-0">
           {levels.map((l, i) => (
             <div
               key={l.title}
-              className="flex flex-col items-center text-center flex-1 cursor-pointer select-none"
+              className="flex flex-col items-center text-center flex-1 cursor-pointer select-none min-w-[100px]"
               onMouseEnter={() => setActiveIndex(i)}
               onMouseLeave={() => setActiveIndex(null)}
               onClick={() => handleActivate(i)}
@@ -113,7 +113,7 @@ export default function LevelsPage() {
                 }`}
               />
               <p
-                className={`text-xs mt-2 font-semibold ${
+                className={`text-xs mt-2 font-semibold whitespace-nowrap ${
                   activeIndex === i ? "text-amber-700" : "text-gray-600"
                 }`}
               >
@@ -122,6 +122,7 @@ export default function LevelsPage() {
             </div>
           ))}
         </div>
+        {/* Connecting line */}
         <div className="absolute top-[12px] left-0 right-0 h-[2px] bg-amber-300 -z-10"></div>
       </div>
 
