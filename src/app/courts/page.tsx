@@ -2,9 +2,16 @@
 
 import dynamic from "next/dynamic";
 import { useEffect, useState, useMemo } from "react";
-import type { Court } from "../_components/CourtMap";
+import type { Court } from "../_components/CourtMapNew";
 
-const CourtMap = dynamic(() => import("../_components/CourtMap"), { ssr: false });
+const CourtMap = dynamic(() => import("../_components/CourtMapNew"), { 
+  ssr: false,
+  loading: () => (
+    <div className="h-[520px] w-full rounded-2xl shadow bg-gray-100 flex items-center justify-center">
+      <p className="text-gray-500">Loading map...</p>
+    </div>
+  )
+});
 
 type CourtExtended = Court & {
   doubles: number;

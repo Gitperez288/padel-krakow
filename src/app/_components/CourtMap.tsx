@@ -2,7 +2,7 @@
 
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import L from "leaflet";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import "leaflet/dist/leaflet.css";
 import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
@@ -24,36 +24,32 @@ export type Court = {
   link: string;
 };
 
-function FlyTo({ lat, lng }: { lat: number; lng: number }) {
-  const map = useMap();
-  useEffect(() => {
-    map.flyTo([lat, lng], 13, { duration: 0.7 });
-  }, [lat, lng, map]);
-  return null;
-}
-
-export default function CourtMap({
+function MapContent({
   courts,
-  focusId,
+  focusLat,
+  focusLng,
 }: {
   courts: Court[];
-  focusId?: string | null;
+  focusLat: number;
+  focusLng: number;
 }) {
-  const defaultCenter: [number, number] = [50.0614, 19.9372];
-  const focused = courts.find((c) => c.id === focusId);
+  const map = useMap();
+  const prevFocusRef = useRef<string>(`${focusLat}-${focusLng}`);
+
+  useEffect(() => {
+    const currentFocus = `${focusLat}-${focusLng}`;
+    if (prevFocusRef.current !== currentFocus) {
+      map.flyTo([focusLat, focusLng], 13, { duration: 0.7 });
+      prevFocusRef.current = currentFocus;
+    }
+  }, [focusLat, focusLng, map]);
 
   return (
-    <MapContainer
-      center={focused ? [focused.lat, focused.lng] : defaultCenter}
-      zoom={12}
-      scrollWheelZoom
-      className="h-[520px] w-full rounded-2xl shadow"
-    >
+    <>
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
       />
-      {focused && <FlyTo lat={focused.lat} lng={focused.lng} />}
       {courts.map((c) => (
         <Marker key={c.id} position={[c.lat, c.lng]}>
           <Popup>
@@ -72,6 +68,35 @@ export default function CourtMap({
           </Popup>
         </Marker>
       ))}
-    </MapContainer>
+    </>
+  );
+}
+
+export default function CourtMap({
+  courts,
+  focusId,
+}: {
+  courts: Court[];
+  focusId?: string | null;
+}) {
+  const defaultCenter: [number, number] = [50.0614, 19.9372];
+  const focused = courts.find((c) => c.id === focusId);
+  const mapCenter = focused ? [focused.lat, focused.lng] : defaultCenter;
+
+  return (
+    <div className="h-[520px] w-full rounded-2xl shadow">
+      <MapContainer
+        center={defaultCenter}
+        zoom={12}
+        scrollWheelZoom
+        className="h-full w-full rounded-2xl"
+      >
+        <MapContent
+          courts={courts}
+          focusLat={mapCenter[0]}
+          focusLng={mapCenter[1]}
+        />
+      </MapContainer>
+    </div>
   );
 }

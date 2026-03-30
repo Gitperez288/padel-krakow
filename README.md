@@ -1,72 +1,210 @@
-# A statically generated blog example using Next.js, Markdown, and TypeScript
+# 🎾 Padel Kraków Community Portal
 
-This is the existing [blog-starter](https://github.com/vercel/next.js/tree/canary/examples/blog-starter) plus TypeScript.
+A modern, SEO-optimized web application for the Padel Kraków community featuring an interactive CMS for blog management, court locator, skill levels, and community groups.
 
-This example showcases Next.js's [Static Generation](https://nextjs.org/docs/app/building-your-application/routing/layouts-and-templates) feature using Markdown files as the data source.
+## ✨ Features
 
-The blog posts are stored in `/_posts` as Markdown files with front matter support. Adding a new Markdown file in there will create a new blog post.
+### 🌟 For Community Members
+- **Court Locator** - Interactive map showing all padel courts in Kraków & Małopolska
+- **Skill Levels** - Comprehensive 7-level skill rating system with detailed descriptions
+- **Community Groups** - Links to WhatsApp and Facebook groups for finding matches
+- **Blog Feed** - Read the latest news and stories from the community
 
-To create the blog posts we use [`remark`](https://github.com/remarkjs/remark) and [`remark-html`](https://github.com/remarkjs/remark-html) to convert the Markdown files into an HTML string, and then send it down as a prop to the page. The metadata of every post is handled by [`gray-matter`](https://github.com/jonschlinkert/gray-matter) and also sent in props to the page.
+### 🔧 For Admins
+- **Secure Admin Dashboard** - Password-protected blog management interface
+- **Blog Editor** - Create, edit, and publish posts with markdown support
+- **SEO Tools** - Built-in meta titles, descriptions, keywords, and social sharing images
+- **Post Management** - Organize posts, set publish dates, manage drafts
+- **User Management** - Support for multiple admin users with role-based access
 
-## Demo
+### 🚀 Tech Features
+- **Next.js 15** - Latest React framework with Turbopack
+- **Responsive Design** - Beautiful UI that works on all devices
+- **Modern UX** - Smooth animations and intuitive navigation
+- **SEO Optimized** - Automatic sitemaps, meta tags, structured data
+- **Type-Safe** - Full TypeScript support throughout
+- **Fast** - Static generation, image optimization, code splitting
 
-[https://next-blog-starter.vercel.app/](https://next-blog-starter.vercel.app/)
+---
 
-## Deploy your own
+## 🎯 Quick Start
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/vercel/next.js/tree/canary/examples/blog-starter&project-name=blog-starter&repository-name=blog-starter)
-
-### Related examples
-
-- [AgilityCMS](/examples/cms-agilitycms)
-- [Builder.io](/examples/cms-builder-io)
-- [ButterCMS](/examples/cms-buttercms)
-- [Contentful](/examples/cms-contentful)
-- [Cosmic](/examples/cms-cosmic)
-- [DatoCMS](/examples/cms-datocms)
-- [DotCMS](/examples/cms-dotcms)
-- [Drupal](/examples/cms-drupal)
-- [Enterspeed](/examples/cms-enterspeed)
-- [Ghost](/examples/cms-ghost)
-- [GraphCMS](/examples/cms-graphcms)
-- [Kontent.ai](/examples/cms-kontent-ai)
-- [MakeSwift](/examples/cms-makeswift)
-- [Payload](/examples/cms-payload)
-- [Plasmic](/examples/cms-plasmic)
-- [Prepr](/examples/cms-prepr)
-- [Prismic](/examples/cms-prismic)
-- [Sanity](/examples/cms-sanity)
-- [Sitecore XM Cloud](/examples/cms-sitecore-xmcloud)
-- [Sitefinity](/examples/cms-sitefinity)
-- [Storyblok](/examples/cms-storyblok)
-- [TakeShape](/examples/cms-takeshape)
-- [Tina](/examples/cms-tina)
-- [Umbraco](/examples/cms-umbraco)
-- [Umbraco heartcore](/examples/cms-umbraco-heartcore)
-- [Webiny](/examples/cms-webiny)
-- [WordPress](/examples/cms-wordpress)
-- [Blog Starter](/examples/blog-starter)
-
-## How to use
-
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init), [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/), or [pnpm](https://pnpm.io) to bootstrap the example:
-
+### Local Development
 ```bash
-npx create-next-app --example blog-starter blog-starter-app
+# 1. Install dependencies
+npm install
+
+# 2. Set up environment
+cp .env.local.example .env.local
+
+# 3. Create database
+npx prisma db push
+
+# 4. Seed with default users
+npx prisma db seed
+
+# 5. Start development server
+npm run dev
 ```
 
-```bash
-yarn create next-app --example blog-starter blog-starter-app
+Visit http://localhost:3000
+
+### Admin Login
+- **Email**: `admin@padel-krakow.com`
+- **Password**: `change-me-in-production`
+- **Dashboard**: http://localhost:3000/admin/blog
+
+⚠️ **Change default passwords before deploying to production!**
+
+---
+
+## 📚 Documentation
+
+- **[SETUP_GUIDE.md](./SETUP_GUIDE.md)** - Complete setup and deployment instructions
+- **[DEVELOPMENT.md](./DEVELOPMENT.md)** - Technical improvements and architecture
+- **[Vercel Deployment](./SETUP_GUIDE.md#-deployment-to-vercel)** - Deploy your site to production
+
+---
+
+## 🗂️ Project Structure
+
+```
+padel-krakow/
+├── src/
+│   ├── app/
+│   │   ├── page.tsx                    # Home page (modern redesign)
+│   │   ├── layout.tsx                  # Root layout with SEO & footer
+│   │   ├── auth/login/                 # Login page
+│   │   ├── admin/blog/                 # Admin dashboard
+│   │   ├── api/
+│   │   │   ├── auth/[...nextauth]/    # Authentication API
+│   │   │   └── blog/                   # Blog CRUD API
+│   │   ├── blog/                       # Public blog pages
+│   │   ├── courts/                     # Court locator
+│   │   ├── levels/                     # Skill levels
+│   │   ├── groups/                     # Community groups
+│   │   ├── robots.ts                   # robots.txt generator
+│   │   └── sitemap.ts                  # Sitemap generator
+│   ├── auth.ts                         # NextAuth configuration
+│   └── middleware.ts                   # Route protection
+├── prisma/
+│   ├── schema.prisma                   # Database schema
+│   └── seed.ts                         # Database seeding
+├── public/                             # Static assets
+├── SETUP_GUIDE.md                      # Setup instructions
+├── DEVELOPMENT.md                      # Technical details
+└── package.json                        # Dependencies
 ```
 
-```bash
-pnpm create next-app --example blog-starter blog-starter-app
-```
+---
 
-Your blog should be up and running on [http://localhost:3000](http://localhost:3000)! If it doesn't work, post on [GitHub discussions](https://github.com/vercel/next.js/discussions).
+## 🔐 Security
 
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+- ✅ Password authentication with bcrypt hashing
+- ✅ Protected admin routes with middleware
+- ✅ Environment variables for secrets
+- ✅ HTTPS on Vercel (automatic)
+- ✅ CORS protection
+- ✅ Input validation
 
-# Notes
+---
 
-`blog-starter` uses [Tailwind CSS](https://tailwindcss.com) [(v3.0)](https://tailwindcss.com/blog/tailwindcss-v3).
+## 📊 Tech Stack
+
+| Category | Technology |
+|----------|-----------|
+| **Frontend** | Next.js 15, React 18, TypeScript |
+| **Styling** | Tailwind CSS, Lucide Icons |
+| **Backend** | Next.js API Routes |
+| **Database** | Prisma ORM, SQLite (dev), PostgreSQL (prod) |
+| **Auth** | NextAuth.js v5 |
+| **Content** | Markdown, Remark |
+| **Deployment** | Vercel |
+
+---
+
+## 🚀 Deployment
+
+### Deploy to Vercel (5 minutes)
+1. Push code to GitHub
+2. Visit https://vercel.com → Import project
+3. Set environment variables
+4. Deploy!
+
+See [SETUP_GUIDE.md](./SETUP_GUIDE.md#-deployment-to-vercel) for detailed instructions.
+
+---
+
+## 📝 Creating Blog Posts
+
+1. Go to `https://yoursite.com/admin/blog`
+2. Log in with admin credentials
+3. Click "New Post"
+4. Write your post in Markdown
+5. Fill in SEO details
+6. Click "Save"
+7. Post appears at `https://yoursite.com/blog/post-title`
+
+---
+
+## 🎨 Customization
+
+### Change Brand Colors
+Edit `tailwind.config.ts` - currently using amber/orange theme
+
+### Update Navigation
+Edit links in `src/app/layout.tsx`
+
+### Modify Court Data
+Edit `src/app/courts/page.tsx`
+
+### Update Skill Levels
+Edit `src/app/levels/page.tsx`
+
+---
+
+## 📈 SEO Features
+
+✅ Automatic sitemaps at `/sitemap.xml`
+✅ robots.txt at `/robots.xml`
+✅ OpenGraph tags for social sharing
+✅ JSON-LD structured data
+✅ Meta descriptions and keywords
+✅ Canonical URLs
+✅ Mobile-optimized
+✅ Fast page speed
+
+---
+
+## 📱 Browser Support
+
+- ✅ Chrome (latest)
+- ✅ Firefox (latest)
+- ✅ Safari (latest)
+- ✅ Edge (latest)
+- ✅ Mobile browsers (iOS Safari, Chrome Mobile)
+
+---
+
+## 📞 Support
+
+- **Docs**: See [SETUP_GUIDE.md](./SETUP_GUIDE.md) and [DEVELOPMENT.md](./DEVELOPMENT.md)
+- **Next.js**: https://nextjs.org/docs
+- **Prisma**: https://www.prisma.io/docs
+- **NextAuth**: https://authjs.dev
+- **Tailwind**: https://tailwindcss.com/docs
+
+---
+
+## 📄 License
+
+This project is open source. Feel free to use and modify for the Padel Kraków community.
+
+---
+
+## 🙏 Credits
+
+Built with Next.js, Prisma, and Tailwind CSS for the amazing Padel Kraków community.
+
+**Last Updated**: March 29, 2024
+**Version**: 2.0 (Complete CMS Rebuild)
