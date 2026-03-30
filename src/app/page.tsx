@@ -66,28 +66,40 @@ export default function HomePage() {
         </div>
 
         <div className="relative max-w-6xl mx-auto px-4 py-20 md:py-32">
-          <div className="text-center mb-12">
-            <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
-              🎾 Padel Kraków Community
-            </h1>
-            <p className="text-xl md:text-2xl text-amber-100 mb-8 max-w-3xl mx-auto leading-relaxed">
-              Connect with passionate padel players across Kraków and Małopolska. Find courts, match your skill level, and grow the sport together.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                href="/courts"
-                className="inline-flex items-center gap-2 bg-white text-amber-700 px-8 py-3 rounded-lg font-bold hover:bg-amber-50 transition transform hover:scale-105"
-              >
-                <MapPin size={20} />
-                Find Courts
-              </Link>
-              <Link
-                href="/groups"
-                className="inline-flex items-center gap-2 bg-amber-500 text-white px-8 py-3 rounded-lg font-bold hover:bg-amber-600 transition transform hover:scale-105"
-              >
-                <Share2 size={20} />
-                Join Groups
-              </Link>
+          <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12 mb-12">
+            {/* Logo Section */}
+            <div className="flex-shrink-0 w-full lg:w-auto flex justify-center lg:justify-start">
+              <img
+                src="/dragon-logo.png"
+                alt="Dragon Logo"
+                className="w-48 sm:w-64 md:w-80 lg:w-96 h-auto object-contain"
+              />
+            </div>
+
+            {/* Text Section */}
+            <div className="flex-1 text-center lg:text-left">
+              <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
+                🎾 Padel Kraków Community
+              </h1>
+              <p className="text-xl md:text-2xl text-amber-100 mb-8 leading-relaxed">
+                Connect with passionate padel players across Kraków and Małopolska. Find courts, match your skill level, and grow the sport together.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                <Link
+                  href="/courts"
+                  className="inline-flex items-center gap-2 bg-white text-amber-700 px-8 py-3 rounded-lg font-bold hover:bg-amber-50 transition transform hover:scale-105"
+                >
+                  <MapPin size={20} />
+                  Find Courts
+                </Link>
+                <Link
+                  href="/groups"
+                  className="inline-flex items-center gap-2 bg-amber-500 text-white px-8 py-3 rounded-lg font-bold hover:bg-amber-600 transition transform hover:scale-105"
+                >
+                  <Share2 size={20} />
+                  Join Groups
+                </Link>
+              </div>
             </div>
           </div>
         </div>
