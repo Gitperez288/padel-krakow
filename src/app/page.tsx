@@ -44,7 +44,7 @@ export default function HomePage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative overflow-hidden text-gray-800" style={{ backgroundColor: '#E9E4C9' }}>
+      <section id="hero" data-testid="hero-section" className="relative overflow-hidden text-gray-800" style={{ backgroundColor: '#E9E4C9' }}>
         <div className="absolute inset-0 opacity-10">
           <svg
             className="w-full h-full"
@@ -121,7 +121,7 @@ export default function HomePage() {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 px-4">
+      <section id="features" data-testid="features-section" className="py-20 px-4">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-amber-700 mb-4">
@@ -165,7 +165,7 @@ export default function HomePage() {
       </section>
 
       {/* Stats Section */}
-      <section className="bg-gray-100 py-16 px-4">
+      <section id="stats" data-testid="stats-section" className="bg-gray-100 py-16 px-4">
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-4 gap-8 text-center">
             <div>
@@ -193,7 +193,7 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-4 bg-gradient-to-r from-amber-600 to-orange-600 text-white">
+      <section id="cta" data-testid="cta-section" className="py-20 px-4 bg-gradient-to-r from-amber-600 to-orange-600 text-white">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-4xl font-bold mb-6">Ready to Play?</h2>
           <p className="text-lg text-amber-100 mb-8">

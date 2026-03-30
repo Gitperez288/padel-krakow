@@ -26,15 +26,15 @@ export default async function BlogPage() {
     <div className="min-h-screen bg-gradient-to-b from-amber-50 to-orange-100">
       <div className="max-w-4xl mx-auto px-4 py-12">
         {/* Header */}
-        <div className="mb-12">
+        <section id="blog-header" data-testid="blog-header-section" className="mb-12">
           <h1 className="text-4xl font-bold text-amber-700 mb-4">📰 Blog</h1>
           <p className="text-lg text-gray-700">
             Latest updates and stories from the Padel Kraków community
           </p>
-        </div>
+        </section>
 
         {/* Posts Grid */}
-        {posts.length === 0 ? (
+        <section id="blog-posts" data-testid="blog-posts-section">
           <div className="text-center py-12 bg-white rounded-lg shadow">
             <p className="text-gray-600 mb-4">No blog posts yet</p>
             <p className="text-sm text-gray-500">Check back soon for updates!</p>
@@ -80,13 +80,14 @@ export default async function BlogPage() {
             ))}
           </div>
         )}
+        </section>
 
         {/* Back to Home */}
-        <div className="mt-12 text-center">
+        <section id="blog-footer" data-testid="blog-footer-section" className="mt-12 text-center\">
           <Link href="/" className="text-amber-600 hover:text-amber-700 font-semibold">
             ← Back to Home
           </Link>
-        </div>
+        </section>
       </div>
     </div>
   );

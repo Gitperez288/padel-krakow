@@ -138,16 +138,18 @@ export default function CourtsPage() {
 
   return (
     <div className="px-4 py-10 mx-auto max-w-6xl">
-      <h2 className="text-3xl font-extrabold text-amber-700 mb-4 text-center">
-        📍 Court Locations in Małopolska
-      </h2>
-      <p className="max-w-2xl text-gray-700 mb-10 leading-relaxed text-center mx-auto">
-        Discover every active padel location in and around Kraków.  
-        Use the search and filters below to quickly find courts that suit your needs.
-      </p>
+      <section id="courts-header" data-testid="courts-header-section">
+        <h2 className="text-3xl font-extrabold text-amber-700 mb-4 text-center">
+          📁 Court Locations in Małopolska
+        </h2>
+        <p className="max-w-2xl text-gray-700 mb-10 leading-relaxed text-center mx-auto">
+          Discover every active padel location in and around Kraków.  
+          Use the search and filters below to quickly find courts that suit your needs.
+        </p>
+      </section>
 
       {/* ---- FILTER BAR ---- */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-amber-50 border border-amber-200 rounded-2xl p-4 mb-8 shadow-sm">
+      <section id="courts-filters" data-testid="courts-filters-section" className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-amber-50 border border-amber-200 rounded-2xl p-4 mb-8 shadow-sm">
         <input
           type="text"
           placeholder="🔍 Search by name or address..."
@@ -187,11 +189,11 @@ export default function CourtsPage() {
             Clear
           </button>
         </div>
-      </div>
+      </section>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* ---- SIDEBAR LIST ---- */}
-        <aside className="space-y-4 lg:col-span-1">
+        <aside id="courts-sidebar" data-testid="courts-sidebar-section" className="space-y-4 lg:col-span-1">
           {filteredCourts.length > 0 ? (
             filteredCourts.map((c) => (
               <div
@@ -242,9 +244,9 @@ export default function CourtsPage() {
         </aside>
 
         {/* ---- MAP ---- */}
-        <div className="lg:col-span-2 overflow-hidden rounded-2xl shadow-md border border-gray-100">
+        <section id="courts-map" data-testid="courts-map-section" className="lg:col-span-2 overflow-hidden rounded-2xl shadow-md border border-gray-100">
           <CourtMap courts={filteredCourts} focusId={focusId} />
-        </div>
+        </section>
       </div>
     </div>
   );

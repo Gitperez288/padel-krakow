@@ -85,17 +85,19 @@ export default function LevelsPage() {
 
   return (
     <div className="px-4 py-10 text-center">
-      <h2 className="text-3xl font-extrabold text-amber-700 mb-6">
-        🎯 Padel Level Scale
-      </h2>
-      <p className="max-w-2xl mx-auto text-gray-700 mb-10 leading-relaxed">
-        The community uses this scale to keep matches balanced and fair.  
-        Find your level, see the equivalency to the letter system, and
-        understand what each stage of progress looks like.
-      </p>
+      <section id="levels-header" data-testid="levels-header-section">
+        <h2 className="text-3xl font-extrabold text-amber-700 mb-6">
+          🎣 Padel Level Scale
+        </h2>
+        <p className="max-w-2xl mx-auto text-gray-700 mb-10 leading-relaxed">
+          The community uses this scale to keep matches balanced and fair.  
+          Find your level, see the equivalency to the letter system, and
+          understand what each stage of progress looks like.
+        </p>
+      </section>
 
       {/* --- Responsive Interactive Level Ladder --- */}
-      <div className="relative max-w-5xl mx-auto mb-12 overflow-x-auto scrollbar-thin scrollbar-thumb-amber-300 scrollbar-track-transparent">
+      <section id="levels-ladder" data-testid="levels-ladder-section" className="relative max-w-5xl mx-auto mb-12 overflow-x-auto scrollbar-thin scrollbar-thumb-amber-300 scrollbar-track-transparent">
         <div className="flex justify-between items-center w-[650px] sm:w-full px-2 sm:px-0">
           {levels.map((l, i) => (
             <div
@@ -124,10 +126,10 @@ export default function LevelsPage() {
         </div>
         {/* Connecting line */}
         <div className="absolute top-[12px] left-0 right-0 h-[2px] bg-amber-300 -z-10"></div>
-      </div>
+      </section>
 
       {/* --- Level Cards --- */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+      <section id="levels-cards" data-testid="levels-cards-section" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
         {levels.map(({ level, title, letter, desc, skills }, i) => (
           <div
             key={level}

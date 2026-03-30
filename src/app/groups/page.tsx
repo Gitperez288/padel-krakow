@@ -58,17 +58,19 @@ export default function GroupsPage() {
 
   return (
     <div className="px-4 py-10 text-center">
-      <h2 className="text-3xl font-extrabold text-amber-700 mb-6">
-        💬 Community Groups
-      </h2>
-      <p className="max-w-2xl mx-auto text-gray-700 mb-10 leading-relaxed">
-        Welcome to the hub of the <span className="font-semibold">Padel Kraków & Małopolska</span> community!  
-        Join our WhatsApp groups to find partners, coordinate matches, and stay updated with events in your area.  
-        To protect against spam bots, click <strong>“Reveal link”</strong> to view the invite.
-      </p>
+      <section id="groups-header" data-testid="groups-header-section">
+        <h2 className="text-3xl font-extrabold text-amber-700 mb-6">
+          💬 Community Groups
+        </h2>
+        <p className="max-w-2xl mx-auto text-gray-700 mb-10 leading-relaxed">
+          Welcome to the hub of the <span className="font-semibold">Padel Kraków & Małopolska</span> community!  
+          Join our WhatsApp groups to find partners, coordinate matches, and stay updated with events in your area.  
+          To protect against spam bots, click <strong>"Reveal link"</strong> to view the invite.
+        </p>
+      </section>
 
       {/* --- Main Community Hero --- */}
-      <div className="relative max-w-2xl mx-auto mb-16">
+      <section id="groups-main" data-testid="groups-main-section" className="relative max-w-2xl mx-auto mb-16">
         <div className="absolute -inset-0.5 bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 rounded-3xl blur-lg opacity-60 animate-pulse"></div>
         {groups
           .filter((g) => g.name.includes("Padel Kraków"))
@@ -102,10 +104,10 @@ export default function GroupsPage() {
               )}
             </div>
           ))}
-      </div>
+      </section>
 
       {/* --- Club Groups Grid --- */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+      <section id="groups-clubs" data-testid="groups-clubs-section" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
         {groups
           .filter((g) => !g.name.includes("Padel Kraków"))
           .map(({ name, platform, desc, available, encodedLink }) => (
@@ -146,16 +148,16 @@ export default function GroupsPage() {
               )}
             </div>
           ))}
-      </div>
+      </section>
 
       {/* --- Closing Message --- */}
-      <div className="mt-16 max-w-3xl mx-auto text-gray-700 leading-relaxed text-lg">
+      <section id="groups-footer" data-testid="groups-footer-section" className="mt-16 max-w-3xl mx-auto text-gray-700 leading-relaxed text-lg">
         <p>
           Thanks to our <span className="font-semibold text-amber-700">Padel Kraków & Małopolska Community</span>,
           players can connect and organize matches anywhere — from Kraków to Niepołomice, Skawina, and beyond.  
           Use these groups to meet new partners, schedule games, and grow the sport together. 💪
         </p>
-      </div>
+      </section>
     </div>
   );
 }
