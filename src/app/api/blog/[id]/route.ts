@@ -42,6 +42,19 @@ export async function PUT(
   try {
     const { id } = await params;
     const session = await auth();
+
+    if (!session?.user?.email) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const user = await db.user.findUnique({
+      where: { email: session.user.email },
+    });
+
+    if (!user) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+
     const post = await db.post.findUnique({
       where: { id },
     });
@@ -91,6 +104,19 @@ export async function DELETE(
   try {
     const { id } = await params;
     const session = await auth();
+
+    if (!session?.user?.email) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const user = await db.user.findUnique({
+      where: { email: session.user.email },
+    });
+
+    if (!user) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+
     const post = await db.post.findUnique({
       where: { id },
     });
