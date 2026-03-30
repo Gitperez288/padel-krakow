@@ -104,13 +104,25 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                 >
                   Community
                 </Link>
-              <Link
-                href="/blog"
-                className="text-gray-700 hover:text-orange-600 font-medium transition"
-              >
-                Blog
-              </Link>
-            </div>
+                <Link
+                  href="/coaches"
+                  className="text-gray-700 hover:text-orange-600 font-medium transition"
+                >
+                  Coaches
+                </Link>
+                <Link
+                  href="/blog"
+                  className="text-gray-700 hover:text-orange-600 font-medium transition"
+                >
+                  Blog
+                </Link>
+                <Link
+                  href="/who-we-are"
+                  className="text-gray-700 hover:text-orange-600 font-medium transition"
+                >
+                  Who We Are
+                </Link>
+              </div>
             <div className="md:hidden">
               {/* Mobile menu button placeholder */}
               <button className="text-orange-600 hover:text-orange-700">☰</button>
@@ -166,6 +178,22 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                       className="text-white/60 hover:text-white transition"
                     >
                       Blog
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/coaches"
+                      className="text-white/60 hover:text-white transition"
+                    >
+                      Coaches
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/who-we-are"
+                      className="text-white/60 hover:text-white transition"
+                    >
+                      Who We Are
                     </Link>
                   </li>
                 </ul>
