@@ -13,10 +13,11 @@ interface Params {
 export async function generateMetadata({
   params,
 }: {
-  params: Params;
+  params: Promise<Params>;
 }): Promise<Metadata> {
+  const { slug } = await params;
   const post = await db.post.findUnique({
-    where: { slug: params.slug },
+    where: { slug },
     include: {
       author: {
         select: { name: true },
@@ -68,10 +69,11 @@ export async function generateStaticParams() {
 export default async function BlogPostPage({
   params,
 }: {
-  params: Params;
+  params: Promise<Params>;
 }) {
+  const { slug } = await params;
   const post = await db.post.findUnique({
-    where: { slug: params.slug },
+    where: { slug },
     include: {
       author: {
         select: { name: true },
