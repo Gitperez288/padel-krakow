@@ -110,7 +110,7 @@ export default async function BlogPostPage({
             {post.publishedAt && (
               <>
                 <span>•</span>
-                <time dateTime={post.publishedAt}>
+                <time dateTime={post.publishedAt.toISOString()}>
                   {new Date(post.publishedAt).toLocaleDateString("en-US", {
                     year: "numeric",
                     month: "long",
@@ -163,8 +163,8 @@ export default async function BlogPostPage({
               "@type": "Person",
               name: post.author.name,
             },
-            datePublished: post.publishedAt,
-            dateModified: post.updatedAt,
+            datePublished: post.publishedAt?.toISOString(),
+            dateModified: post.updatedAt.toISOString(),
             mainEntityOfPage: {
               "@type": "WebPage",
               "@id": `https://padel-krakow.vercel.app/blog/${post.slug}`,
