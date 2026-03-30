@@ -12,11 +12,16 @@ export const metadata: Metadata = {
     template: "%s | Padel Kraków",
   },
   description:
-    "Join the thriving Padel community in Kraków and Małopolska. Discover court locations, skill levels, community groups, and read the latest news about Padel.",
+    "Join over 900 padel players in Kraków and Małopolska. A people-first community on a mission to grow the sport. Discover court locations, skill levels, community groups, and the latest padel news.",
   keywords:[
     "Padel",
-    "Kraków",
-    "Małopolska",
+    "Padel Kraków",
+    "Padel Krakow",
+    "Padel Małopolska",
+    "padel community Poland",
+    "padel courts Kraków",
+    "padel players Kraków",
+    "padel sport Poland",
     "Community",
     "Courts",
     "Players",
@@ -31,12 +36,12 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    locale: "en_US",
+    locale: "pl_PL",
     url: "https://padel-krakow.vercel.app",
     siteName: "Padel Kraków Community",
     title: "Padel Kraków Community",
     description:
-      "Join the thriving Padel community in Kraków and Małopolska. Discover court locations, skill levels, and community groups.",
+      "Join over 900 padel players in a people-first community growing padel in Kraków and Małopolska. Find courts, levels, and local groups.",
     images: [
       {
         url: "https://padel-krakow.vercel.app/og-image.jpg",
@@ -48,9 +53,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Padel Kraków Community",
+    title: "Padel Kraków Community – 900+ Players",
     description:
-      "Join the thriving Padel community in Kraków and Małopolska.",
+      "People-first padel community in Kraków and Małopolska. 900+ players, multiple courts, all levels welcome.",
     images: ["https://padel-krakow.vercel.app/og-image.jpg"],
   },
   alternates: {

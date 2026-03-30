@@ -1,15 +1,85 @@
 import Link from "next/link";
-import { 
-  Trophy, 
-  MapPin, 
-  Users, 
-  Newspaper, 
-  Zap, 
+import { db } from "@/lib/db";
+import {
+  MapPin,
+  Users,
+  Newspaper,
   Target,
-  Share2
+  Share2,
+  ArrowRight,
+  Calendar,
+  Camera,
 } from "lucide-react";
+import { formatDistanceToNow } from "date-fns";
+import type { Metadata } from "next";
 
-export default function HomePage() {
+export const metadata: Metadata = {
+  title: "Padel Kraków Community – People-First Padel in Kraków & Małopolska",
+  description:
+    "Join over 900 padel players in Kraków and Małopolska. A people-first community on a mission to grow the sport. Find courts, discover your level, and connect with local groups.",
+  keywords: [
+    "padel Kraków",
+    "padel Krakow",
+    "padel Małopolska",
+    "padel community Poland",
+    "padel courts Kraków",
+    "padel players Kraków",
+    "padel sport Poland",
+    "sport Kraków",
+  ],
+  openGraph: {
+    title: "Padel Kraków Community – 900+ Players in Kraków & Małopolska",
+    description:
+      "Join over 900 padel players in a people-first community growing padel in Kraków and Małopolska. Find courts, levels, and local groups.",
+    type: "website",
+    url: "https://padel-krakow.vercel.app",
+    locale: "pl_PL",
+    siteName: "Padel Kraków Community",
+    images: [
+      {
+        url: "https://padel-krakow.vercel.app/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Padel Kraków Community – People-First Padel in Kraków",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Padel Kraków Community – 900+ Players",
+    description:
+      "People-first padel community in Kraków and Małopolska. 900+ players, multiple courts, all levels welcome.",
+    images: ["https://padel-krakow.vercel.app/og-image.jpg"],
+  },
+  alternates: {
+    canonical: "https://padel-krakow.vercel.app",
+  },
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "SportsOrganization",
+  name: "Padel Kraków Community",
+  url: "https://padel-krakow.vercel.app",
+  description:
+    "People-first padel community in Kraków and Małopolska with over 900 players.",
+  sport: "Padel",
+  areaServed: {
+    "@type": "Place",
+    name: "Kraków, Małopolska, Poland",
+  },
+};
+
+export default async function HomePage() {
+  const latestPosts = await db.post.findMany({
+    where: { published: true },
+    include: {
+      author: { select: { name: true } },
+    },
+    orderBy: { publishedAt: "desc" },
+    take: 3,
+  });
+
   const features = [
     {
       icon: Target,
@@ -43,6 +113,10 @@ export default function HomePage() {
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Hero Section */}
       <section id="hero" data-testid="hero-section" className="relative overflow-hidden text-gray-800" style={{ backgroundColor: '#E9E4C9' }}>
         <div className="absolute inset-0 opacity-10">
@@ -81,8 +155,14 @@ export default function HomePage() {
               <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight text-gray-900">
                 🎾 Padel Kraków Community
               </h1>
-              <p className="text-xl md:text-2xl text-gray-700 mb-8 leading-relaxed">
-                Connect with passionate padel players across Kraków and Małopolska. Find courts, match your skill level, and grow the sport together.
+              <p className="text-xl md:text-2xl text-gray-700 mb-4 leading-relaxed">
+                We are a <strong>people-first community</strong> of over{" "}
+                <strong>900 players</strong>, on a mission to grow padel
+                across Kraków and Małopolska.
+              </p>
+              <p className="text-lg md:text-xl text-gray-600 mb-8 leading-relaxed">
+                Find courts near you, discover your skill level, and connect
+                with local groups to start playing today.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                 <Link
@@ -164,30 +244,94 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section id="stats" data-testid="stats-section" className="bg-gray-100 py-16 px-4">
+      {/* Blog Highlights Section */}
+      <section id="blog-highlights" data-testid="blog-highlights-section" className="bg-gray-50 py-16 px-4">
         <div className="max-w-6xl mx-auto">
-          <div className="grid md:grid-cols-4 gap-8 text-center">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
             <div>
-              <Trophy className="w-12 h-12 text-amber-600 mx-auto mb-4" />
-              <div className="text-3xl font-bold text-gray-900">8+</div>
-              <p className="text-gray-600 mt-2">Padel Courts</p>
+              <h2 className="text-3xl font-bold text-amber-700 mb-2">Latest from the Blog</h2>
+              <p className="text-gray-600">News, stories and updates from our community</p>
             </div>
+            <Link
+              href="/blog"
+              className="inline-flex items-center gap-2 text-amber-700 font-semibold hover:text-amber-900 transition shrink-0"
+            >
+              View all posts <ArrowRight size={16} />
+            </Link>
+          </div>
+
+          {latestPosts.length > 0 ? (
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {latestPosts.map((post) => (
+                <Link
+                  key={post.id}
+                  href={`/blog/${post.slug}`}
+                  className="group bg-white rounded-2xl shadow hover:shadow-xl transition overflow-hidden flex flex-col"
+                >
+                  {post.coverImage ? (
+                    <div className="h-44 overflow-hidden">
+                      <img
+                        src={post.coverImage}
+                        alt={post.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition duration-300"
+                      />
+                    </div>
+                  ) : (
+                    <div className="h-44 bg-gradient-to-br from-amber-100 to-orange-100 flex items-center justify-center">
+                      <Newspaper className="w-12 h-12 text-amber-400" />
+                    </div>
+                  )}
+                  <div className="flex flex-col flex-grow p-5">
+                    <h3 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-amber-700 transition">
+                      {post.title}
+                    </h3>
+                    {post.excerpt && (
+                      <p className="text-sm text-gray-600 mb-4 line-clamp-3 flex-grow">
+                        {post.excerpt}
+                      </p>
+                    )}
+                    <div className="flex items-center gap-3 text-xs text-gray-400 mt-auto pt-3 border-t border-gray-100">
+                      <span className="flex items-center gap-1">
+                        <Users size={12} /> {post.author.name}
+                      </span>
+                      {post.publishedAt && (
+                        <span className="flex items-center gap-1">
+                          <Calendar size={12} />
+                          {formatDistanceToNow(new Date(post.publishedAt), { addSuffix: true })}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12 bg-white rounded-2xl shadow-sm">
+              <Newspaper className="w-12 h-12 text-amber-300 mx-auto mb-4" />
+              <p className="text-gray-500 text-lg">No posts yet — check back soon!</p>
+              <Link href="/blog" className="mt-4 inline-block text-amber-700 font-semibold hover:underline">
+                Go to Blog
+              </Link>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* Community Gallery Section */}
+      <section id="community-gallery" data-testid="community-gallery-section" className="py-16 px-4">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
             <div>
-              <Users className="w-12 h-12 text-amber-600 mx-auto mb-4" />
-              <div className="text-3xl font-bold text-gray-900">1000+</div>
-              <p className="text-gray-600 mt-2">Community Members</p>
+              <h2 className="text-3xl font-bold text-amber-700 mb-2">Community Gallery</h2>
+              <p className="text-gray-600">Highlights from our courts and events</p>
             </div>
-            <div>
-              <Target className="w-12 h-12 text-amber-600 mx-auto mb-4" />
-              <div className="text-3xl font-bold text-gray-900">7+</div>
-              <p className="text-gray-600 mt-2">Skill Levels</p>
-            </div>
-            <div>
-              <Zap className="w-12 h-12 text-amber-600 mx-auto mb-4" />
-              <div className="text-3xl font-bold text-gray-900">Active</div>
-              <p className="text-gray-600 mt-2">Daily Matches</p>
-            </div>
+          </div>
+          <div className="rounded-2xl bg-gradient-to-br from-amber-50 to-orange-100 border-2 border-dashed border-amber-300 flex flex-col items-center justify-center gap-4 py-20 px-8 text-center">
+            <Camera className="w-14 h-14 text-amber-400" />
+            <p className="text-xl font-semibold text-amber-700">Community gallery coming soon!</p>
+            <p className="text-gray-500 max-w-sm">
+              We&apos;re collecting the best moments from our courts and events. Stay tuned!
+            </p>
           </div>
         </div>
       </section>
