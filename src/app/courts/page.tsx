@@ -1,7 +1,9 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import Link from "next/link";
 import { useEffect, useState, useMemo } from "react";
+import { ChevronRight, MapPin, Building2 } from "lucide-react";
 import type { Court } from "../_components/CourtMapNew";
 
 const CourtMap = dynamic(() => import("../_components/CourtMapNew"), { 
@@ -236,10 +238,7 @@ export default function CourtsPage() {
           )}
 
           <div className="p-4 bg-amber-50 rounded-2xl border border-amber-200 text-sm text-gray-700">
-            Missing a court?{" "}
-            <a href="/about" className="underline text-amber-700 hover:text-amber-800">
-              Let us know!
-            </a>
+            Missing a court? Scroll down and let us know!
           </div>
         </aside>
 
@@ -248,6 +247,52 @@ export default function CourtsPage() {
           <CourtMap courts={filteredCourts} focusId={focusId} />
         </section>
       </div>
+
+      {/* ---- CTA: Submit a Court / Club ---- */}
+      <section id="courts-cta" data-testid="courts-cta-section" className="mt-16 rounded-3xl overflow-hidden shadow-xl bg-gradient-to-r from-amber-600 to-orange-600 text-white">
+        <div className="grid md:grid-cols-2">
+          {/* Missing a court */}
+          <div className="flex flex-col justify-between p-10 border-b md:border-b-0 md:border-r border-white/20">
+            <div className="mb-6">
+              <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-white/20 mb-4">
+                <MapPin className="w-6 h-6 text-white" />
+              </div>
+              <h3 className="text-2xl font-bold mb-2">Missing a court?</h3>
+              <p className="text-amber-100 leading-relaxed">
+                Know a padel court in Kraków or Małopolska that isn&apos;t on
+                our map yet? Let us know and we&apos;ll add it right away.
+              </p>
+            </div>
+            <Link
+              href="/groups"
+              className="inline-flex items-center gap-2 self-start bg-white text-amber-700 font-bold px-6 py-3 rounded-xl hover:bg-amber-50 transition transform hover:scale-105"
+            >
+              Tell us about it <ChevronRight size={18} />
+            </Link>
+          </div>
+
+          {/* Club submission */}
+          <div className="flex flex-col justify-between p-10">
+            <div className="mb-6">
+              <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-white/20 mb-4">
+                <Building2 className="w-6 h-6 text-white" />
+              </div>
+              <h3 className="text-2xl font-bold mb-2">Are you a padel club?</h3>
+              <p className="text-amber-100 leading-relaxed">
+                Want your club featured on this page and reach hundreds of
+                active players in Kraków and Małopolska? Get in touch — we&apos;d
+                love to feature you.
+              </p>
+            </div>
+            <Link
+              href="/groups"
+              className="inline-flex items-center gap-2 self-start bg-white text-amber-700 font-bold px-6 py-3 rounded-xl hover:bg-amber-50 transition transform hover:scale-105"
+            >
+              Get your club listed <ChevronRight size={18} />
+            </Link>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
