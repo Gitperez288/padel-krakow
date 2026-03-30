@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useSession } from "next-auth/react";
 import { useRouter, useParams } from "next/navigation";
@@ -152,7 +152,7 @@ export default function BlogEditorPage() {
       .replace(/\s+/g, " ")
       .trim();
 
-    const metaTitle = `${post.title} | Padel KrakÃ³w`;
+    const metaTitle = `${post.title} | Padel Kraków`;
     const metaDescription =
       plainText.length > 0
         ? plainText.substring(0, 155) + (plainText.length > 155 ? "..." : "")
@@ -353,7 +353,7 @@ export default function BlogEditorPage() {
                     className="w-4 h-4 rounded accent-amber-600"
                   />
                   <span className="text-sm text-gray-700">
-                    {post.published ? "ðŸŸ¢ Published" : "ðŸŸ¡ Draft"}
+                    {post.published ? "🟢 Published" : "🟡 Draft"}
                   </span>
                 </label>
                 <p className="text-xs text-gray-400 mt-2">
