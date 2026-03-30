@@ -44,7 +44,7 @@ export default function HomePage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-amber-600 to-amber-700 text-white">
+      <section className="relative overflow-hidden text-gray-800" style={{ backgroundColor: '#E9E4C9' }}>
         <div className="absolute inset-0 opacity-10">
           <svg
             className="w-full h-full"
@@ -58,7 +58,7 @@ export default function HomePage() {
                 height="40"
                 patternUnits="userSpaceOnUse"
               >
-                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" strokeWidth="0.5" />
+                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#8B7355" strokeWidth="0.5" />
               </pattern>
             </defs>
             <rect width="1200" height="600" fill="url(#grid)" />
@@ -78,23 +78,23 @@ export default function HomePage() {
 
             {/* Text Section */}
             <div className="flex-1 text-center lg:text-left">
-              <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
+              <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight text-gray-900">
                 🎾 Padel Kraków Community
               </h1>
-              <p className="text-xl md:text-2xl text-amber-100 mb-8 leading-relaxed">
+              <p className="text-xl md:text-2xl text-gray-700 mb-8 leading-relaxed">
                 Connect with passionate padel players across Kraków and Małopolska. Find courts, match your skill level, and grow the sport together.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                 <Link
                   href="/courts"
-                  className="inline-flex items-center gap-2 bg-white text-amber-700 px-8 py-3 rounded-lg font-bold hover:bg-amber-50 transition transform hover:scale-105"
+                  className="inline-flex items-center gap-2 bg-teal-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-teal-700 transition transform hover:scale-105"
                 >
                   <MapPin size={20} />
                   Find Courts
                 </Link>
                 <Link
                   href="/groups"
-                  className="inline-flex items-center gap-2 bg-amber-500 text-white px-8 py-3 rounded-lg font-bold hover:bg-amber-600 transition transform hover:scale-105"
+                  className="inline-flex items-center gap-2 bg-green-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-green-700 transition transform hover:scale-105"
                 >
                   <Share2 size={20} />
                   Join Groups
