@@ -38,7 +38,7 @@ async function main() {
     await db.user.create({
       data: {
         email: AUTHOR_EMAIL,
-        name: "Author",
+        name: "Gabriele",
         password: hashedPassword,
         role: "author",
       },
