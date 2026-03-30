@@ -116,6 +116,7 @@ export default function AdminBlogPage() {
               <thead className="bg-gray-100 border-b">
                 <tr>
                   <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Title</th>
+                  <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Author</th>
                   <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Status</th>
                   <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Published</th>
                   <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Date</th>
@@ -130,6 +131,9 @@ export default function AdminBlogPage() {
                         <p className="font-medium text-gray-900">{post.title}</p>
                         <p className="text-sm text-gray-500">/{post.slug}</p>
                       </div>
+                    </td>
+                    <td className="px-6 py-3 text-sm text-gray-600">
+                      {post.author.name}
                     </td>
                     <td className="px-6 py-3">
                       <span className={`px-3 py-1 rounded-full text-xs font-semibold ${

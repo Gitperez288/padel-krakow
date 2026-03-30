@@ -9,6 +9,10 @@
   },
   "dependencies": {
     "@prisma/client": "^5.7.1",
+    "@tiptap/extension-placeholder": "^3.21.0",
+    "@tiptap/pm": "^3.21.0",
+    "@tiptap/react": "^3.21.0",
+    "@tiptap/starter-kit": "^3.21.0",
     "bcryptjs": "^2.4.3",
     "classnames": "^2.5.1",
     "date-fns": "^3.6.0",

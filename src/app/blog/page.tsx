@@ -3,6 +3,8 @@ import Link from "next/link";
 import { Metadata } from "next";
 import { formatDistanceToNow } from "date-fns";
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: "Blog | Padel Kraków Community",
   description: "Latest news and articles about Padel in Kraków and Małopolska",

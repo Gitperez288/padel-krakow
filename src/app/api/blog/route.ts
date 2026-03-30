@@ -75,9 +75,9 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
-    // Get user's posts
+    // Admins see all posts; authors see only their own
     const posts = await db.post.findMany({
-      where: { authorId: user.id },
+      where: user.role === 'admin' ? undefined : { authorId: user.id },
       select: {
         id: true,
         title: true,

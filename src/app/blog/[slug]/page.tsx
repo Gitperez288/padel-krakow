@@ -6,6 +6,8 @@ import { remark } from "remark";
 import remarkHtml from "remark-html";
 import { formatDistanceToNow } from "date-fns";
 
+export const dynamic = 'force-dynamic';
+
 interface Params {
   slug: string;
 }
@@ -55,17 +57,6 @@ export async function generateMetadata({
   };
 }
 
-export async function generateStaticParams() {
-  const posts = await db.post.findMany({
-    where: { published: true },
-    select: { slug: true },
-  });
-
-  return posts.map((post) => ({
-    slug: post.slug,
-  }));
-}
-
 export default async function BlogPostPage({
   params,
 }: {
@@ -85,12 +76,15 @@ export default async function BlogPostPage({
     notFound();
   }
 
-  // Convert markdown to HTML
-  const processedContent = await remark()
-    .use(remarkHtml)
-    .process(post.content);
-
-  const contentHtml = processedContent.toString();
+  // Render HTML directly (TipTap) or convert from markdown (legacy)
+  const isHtml = post.content.trimStart().startsWith('<');
+  let contentHtml: string;
+  if (isHtml) {
+    contentHtml = post.content;
+  } else {
+    const processedContent = await remark().use(remarkHtml).process(post.content);
+    contentHtml = processedContent.toString();
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-amber-50 to-orange-100">

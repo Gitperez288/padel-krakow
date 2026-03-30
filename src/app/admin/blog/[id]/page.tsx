@@ -1,10 +1,13 @@
-"use client";
+﻿"use client";
 
 import { useSession } from "next-auth/react";
 import { useRouter, useParams } from "next/navigation";
-import { useEffect, useState, ChangeEvent, FormEvent } from "react";
+import { useEffect, useState, ChangeEvent, FormEvent, useCallback } from "react";
 import Link from "next/link";
-import { ArrowLeft, Save } from "lucide-react";
+import { ArrowLeft, Save, Wand2, Bold, Italic, List, ListOrdered, Quote, Code, Minus, Undo, Redo } from "lucide-react";
+import { useEditor, EditorContent } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import Placeholder from "@tiptap/extension-placeholder";
 
 interface Post {
   id: string;
@@ -19,11 +22,55 @@ interface Post {
   ogImage?: string;
 }
 
+function EditorToolbar({ editor }: { editor: ReturnType<typeof useEditor> }) {
+  if (!editor) return null;
+
+  const btn = (
+    action: () => void,
+    active: boolean,
+    title: string,
+    label: React.ReactNode
+  ) => (
+    <button
+      type="button"
+      onClick={action}
+      title={title}
+      className={`p-1.5 rounded hover:bg-gray-200 transition ${
+        active ? "bg-amber-100 text-amber-700" : "text-gray-600"
+      }`}
+    >
+      {label}
+    </button>
+  );
+
+  return (
+    <div className="flex flex-wrap items-center gap-0.5 p-2 border-b bg-gray-50">
+      {btn(() => editor.chain().focus().undo().run(), false, "Undo", <Undo size={15} />)}
+      {btn(() => editor.chain().focus().redo().run(), false, "Redo", <Redo size={15} />)}
+      <span className="w-px h-5 bg-gray-300 mx-1" />
+      {btn(() => editor.chain().focus().toggleHeading({ level: 1 }).run(), editor.isActive("heading", { level: 1 }), "Heading 1", <span className="font-bold text-xs px-0.5">H1</span>)}
+      {btn(() => editor.chain().focus().toggleHeading({ level: 2 }).run(), editor.isActive("heading", { level: 2 }), "Heading 2", <span className="font-bold text-xs px-0.5">H2</span>)}
+      {btn(() => editor.chain().focus().toggleHeading({ level: 3 }).run(), editor.isActive("heading", { level: 3 }), "Heading 3", <span className="font-bold text-xs px-0.5">H3</span>)}
+      <span className="w-px h-5 bg-gray-300 mx-1" />
+      {btn(() => editor.chain().focus().toggleBold().run(), editor.isActive("bold"), "Bold", <Bold size={15} />)}
+      {btn(() => editor.chain().focus().toggleItalic().run(), editor.isActive("italic"), "Italic", <Italic size={15} />)}
+      {btn(() => editor.chain().focus().toggleCode().run(), editor.isActive("code"), "Inline Code", <Code size={15} />)}
+      <span className="w-px h-5 bg-gray-300 mx-1" />
+      {btn(() => editor.chain().focus().toggleBulletList().run(), editor.isActive("bulletList"), "Bullet List", <List size={15} />)}
+      {btn(() => editor.chain().focus().toggleOrderedList().run(), editor.isActive("orderedList"), "Ordered List", <ListOrdered size={15} />)}
+      {btn(() => editor.chain().focus().toggleBlockquote().run(), editor.isActive("blockquote"), "Blockquote", <Quote size={15} />)}
+      {btn(() => editor.chain().focus().toggleCodeBlock().run(), editor.isActive("codeBlock"), "Code Block", <span className="font-mono text-xs px-0.5">{"</>"}</span>)}
+      <span className="w-px h-5 bg-gray-300 mx-1" />
+      {btn(() => editor.chain().focus().setHorizontalRule().run(), false, "Horizontal Rule", <Minus size={15} />)}
+    </div>
+  );
+}
+
 export default function BlogEditorPage() {
   const { status } = useSession();
   const router = useRouter();
   const params = useParams();
-  const isNew = params?.id === undefined || params?.id === "new";
+  const isNew = !params?.id || params?.id === "new";
 
   const [loading, setLoading] = useState(!isNew);
   const [saving, setSaving] = useState(false);
@@ -38,6 +85,22 @@ export default function BlogEditorPage() {
     metaDescription: "",
   });
 
+  const editor = useEditor({
+    extensions: [
+      StarterKit,
+      Placeholder.configure({ placeholder: "Write your post content here..." }),
+    ],
+    content: "",
+    onUpdate: ({ editor }) => {
+      setPost((prev) => ({ ...prev, content: editor.getHTML() }));
+    },
+    editorProps: {
+      attributes: {
+        class: "min-h-[320px] focus:outline-none p-4 prose prose-sm max-w-none",
+      },
+    },
+  });
+
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/auth/login");
@@ -48,6 +111,13 @@ export default function BlogEditorPage() {
     }
   }, [status, isNew, router]);
 
+  // Set editor content once editor is ready and post is loaded
+  useEffect(() => {
+    if (editor && post.content) {
+      editor.commands.setContent(post.content);
+    }
+  }, [editor, post.id]);
+
   const fetchPost = async () => {
     try {
       const id = Array.isArray(params?.id) ? params.id[0] : params?.id;
@@ -55,55 +125,91 @@ export default function BlogEditorPage() {
       if (!res.ok) throw new Error("Failed to fetch post");
       const data = await res.json();
       setPost(data);
-    } catch (err: any) {
-      setError(err.message || "Error loading post");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Error loading post");
     } finally {
       setLoading(false);
     }
   };
 
-  const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.currentTarget;
-    
     if (type === "checkbox") {
-      setPost({
-        ...post,
-        [name]: (e.currentTarget as HTMLInputElement).checked,
-      });
+      setPost({ ...post, [name]: (e.currentTarget as HTMLInputElement).checked });
     } else {
       setPost({ ...post, [name]: value });
     }
   };
 
+  const generateSEO = useCallback(() => {
+    if (!post.title) {
+      alert("Please add a post title first.");
+      return;
+    }
+    // Strip HTML tags to plain text
+    const plainText = post.content
+      .replace(/<[^>]+>/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+
+    const metaTitle = `${post.title} | Padel KrakÃ³w`;
+    const metaDescription =
+      plainText.length > 0
+        ? plainText.substring(0, 155) + (plainText.length > 155 ? "..." : "")
+        : post.title;
+
+    // Keyword extraction: frequency-ranked words, stopwords filtered
+    const stopWords = new Set([
+      "the","and","for","that","this","with","are","was","were","from","have",
+      "has","will","but","not","your","about","more","can","also","into","its",
+      "than","then","when","what","which","who","how","been","some","all","they",
+      "their","there","just","like","make","very","over","such","both","each",
+    ]);
+    const wordFreq: Record<string, number> = {};
+    `padel krakow ${post.title} ${plainText.substring(0, 400)}`
+      .toLowerCase()
+      .split(/\W+/)
+      .filter((w) => w.length > 3 && !stopWords.has(w))
+      .forEach((w) => { wordFreq[w] = (wordFreq[w] || 0) + 1; });
+    const keywords = Object.entries(wordFreq)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 8)
+      .map(([word]) => word)
+      .join(", ");
+
+    setPost((prev) => ({
+      ...prev,
+      metaTitle,
+      metaDescription,
+      metaKeywords: keywords,
+      ogImage: prev.ogImage || prev.coverImage || "",
+    }));
+  }, [post.title, post.content, post.coverImage]);
+
   const handleSave = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSaving(true);
     setError("");
-
     try {
       const method = isNew ? "POST" : "PUT";
       const url = isNew ? "/api/blog" : `/api/blog/${post.id}`;
-
       const res = await fetch(url, {
         method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(post),
       });
-
       if (!res.ok) {
         const data = await res.json();
         throw new Error(data.error || "Failed to save post");
       }
-
-      const savedPost = await res.json();
       router.push("/admin/blog");
-    } catch (err: any) {
-      setError(err.message || "Error saving post");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Error saving post");
       setSaving(false);
     }
   };
+
+  const descLength = post.metaDescription?.length || 0;
 
   if (loading) {
     return <div className="flex items-center justify-center min-h-screen">Loading...</div>;
@@ -118,11 +224,9 @@ export default function BlogEditorPage() {
             <Link href="/admin/blog" className="text-gray-600 hover:text-gray-900">
               <ArrowLeft size={24} />
             </Link>
-            <div>
-              <h1 className="text-2xl font-bold text-amber-700">
-                {isNew ? "Create New Post" : "Edit Post"}
-              </h1>
-            </div>
+            <h1 className="text-2xl font-bold text-amber-700">
+              {isNew ? "New Post" : "Edit Post"}
+            </h1>
           </div>
           <button
             form="post-form"
@@ -136,17 +240,15 @@ export default function BlogEditorPage() {
         </div>
       </header>
 
-      {/* Main Content */}
+      {/* Main */}
       <main className="max-w-7xl mx-auto px-4 py-10">
         {error && (
-          <div className="p-4 bg-red-100 text-red-700 rounded-lg mb-6">
-            {error}
-          </div>
+          <div className="p-4 bg-red-100 text-red-700 rounded-lg mb-6">{error}</div>
         )}
 
         <form id="post-form" onSubmit={handleSave} className="space-y-6">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Main Editor */}
+            {/* Main Editor Column */}
             <div className="lg:col-span-2 space-y-6">
               {/* Title */}
               <div className="bg-white p-6 rounded-lg shadow">
@@ -160,7 +262,7 @@ export default function BlogEditorPage() {
                   onChange={handleChange}
                   required
                   placeholder="Enter post title"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent text-lg"
                 />
               </div>
 
@@ -178,49 +280,60 @@ export default function BlogEditorPage() {
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
                 />
                 {post.coverImage && (
-                  <div className="mt-4">
-                    <img
-                      src={post.coverImage}
-                      alt="Cover"
-                      className="h-40 w-full object-cover rounded-lg"
-                    />
-                  </div>
+                  <img
+                    src={post.coverImage}
+                    alt="Cover preview"
+                    className="mt-4 h-40 w-full object-cover rounded-lg"
+                  />
                 )}
               </div>
 
-              {/* Content */}
-              <div className="bg-white p-6 rounded-lg shadow">
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Content (Markdown) *
-                </label>
-                <textarea
-                  name="content"
-                  value={post.content}
-                  onChange={handleChange}
-                  required
-                  placeholder="Write your post content here... (Markdown supported)"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent font-mono text-sm"
-                  rows={12}
-                />
-                <p className="text-xs text-gray-500 mt-2">
-                  Supports Markdown formatting: **bold**, *italic*, # Headings, etc.
-                </p>
+              {/* Rich Text Editor */}
+              <div className="bg-white rounded-lg shadow overflow-hidden">
+                <div className="px-6 pt-6 pb-3">
+                  <label className="block text-sm font-semibold text-gray-700">
+                    Content *
+                  </label>
+                </div>
+                <EditorToolbar editor={editor} />
+                <EditorContent editor={editor} />
+                <style>{`
+                  .ProseMirror p.is-editor-empty:first-child::before {
+                    content: attr(data-placeholder);
+                    float: left;
+                    color: #9ca3af;
+                    pointer-events: none;
+                    height: 0;
+                  }
+                  .ProseMirror h1 { font-size: 1.75rem; font-weight: 700; margin: 1rem 0 0.5rem; }
+                  .ProseMirror h2 { font-size: 1.4rem; font-weight: 600; margin: 0.8rem 0 0.4rem; }
+                  .ProseMirror h3 { font-size: 1.15rem; font-weight: 600; margin: 0.6rem 0 0.3rem; }
+                  .ProseMirror ul { list-style-type: disc; padding-left: 1.5rem; margin: 0.5rem 0; }
+                  .ProseMirror ol { list-style-type: decimal; padding-left: 1.5rem; margin: 0.5rem 0; }
+                  .ProseMirror li { margin: 0.2rem 0; }
+                  .ProseMirror blockquote { border-left: 3px solid #d97706; padding-left: 1rem; color: #6b7280; margin: 0.5rem 0; font-style: italic; }
+                  .ProseMirror code { background: #f3f4f6; padding: 0.15rem 0.35rem; border-radius: 3px; font-family: monospace; font-size: 0.875em; }
+                  .ProseMirror pre { background: #1f2937; color: #f9fafb; padding: 1rem; border-radius: 0.5rem; margin: 0.75rem 0; overflow-x: auto; }
+                  .ProseMirror pre code { background: none; padding: 0; color: inherit; }
+                  .ProseMirror hr { border: none; border-top: 2px solid #e5e7eb; margin: 1.25rem 0; }
+                  .ProseMirror p { margin: 0.4rem 0; line-height: 1.6; }
+                `}</style>
               </div>
 
               {/* Excerpt */}
               <div className="bg-white p-6 rounded-lg shadow">
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Excerpt (Optional)
+                  Excerpt <span className="font-normal text-gray-400">(optional)</span>
                 </label>
                 <textarea
                   name="excerpt"
                   value={post.excerpt}
                   onChange={handleChange}
-                  placeholder="Brief summary of your post..."
+                  placeholder="Brief summary shown in the blog listing..."
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
                   rows={3}
                 />
-                <p className="text-xs text-gray-500 mt-2">
+                <p className="text-xs text-gray-400 mt-1">
                   If empty, first 160 characters of content will be used.
                 </p>
               </div>
@@ -231,26 +344,40 @@ export default function BlogEditorPage() {
               {/* Publish Status */}
               <div className="bg-white p-6 rounded-lg shadow">
                 <h3 className="text-sm font-semibold text-gray-700 mb-4">Status</h3>
-                <div className="space-y-2">
-                  <label className="flex items-center gap-2">
-                    <input
-                      type="checkbox"
-                      name="published"
-                      checked={post.published}
-                      onChange={handleChange}
-                      className="w-4 h-4 rounded"
-                    />
-                    <span className="text-sm text-gray-700">
-                      {post.published ? "🟢 Published" : "🟡 Draft"}
-                    </span>
-                  </label>
-                </div>
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    name="published"
+                    checked={post.published}
+                    onChange={handleChange}
+                    className="w-4 h-4 rounded accent-amber-600"
+                  />
+                  <span className="text-sm text-gray-700">
+                    {post.published ? "ðŸŸ¢ Published" : "ðŸŸ¡ Draft"}
+                  </span>
+                </label>
+                <p className="text-xs text-gray-400 mt-2">
+                  {post.published
+                    ? "Visible to all visitors on /blog"
+                    : "Only visible to logged-in admins"}
+                </p>
               </div>
 
-              {/* SEO Settings */}
+              {/* SEO */}
               <div className="bg-white p-6 rounded-lg shadow">
-                <h3 className="text-sm font-semibold text-gray-700 mb-4">SEO</h3>
-                <div className="space-y-3">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-sm font-semibold text-gray-700">SEO</h3>
+                  <button
+                    type="button"
+                    onClick={generateSEO}
+                    className="flex items-center gap-1 text-xs bg-amber-50 text-amber-700 hover:bg-amber-100 border border-amber-200 px-2 py-1.5 rounded-lg transition"
+                    title="Auto-generate SEO fields from title and content"
+                  >
+                    <Wand2 size={12} />
+                    Auto-generate
+                  </button>
+                </div>
+                <div className="space-y-4">
                   <div>
                     <label className="block text-xs font-semibold text-gray-700 mb-1">
                       Meta Title
@@ -260,9 +387,12 @@ export default function BlogEditorPage() {
                       name="metaTitle"
                       value={post.metaTitle}
                       onChange={handleChange}
-                      placeholder="SEO title"
+                      placeholder="Title for search results"
                       className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:ring-2 focus:ring-amber-500 focus:border-transparent"
                     />
+                    <p className="text-xs text-gray-400 mt-0.5">
+                      {post.metaTitle?.length || 0}/70
+                    </p>
                   </div>
                   <div>
                     <label className="block text-xs font-semibold text-gray-700 mb-1">
@@ -272,10 +402,21 @@ export default function BlogEditorPage() {
                       name="metaDescription"
                       value={post.metaDescription}
                       onChange={handleChange}
-                      placeholder="SEO description"
+                      placeholder="Description for search results"
                       className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:ring-2 focus:ring-amber-500 focus:border-transparent"
-                      rows={2}
+                      rows={3}
                     />
+                    <p
+                      className={`text-xs mt-0.5 ${
+                        descLength > 160
+                          ? "text-red-500"
+                          : descLength > 130
+                          ? "text-amber-500"
+                          : "text-gray-400"
+                      }`}
+                    >
+                      {descLength}/160{descLength > 160 && " â€” too long!"}
+                    </p>
                   </div>
                   <div>
                     <label className="block text-xs font-semibold text-gray-700 mb-1">
@@ -286,7 +427,7 @@ export default function BlogEditorPage() {
                       name="metaKeywords"
                       value={post.metaKeywords || ""}
                       onChange={handleChange}
-                      placeholder="Comma-separated"
+                      placeholder="padel, krakow, training..."
                       className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:ring-2 focus:ring-amber-500 focus:border-transparent"
                     />
                   </div>
@@ -299,7 +440,7 @@ export default function BlogEditorPage() {
                       name="ogImage"
                       value={post.ogImage || ""}
                       onChange={handleChange}
-                      placeholder="For social sharing"
+                      placeholder="Social sharing image URL"
                       className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:ring-2 focus:ring-amber-500 focus:border-transparent"
                     />
                   </div>
