@@ -32,6 +32,9 @@ yarn-error.log*
 # local env files
 .env*.local
 
+# Admin setup documentation (contains sensitive credentials)
+ADMIN_SETUP.md
+
 # vercel
 .vercel
 

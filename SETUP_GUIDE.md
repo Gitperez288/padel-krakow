@@ -2,237 +2,208 @@
 
 ## Overview
 
-Your Padel Kraków community site has been completely rebuilt with:
-- **Modern UI/UX** with responsive design and beautiful gradients
-- **CMS System** with blog management dashboard
-- **Authentication** for admin users
-- **SEO Optimization** with metadata, structured data, and sitemap
-- **Database** for storing blog posts and users
-- **API Routes** for CRUD operations
+Padel Kraków is a modern community portal built with Next.js featuring:
+- **Interactive Court Locator** - Find padel courts on an interactive map
+- **Blog System** - Publish news and community updates
+- **Skill Levels** - Community skill rating system  
+- **Community Groups** - Links to WhatsApp and Facebook communities
+- **SEO Optimized** - Automatic sitemaps, meta tags, structured data
+- **Responsive Design** - Works seamlessly on mobile, tablet, and desktop
 
 ---
 
-## 📋 System Architecture
+## 📋 Technology Stack
 
-### Tech Stack
-- **Frontend**: Next.js 15 (React 18, TypeScript, Tailwind CSS)
-- **Backend**: Next.js API Routes
-- **Database**: SQLite with Prisma ORM
-- **Authentication**: NextAuth.js v5
-- **Icons**: Lucide React
-- **Markdown**: Remark + Remark-HTML
-
-### Key Directories
-```
-src/
-├── app/
-│   ├── (public pages)/
-│   ├── admin/blog/ (protected CMS dashboard)
-│   ├── api/
-│   │   ├── auth/ (NextAuth routes)
-│   │   └── blog/ (API endpoints)
-│   ├── auth/login (login page)
-│   ├── blog/ (public blog listing)
-│   └── blog/[slug]/ (individual post pages)
-├── auth.ts (NextAuth configuration)
-├── middleware.ts (route protection)
-└── lib/db.ts (Prisma client)
-
-prisma/
-├── schema.prisma (database schema)
-└── seed.ts (database seeding script)
-```
+- **Framework**: Next.js 15 with React 18 and TypeScript
+- **Styling**: Tailwind CSS with responsive design
+- **Database**: SQLite (development) / PostgreSQL (production)
+- **Content Management**: Built-in blog CMS with Markdown support
+- **Maps**: Leaflet + React-Leaflet for interactive court locations
+- **SEO**: Automatic sitemaps, robots.txt, structured data (JSON-LD)
 
 ---
 
-## 🚀 Local Setup
+## 🚀 Getting Started
 
-### 1. Install Dependencies
+### Prerequisites
+- Node.js 18+ and npm installed
+- Git for version control
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/Gitperez288/padel-krakow.git
+cd padel-krakow
+```
+
+### 2. Install Dependencies
 ```bash
 npm install
-# or
-yarn install
 ```
 
-### 2. Set Up Environment Variables
+### 3. Environment Setup
 Create a `.env.local` file in the project root:
 ```env
 # Database
 DATABASE_URL="file:./prisma/dev.db"
 
-# NextAuth
-NEXTAUTH_SECRET="generate-a-random-string-here"
+# NextAuth Configuration
+NEXTAUTH_SECRET="generate-random-secret-with-openssl-rand-base64-32"
 NEXTAUTH_URL="http://localhost:3000"
 ```
 
-Generate a secure secret:
+Generate a random secret:
 ```bash
 openssl rand -base64 32
 ```
 
-### 3. Set Up Database & Create Admin Users
+### 4. Initialize Database
 ```bash
-# Create database tables
+# Create database schema
 npx prisma db push
 
-# Seed database with default users
+# Seed with initial data
 npx prisma db seed
 ```
 
-This creates two users:
-- **Admin**: `admin@padel-krakow.com` / `change-me-in-production`
-- **Author**: `author@padel-krakow.com` / `change-me-in-production`
-
-⚠️ **IMPORTANT**: Change these passwords immediately!
-
-### 4. Run Development Server
+### 5. Start Development Server
 ```bash
 npm run dev
 ```
 
-Visit `http://localhost:3000` to see your site!
+Open `http://localhost:3000` in your browser.
 
 ---
 
-## 🔐 User Management
+## 📝 Blog Management
 
-### Adding/Modifying Users
-Edit `prisma/seed.ts` to add more users, then run:
-```bash
-npx prisma db seed
-```
+The site includes a protected admin dashboard for managing blog content.
 
-### Changing User Passwords
-```bash
-npx prisma studio
-```
-This opens a UI where you can manage users directly. You'll need to hash passwords with bcryptjs before saving.
+**⚠️ For admin credentials and detailed setup instructions, see ADMIN_SETUP.md (kept locally, not in version control)**
 
-To hash a password:
-```bash
-node -e "const bcrypt = require('bcryptjs'); console.log(bcrypt.hashSync('your-password', 10))"
-```
-
----
-
-## 📝 CMS Features
-
-### Accessing the Admin Dashboard
-1. Go to `http://localhost:3000/auth/login`
-2. Sign in with admin credentials
-3. You're now in the admin dashboard at `/admin/blog`
-
-### Creating Blog Posts
-1. Click "New Post" button
-2. Fill in:
-   - **Title**: Post title (becomes URL slug automatically)
-   - **Content**: Write in Markdown format
-   - **Cover Image**: URL to image
-   - **Excerpt**: Short summary (auto-generated if left empty)
-   - **Publish Status**: Toggle to publish or save as draft
-
-### SEO Settings (Per Post)
-- **Meta Title**: Title for search results
-- **Meta Description**: Description for search results (max 160 chars)
-- **Keywords**: Comma-separated keywords
-- **OG Image**: Image for social sharing
-
-### Publishing Posts
-- Toggle the "Published" checkbox to make posts visible
-- Published posts appear on `/blog` and get unique URLs like `/blog/my-post-slug`
-- Draft posts only visible to logged-in authors
+### Blog Features
+- Create and edit posts in Markdown format
+- Add cover images, excerpts, and publish status control
+- SEO customization per post (meta titles, descriptions, keywords)
+- Social sharing optimization (OG images, Twitter cards)
+- Automatic URL slug generation
 
 ---
 
 ## 🌐 Deployment to Vercel
 
 ### Prerequisites
-- GitHub account with your repository pushed
-- Vercel account (free at https://vercel.com)
+- GitHub repository with pushes enabled
+- Vercel account (free tier supported)
 
-### Step 1: Push to GitHub
+### Deployment Steps
+
+1. **Push to GitHub**
 ```bash
 git add .
-git commit -m "Complete CMS rebuild with modern UI"
+git commit -m "Ready for deployment"
 git push origin main
 ```
 
-### Step 2: Deploy to Vercel
-1. Go to https://vercel.com
-2. Click "New Project"
-3. Import your GitHub repository
-4. In **Root Directory**, leave as default
-5. Click "Deploy"
+2. **Connect to Vercel**
+   - Visit [vercel.com](https://vercel.com)
+   - Click "New Project"
+   - Select your GitHub repository
+   - Click "Import"
 
-### Step 3: Configure Environment Variables
-After deployment, set environment variables:
-1. Go to Project Settings → Environment Variables
-2. Add:
-   - `DATABASE_URL`: See "Database Setup" below
-   - `NEXTAUTH_SECRET`: Use a strong secret (different from local!)
-   - `NEXTAUTH_URL`: `https://yourdomain.vercel.app`
+3. **Configure Environment Variables**
+   - In Vercel dashboard, go to Settings > Environment Variables
+   - Add the following variables:
+     ```
+     DATABASE_URL=your-production-database-url
+     NEXTAUTH_SECRET=your-production-secret
+     NEXTAUTH_URL=https://your-domain.com
+     ```
+   - For databases: PostgreSQL recommended for production
 
-### Database Setup for Production
+4. **Deploy**
+   - Click "Deploy"
+   - Vercel will automatically build and deploy your site
 
-#### Option A: Using Vercel Postgres (Recommended)
+### Automatic Deployments
+Any push to the `main` branch will trigger an automatic deployment on Vercel.
+
+### Production Database Setup
+
+**Option A: Using Vercel Postgres (Recommended)**
 1. In Vercel Dashboard, go to Storage → Create Database
 2. Select "Postgres"
 3. Copy the connection string
-4. Update `DATABASE_URL` env var
-5. Update `prisma/schema.prisma`:
+4. Update `DATABASE_URL` environment variable
+5. Update `prisma/schema.prisma` to use PostgreSQL:
 ```prisma
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 ```
-6. Push changes to GitHub
 
-#### Option B: Using Neon DB (Free tier available)
+**Option B: Using Neon DB (Free tier available)**
 1. Sign up at https://neon.tech
 2. Create a project and copy Postgres connection string
 3. Add to Vercel environment variables
 
-### Step 4: Initialize Production Database
-After database is connected:
+### Initialize Production Database
+After connecting your production database:
 ```bash
-# From local machine with production DATABASE_URL
-npx prisma db push --skip-generate
-npx prisma db seed
-```
-
-Or add Vercel CLI and run:
-```bash
-vercel env pull .env.production.local
 npx prisma db push
 npx prisma db seed
 ```
 
 ---
 
-## 🔒 Security Checklist
+## 📁 Project Structure
 
-Before deploying to production:
-
-- [ ] Change all default passwords
-- [ ] Set secure `NEXTAUTH_SECRET` (32+ random characters)
-- [ ] Update `NEXTAUTH_URL` to your actual domain
-- [ ] Enable HTTPS (automatic with Vercel)
-- [ ] Review authentication settings in `src/auth.ts`
-- [ ] Set up database backups
-- [ ] Add rate limiting for API routes (optional)
-- [ ] Review `/admin` routes are protected in `src/middleware.ts`
+```
+padel-krakow/
+├── src/
+│   ├── app/
+│   │   ├── page.tsx                    # Home page
+│   │   ├── layout.tsx                  # Root layout
+│   │   ├── blog/                       # Blog pages (public)
+│   │   │   ├── page.tsx                # Blog listing
+│   │   │   └── [slug]/page.tsx         # Individual post
+│   │   ├── courts/page.tsx             # Court locator with map
+│   │   ├── levels/page.tsx             # Skill levels
+│   │   ├── groups/page.tsx             # Community groups
+│   │   ├── admin/                      # Admin dashboard (protected)
+│   │   ├── auth/                       # Authentication pages
+│   │   ├── api/                        # API routes
+│   │   ├── robots.ts                   # Robots.txt generator
+│   │   └── sitemap.ts                  # Sitemap generator
+│   ├── auth.ts                         # NextAuth configuration
+│   ├── middleware.ts                   # Route protection
+│   └── lib/db.ts                       # Prisma client
+├── prisma/
+│   ├── schema.prisma                   # Database schema
+│   └── seed.ts                         # Database seeding
+├── public/                             # Static assets
+├── package.json                        # Dependencies
+└── README.md
+```
 
 ---
 
-## 📊 Custom Domain
+## 🔒 Security Best Practices
 
-To use a custom domain instead of `yourdomain.vercel.app`:
+### For Development
+1. Use `.env.local` for local secrets (added to `.gitignore`)
+2. Never commit passwords or API keys
+3. Use strong `NEXTAUTH_SECRET` values
+4. Regularly update dependencies: `npm update`
 
-1. In Vercel, go to Project Settings → Domains
-2. Add your custom domain
-3. Update DNS records as instructed
-4. Update `NEXTAUTH_URL` environment variable to include your domain
+### For Production
+1. Use environment variables for all secrets (never hardcode)
+2. Enable HTTPS (automatic with Vercel)
+3. Set secure, random `NEXTAUTH_SECRET`
+4. Use PostgreSQL instead of SQLite
+5. Enable database backups
+6. Keep dependencies updated
+7. Review security settings regularly
 
 ---
 
@@ -240,136 +211,44 @@ To use a custom domain instead of `yourdomain.vercel.app`:
 
 ### Database Issues
 ```bash
+# View database with GUI
+npx prisma studio
+
 # Reset database (⚠️ deletes all data!)
 npx prisma migrate reset
 
-# View database GUI
-npx prisma studio
-
-# Check database connection
-npx prisma db push --skip-generate
+# Seed database
+npx prisma db seed
 ```
 
-### Authentication Issues
-- Clear browser cookies
-- Check `NEXTAUTH_SECRET` is set
-- Verify `NEXTAUTH_URL` matches your domain
-- Check middleware.ts for route protection
+### Build Issues on Vercel
+- Ensure `prisma generate` runs before build
+- Clear Vercel cache: Deployments → Click menu → Redeploy
+- Check all environment variables are set correctly
 
-### Build Failures
+### Development Server Issues
 ```bash
 # Clear Next.js cache
 rm -rf .next
 
 # Reinstall dependencies
-rm -rf node_modules package-lock.json
+rm -rf node_modules
 npm install
 
-# Rebuild
-npm run build
+# Restart development server
+npm run dev
 ```
 
 ---
 
-## 📈 Performance & SEO
+## 📚 Additional Resources
 
-### SEO Features Implemented
-✅ Meta tags (title, description, keywords)
-✅ OpenGraph tags (social sharing)
-✅ Twitter tags
-✅ Sitemaps (auto-generated)
-✅ Robots.txt
-✅ Structured data (JSON-LD)
-✅ Canonical URLs
-✅ Fast rendering with Next.js
-
-### Monitoring
-- Set up Google Search Console
-- Use Google PageSpeed Insights
-- Monitor Vercel analytics
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Prisma Documentation](https://www.prisma.io/docs)
+- [NextAuth.js Documentation](https://next-auth.js.org)
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
+- [Vercel Documentation](https://vercel.com/docs)
 
 ---
 
-## 📚 API Documentation
-
-### Blog API
-
-#### Create Post
-```
-POST /api/blog
-Content-Type: application/json
-Authorization: NextAuth Session
-
-{
-  "title": "Post Title",
-  "content": "# Markdown content here",
-  "excerpt": "Short summary",
-  "coverImage": "https://...",
-  "published": true,
-  "metaTitle": "SEO Title",
-  "metaDescription": "SEO Description"
-}
-```
-
-#### Get User's Posts
-```
-GET /api/blog
-Authorization: NextAuth Session
-```
-
-#### Update Post
-```
-PUT /api/blog/{id}
-Content-Type: application/json
-Authorization: NextAuth Session
-```
-
-#### Delete Post
-```
-DELETE /api/blog/{id}
-Authorization: NextAuth Session
-```
-
----
-
-## 🎨 Customization
-
-### Colors
-Edit `tailwind.config.ts` to change brand colors. Currently uses amber/orange theme.
-
-### Logo
-- Update text logo in `src/app/layout.tsx`
-- Or add an image to `/public` and import it
-
-### Content
-- Static pages are in `src/app/*/page.tsx`
-- Court data in `src/app/courts/page.tsx`
-- Levels data in `src/app/levels/page.tsx`
-
----
-
-## 📞 Support
-
-For issues or questions:
-1. Check Vercel docs: https://vercel.com/docs
-2. Check Next.js docs: https://nextjs.org/docs
-3. Check Prisma docs: https://www.prisma.io/docs
-4. Check NextAuth docs: https://authjs.dev
-
----
-
-## 🎯 Next Steps
-
-1. ✅ Complete this setup guide
-2. ✅ Test locally with `npm run dev`
-3. ✅ Change default passwords
-4. ✅ Deploy to Vercel
-5. ✅ Configure production database
-6. ✅ Set custom domain
-7. ✅ Test admin dashboard in production
-8. ✅ Create first blog post
-9. ✅ Monitor with Google Search Console
-
----
-
-**Happy blogging! 🎾📝**
+**Last Updated**: March 2026

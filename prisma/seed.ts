@@ -1,19 +1,25 @@
 import { db } from "@/lib/db";
 import bcrypt from "bcryptjs";
 
+// Default admin credentials - OVERRIDE IN PRODUCTION
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "admin@example.com";
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "change-me-in-production";
+const AUTHOR_EMAIL = process.env.AUTHOR_EMAIL || "author@example.com";
+const AUTHOR_PASSWORD = process.env.AUTHOR_PASSWORD || "change-me-in-production";
+
 async function main() {
   console.log("Seeding database...");
 
   // Create admin user
   const adminExists = await db.user.findUnique({
-    where: { email: "admin@padel-krakow.com" },
+    where: { email: ADMIN_EMAIL },
   });
 
   if (!adminExists) {
-    const hashedPassword = await bcrypt.hash("change-me-in-production", 10);
+    const hashedPassword = await bcrypt.hash(ADMIN_PASSWORD, 10);
     await db.user.create({
       data: {
-        email: "admin@padel-krakow.com",
+        email: ADMIN_EMAIL,
         name: "Admin",
         password: hashedPassword,
         role: "admin",
@@ -24,14 +30,14 @@ async function main() {
 
   // Create author user
   const authorExists = await db.user.findUnique({
-    where: { email: "author@padel-krakow.com" },
+    where: { email: AUTHOR_EMAIL },
   });
 
   if (!authorExists) {
-    const hashedPassword = await bcrypt.hash("change-me-in-production", 10);
+    const hashedPassword = await bcrypt.hash(AUTHOR_PASSWORD, 10);
     await db.user.create({
       data: {
-        email: "author@padel-krakow.com",
+        email: AUTHOR_EMAIL,
         name: "Author",
         password: hashedPassword,
         role: "author",
@@ -41,12 +47,7 @@ async function main() {
   }
 
   console.log("\n✅ Database seeded successfully!");
-  console.log("\nDefault credentials:");
-  console.log("Admin Email: admin@padel-krakow.com");
-  console.log("Admin Password: change-me-in-production");
-  console.log("\nAuthor Email: author@padel-krakow.com");
-  console.log("Author Password: change-me-in-production");
-  console.log("\n⚠️  IMPORTANT: Change these passwords immediately in production!");
+  console.log("ℹ️  For security, default credentials are configured via environment variables.");
 }
 
 main()

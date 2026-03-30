@@ -34,13 +34,14 @@ A modern, SEO-optimized web application for the Padel Kraków community featurin
 # 1. Install dependencies
 npm install
 
-# 2. Set up environment
+# 2. Set up environment variables
 cp .env.local.example .env.local
+# Edit .env.local with your own NEXTAUTH_SECRET
 
 # 3. Create database
 npx prisma db push
 
-# 4. Seed with default users
+# 4. Seed with sample data
 npx prisma db seed
 
 # 5. Start development server
@@ -49,20 +50,14 @@ npm run dev
 
 Visit http://localhost:3000
 
-### Admin Login
-- **Email**: `admin@padel-krakow.com`
-- **Password**: `change-me-in-production`
-- **Dashboard**: http://localhost:3000/admin/blog
-
-⚠️ **Change default passwords before deploying to production!**
+⚠️ **For admin credentials and setup instructions, see [ADMIN_SETUP.md](./ADMIN_SETUP.md) (kept locally only)**
 
 ---
 
 ## 📚 Documentation
 
-- **[SETUP_GUIDE.md](./SETUP_GUIDE.md)** - Complete setup and deployment instructions
-- **[DEVELOPMENT.md](./DEVELOPMENT.md)** - Technical improvements and architecture
-- **[Vercel Deployment](./SETUP_GUIDE.md#-deployment-to-vercel)** - Deploy your site to production
+- **[DEVELOPMENT.md](./DEVELOPMENT.md)** - Technical architecture and features
+- **[ADMIN_SETUP.md](./ADMIN_SETUP.md)** - Admin setup guide (local use only, not in public repo)
 
 ---
 
