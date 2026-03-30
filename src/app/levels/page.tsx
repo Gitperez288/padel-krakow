@@ -157,7 +157,7 @@ export default function LevelsPage() {
             </ul>
           </div>
         ))}
-      </div>
+      </section>
 
       {/* --- Calculator Button --- */}
       <div className="mt-12">

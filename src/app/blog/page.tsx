@@ -35,51 +35,52 @@ export default async function BlogPage() {
 
         {/* Posts Grid */}
         <section id="blog-posts" data-testid="blog-posts-section">
-          <div className="text-center py-12 bg-white rounded-lg shadow">
-            <p className="text-gray-600 mb-4">No blog posts yet</p>
-            <p className="text-sm text-gray-500">Check back soon for updates!</p>
-          </div>
-        ) : (
-          <div className="grid gap-6">
-            {posts.map((post) => (
-              <Link
-                key={post.id}
-                href={`/blog/${post.slug}`}
-                className="bg-white rounded-lg shadow hover:shadow-lg transition overflow-hidden"
-              >
-                <div className="flex flex-col md:flex-row">
-                  {post.coverImage && (
-                    <div className="md:w-48 h-48 md:h-auto overflow-hidden">
-                      <img
-                        src={post.coverImage}
-                        alt={post.title}
-                        className="w-full h-full object-cover hover:scale-105 transition"
-                      />
-                    </div>
-                  )}
-                  <div className="flex-1 p-6">
-                    <h2 className="text-2xl font-bold text-amber-700 mb-2">
-                      {post.title}
-                    </h2>
-                    <p className="text-gray-600 mb-4">
-                      {post.excerpt}
-                    </p>
-                    <div className="flex flex-wrap gap-4 text-sm text-gray-500">
-                      <span>By {post.author.name}</span>
-                      {post.publishedAt && (
-                        <span>
-                          {formatDistanceToNow(new Date(post.publishedAt), {
-                            addSuffix: true,
-                          })}
-                        </span>
-                      )}
+          {posts.length > 0 ? (
+            <div className="grid gap-6">
+              {posts.map((post) => (
+                <Link
+                  key={post.id}
+                  href={`/blog/${post.slug}`}
+                  className="bg-white rounded-lg shadow hover:shadow-lg transition overflow-hidden"
+                >
+                  <div className="flex flex-col md:flex-row">
+                    {post.coverImage && (
+                      <div className="md:w-48 h-48 md:h-auto overflow-hidden">
+                        <img
+                          src={post.coverImage}
+                          alt={post.title}
+                          className="w-full h-full object-cover hover:scale-105 transition"
+                        />
+                      </div>
+                    )}
+                    <div className="flex-1 p-6">
+                      <h2 className="text-2xl font-bold text-amber-700 mb-2">
+                        {post.title}
+                      </h2>
+                      <p className="text-gray-600 mb-4">
+                        {post.excerpt}
+                      </p>
+                      <div className="flex flex-wrap gap-4 text-sm text-gray-500">
+                        <span>By {post.author.name}</span>
+                        {post.publishedAt && (
+                          <span>
+                            {formatDistanceToNow(new Date(post.publishedAt), {
+                              addSuffix: true,
+                            })}
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        )}
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12 bg-white rounded-lg shadow">
+              <p className="text-gray-600 mb-4">No blog posts yet</p>
+              <p className="text-sm text-gray-500">Check back soon for updates!</p>
+            </div>
+          )}
         </section>
 
         {/* Back to Home */}
