@@ -1,10 +1,11 @@
 // app/layout.tsx
 import "./globals.css";
 import Link from "next/link";
-import Image from "next/image";
 import type { ReactNode } from "react";
 import { Metadata } from "next";
 import { Providers } from "./providers";
+import SiteHeader from "./_components/SiteHeader";
+import SiteHeader from "./_components/SiteHeader";
 
 export const metadata: Metadata = {
   title: {
@@ -79,56 +80,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       </head>
       <body className="min-h-screen bg-gradient-to-b from-amber-50 to-orange-100 text-gray-900 flex flex-col">
         <Providers>
-          {/* Header */}
-          <header className="bg-white shadow-md sticky top-0 z-50">
-            <nav className="max-w-7xl mx-auto px-4 lg:px-8 py-4 flex justify-between items-center">
-              <Link href="/" className="text-3xl font-extrabold text-orange-600 hover:opacity-90 transition">
-                Padel Kraków
-              </Link>
-              <div className="hidden md:flex space-x-8 items-center">
-                <Link
-                  href="/levels"
-                  className="text-gray-700 hover:text-orange-600 font-medium transition"
-                >
-                  Levels
-                </Link>
-                <Link
-                  href="/courts"
-                  className="text-gray-700 hover:text-orange-600 font-medium transition"
-                >
-                  Courts
-                </Link>
-                <Link
-                  href="/community"
-                  className="text-gray-700 hover:text-orange-600 font-medium transition"
-                >
-                  Community
-                </Link>
-                <Link
-                  href="/coaches"
-                  className="text-gray-700 hover:text-orange-600 font-medium transition"
-                >
-                  Coaches
-                </Link>
-                <Link
-                  href="/blog"
-                  className="text-gray-700 hover:text-orange-600 font-medium transition"
-                >
-                  Blog
-                </Link>
-                <Link
-                  href="/who-we-are"
-                  className="text-gray-700 hover:text-orange-600 font-medium transition"
-                >
-                  Who We Are
-                </Link>
-              </div>
-            <div className="md:hidden">
-              {/* Mobile menu button placeholder */}
-              <button className="text-orange-600 hover:text-orange-700">☰</button>
-            </div>
-          </nav>
-        </header>
+          <SiteHeader />
 
         <main className="flex-1">{children}</main>
 
