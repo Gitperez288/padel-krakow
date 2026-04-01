@@ -5,7 +5,6 @@ import type { ReactNode } from "react";
 import { Metadata } from "next";
 import { Providers } from "./providers";
 import SiteHeader from "./_components/SiteHeader";
-import SiteHeader from "./_components/SiteHeader";
 
 export const metadata: Metadata = {
   title: {
