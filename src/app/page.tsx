@@ -16,6 +16,10 @@ import type { Metadata } from "next";
 
 export const revalidate = 60; // Revalidate at most every 60 seconds so new blog posts appear without a redeploy
 
+function stripHtml(html: string): string {
+  return html.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim();
+}
+
 export const metadata: Metadata = {
   title: "Padel Kraków Community – People-First Padel in Kraków & Małopolska",
   description:
@@ -275,7 +279,7 @@ export default async function HomePage() {
                     </h3>
                     {post.excerpt && (
                       <p className="text-sm text-gray-600 mb-4 line-clamp-3 flex-grow">
-                        {post.excerpt}
+                        {stripHtml(post.excerpt)}
                       </p>
                     )}
                     <div className="flex items-center gap-3 text-xs text-gray-400 mt-auto pt-3 border-t border-gray-100">

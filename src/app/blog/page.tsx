@@ -5,6 +5,10 @@ import { formatDistanceToNow } from "date-fns";
 
 export const dynamic = 'force-dynamic';
 
+function stripHtml(html: string): string {
+  return html.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim();
+}
+
 export const metadata: Metadata = {
   title: "Blog | Padel Kraków Community",
   description: "Latest news and articles about Padel in Kraków and Małopolska",
@@ -60,7 +64,7 @@ export default async function BlogPage() {
                         {post.title}
                       </h2>
                       <p className="text-gray-600 mb-4">
-                        {post.excerpt}
+                        {post.excerpt ? stripHtml(post.excerpt) : ""}
                       </p>
                       <div className="flex flex-wrap gap-4 text-sm text-gray-500">
                         <span>By {post.author.name}</span>
