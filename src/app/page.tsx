@@ -14,6 +14,8 @@ import {
 import { formatDistanceToNow } from "date-fns";
 import type { Metadata } from "next";
 
+export const revalidate = 60; // Revalidate at most every 60 seconds so new blog posts appear without a redeploy
+
 export const metadata: Metadata = {
   title: "Padel Kraków Community – People-First Padel in Kraków & Małopolska",
   description:
