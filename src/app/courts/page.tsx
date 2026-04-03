@@ -3,7 +3,7 @@
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useEffect, useState, useMemo } from "react";
-import { ChevronRight, MapPin, Building2 } from "lucide-react";
+import { ChevronRight, MapPin, Building2, Instagram, Globe } from "lucide-react";
 import type { Court } from "../_components/CourtMapNew";
 
 const CourtMap = dynamic(() => import("../_components/CourtMapNew"), { 
@@ -20,43 +20,77 @@ type CourtExtended = Court & {
   singles?: number;
   indoor: boolean | "mixed";
   booking: string;
+  bookingUrl?: string;
+  instagram?: string;
+  website?: string;
 };
 
 // ---------- COURT DATA ----------
 const baseCourts: (Omit<CourtExtended, "lat" | "lng"> & Partial<Court>)[] = [
-  { id: "bajada", name: "Bajada Sports Club", address: "Tyniecka 215, 30-381 Kraków",
-    link: "https://maps.google.com/?q=Bajada+Sports+Club+Kraków",
-    doubles: 2, singles: 1, indoor: true, lat: 50.0251188, lng: 19.8333971,
-    booking: "Reservise (Playmore) App" },
-  { id: "fame", name: "Fame Sports Club", address: "Jana Dekerta 21, 30-703 Kraków",
-    link: "https://maps.google.com/?q=Fame+Sports+Club+Kraków",
-    doubles: 2, indoor: "mixed", lat: 50.0467165, lng: 19.9649943,
-    booking: "Tenis4U App" },
-  { id: "morelowa", name: "Morelowa34", address: "Morelowa 34, 30-222 Kraków",
-    link: "https://maps.google.com/?q=Morelowa34+Kraków",
-    doubles: 2, indoor: "mixed", lat: 50.0703146, lng: 19.8656325,
-    booking: "Tenis4U App" },
-  { id: "padelhouse", name: "Padel House", address: "Rzemieślnicza 20A, 30-363 Kraków",
-    link: "https://maps.google.com/?q=Padel+House+Kraków",
-    doubles: 4, indoor: true, lat: 50.0323975, lng: 19.9331454,
-    booking: "Tenis4U App" },
-  { id: "gardenpadel", name: "Garden Padel", address: "Walerego Eljasza-Radzikowskiego 109, 31-342 Kraków",
-    link: "https://maps.google.com/?q=Garden+Padel+Kraków",
-    doubles: 4, indoor: false, lat: 50.0858436, lng: 19.8843225,
-    booking: "Tenis4U App" },
-  { id: "sao", name: "SAO Sports Hub", address: "Piastowska 26, 30-065 Kraków",
-    link: "https://maps.google.com/?q=SAO+Sports+Hub+Kraków",
-    doubles: 2, indoor: false, lat: 50.0660441, lng: 19.8998069,
-    booking: "Tenis4U App" },
   { id: "ahoj", name: "Ahoj Padel", address: "Staniątki 703B, 32-005 Niepołomice",
     link: "https://maps.google.com/?q=Ahoj+Padel+Niepołomice",
     doubles: 6, indoor: false, lat: 50.0100646, lng: 20.1751186,
-    booking: "Padel Mates App" },
+    booking: "Padel Mates App",
+    instagram: "https://www.instagram.com/ahoj_padel/" },
+  { id: "bajada", name: "Bajada Sports Club", address: "Tyniecka 215, 30-381 Kraków",
+    link: "https://maps.google.com/?q=Bajada+Sports+Club+Kraków",
+    doubles: 2, singles: 1, indoor: true, lat: 50.0251188, lng: 19.8333971,
+    booking: "Reservise (Playmore) App",
+    instagram: "https://www.instagram.com/bajada_padel_club/" },
+  { id: "fame", name: "Fame Sports Club", address: "Jana Dekerta 21, 30-703 Kraków",
+    link: "https://maps.google.com/?q=Fame+Sports+Club+Kraków",
+    doubles: 2, indoor: "mixed", lat: 50.0467165, lng: 19.9649943,
+    booking: "Tenis4U App",
+    instagram: "https://www.instagram.com/famesportclub/" },
+  { id: "gardenpadel", name: "Garden Padel", address: "Walerego Eljasza-Radzikowskiego 109, 31-342 Kraków",
+    link: "https://maps.google.com/?q=Garden+Padel+Kraków",
+    doubles: 4, indoor: false, lat: 50.0858436, lng: 19.8843225,
+    booking: "Tenis4U App",
+    instagram: "https://www.instagram.com/gardenpadel_krakow/" },
+  { id: "libertow", name: "Libertów Padel Club", address: "Przylesie 41, 30-444 Libertów",
+    link: "https://maps.google.com/?q=Przylesie+41+Libertów",
+    doubles: 2, indoor: true,
+    booking: "Tenis4U App",
+    instagram: "https://www.instagram.com/p/DPhGk8ZCsUr/" },
+  { id: "morelowa", name: "Morelowa34", address: "Morelowa 34, 30-222 Kraków",
+    link: "https://maps.google.com/?q=Morelowa34+Kraków",
+    doubles: 2, indoor: "mixed", lat: 50.0703146, lng: 19.8656325,
+    booking: "Tenis4U App",
+    instagram: "https://www.instagram.com/morelowa34padellounge/" },
+  { id: "padelarena", name: "Padel Arena Limanowa", address: "Marka 34A, 34-600 Limanowa",
+    link: "https://maps.google.com/?q=Marka+34A+Limanowa",
+    doubles: 4, indoor: false,
+    booking: "Playpadel.com.pl",
+    instagram: "https://www.instagram.com/padel_arena_limanowa/" },
+  { id: "padelfactory", name: "Padel Factory Nowy Targ", address: "osiedle Bohaterów Tobruku 38, 34-400 Nowy Targ",
+    link: "https://maps.google.com/?q=osiedle+Bohaterów+Tobruku+38+Nowy+Targ",
+    doubles: 3, indoor: false,
+    booking: "Online Booking",
+    bookingUrl: "https://ffnt.gymmanager.io/public/buy-pass",
+    instagram: "https://www.instagram.com/padel_factory_nowy_targ/" },
+  { id: "padelhouse", name: "Padel House", address: "Rzemieślnicza 20A, 30-363 Kraków",
+    link: "https://maps.google.com/?q=Padel+House+Kraków",
+    doubles: 4, indoor: true, lat: 50.0323975, lng: 19.9331454,
+    booking: "Tenis4U App",
+    instagram: "https://www.instagram.com/padelhouse_krakow/" },
+  { id: "sao", name: "SAO Sports Hub", address: "Piastowska 26, 30-065 Kraków",
+    link: "https://maps.google.com/?q=SAO+Sports+Hub+Kraków",
+    doubles: 2, indoor: false, lat: 50.0660441, lng: 19.8998069,
+    booking: "Tenis4U App",
+    instagram: "https://www.instagram.com/saosportshub/" },
   { id: "skawina", name: "Squash & Padel Skawina", address: "Józefa Piłsudskiego 7, 32-050 Skawina",
     link: "https://maps.google.com/?q=Squash+%26+Padel+Skawina",
     doubles: 1, indoor: false, lat: 49.9720952, lng: 19.8056069,
-    booking: "Phone Call" },
+    booking: "Phone Call",
+    website: "https://squashpadel.pl/" },
 ];
+
+// ---------- Helpers ----------
+const getInstagramHandle = (url: string): string | null => {
+  if (url.includes("/p/")) return null;
+  const match = url.match(/instagram\.com\/([^/?#]+)/);
+  return match ? `@${match[1]}` : null;
+};
 
 // ---------- Optional fallback geocoder ----------
 async function geocodeAddress(address: string) {
@@ -252,9 +286,51 @@ export default function CourtsPage() {
                   <div className="mt-1 pt-2 border-t border-gray-100 text-sm">
                     <span className="font-semibold text-gray-800">How to Book:</span>{" "}
                     <span className="text-gray-700">
-                      {getBookingIcon(c.booking)} {c.booking}
+                      {getBookingIcon(c.booking)}{" "}
+                      {c.bookingUrl ? (
+                        <a
+                          href={c.bookingUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="underline hover:text-amber-700"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          {c.booking}
+                        </a>
+                      ) : c.booking}
                     </span>
                   </div>
+                  {(c.instagram || c.website) && (
+                    <div className="mt-1 text-sm flex items-center gap-1.5">
+                      {c.instagram ? (
+                        <>
+                          <Instagram className="w-4 h-4 text-pink-600 shrink-0" />
+                          <a
+                            href={c.instagram}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-pink-600 hover:underline"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            {getInstagramHandle(c.instagram) ?? "View on Instagram"}
+                          </a>
+                        </>
+                      ) : (
+                        <>
+                          <Globe className="w-4 h-4 text-blue-600 shrink-0" />
+                          <a
+                            href={c.website ?? ""}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-600 hover:underline"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            squashpadel.pl
+                          </a>
+                        </>
+                      )}
+                    </div>
+                  )}
                 </div>
               </div>
             ))
