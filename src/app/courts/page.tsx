@@ -86,6 +86,7 @@ export default function CourtsPage() {
   const [search, setSearch] = useState("");
   const [filterIndoor, setFilterIndoor] = useState("all");
   const [filterBooking, setFilterBooking] = useState("all");
+  const [mobileTab, setMobileTab] = useState<"list" | "map">("list");
 
   useEffect(() => {
     let cancelled = false;
@@ -193,9 +194,35 @@ export default function CourtsPage() {
         </div>
       </section>
 
+      {/* Mobile-only List / Map tab toggle */}
+      <div className="flex lg:hidden mb-6 rounded-xl overflow-hidden border border-amber-200 shadow-sm">
+        <button
+          onClick={() => setMobileTab("list")}
+          aria-pressed={mobileTab === "list"}
+          className={`flex-1 py-3 text-sm font-semibold transition ${
+            mobileTab === "list"
+              ? "bg-amber-600 text-white"
+              : "bg-white text-amber-700 hover:bg-amber-50"
+          }`}
+        >
+          📋 List View
+        </button>
+        <button
+          onClick={() => setMobileTab("map")}
+          aria-pressed={mobileTab === "map"}
+          className={`flex-1 py-3 text-sm font-semibold transition ${
+            mobileTab === "map"
+              ? "bg-amber-600 text-white"
+              : "bg-white text-amber-700 hover:bg-amber-50"
+          }`}
+        >
+          🗺️ Map View
+        </button>
+      </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* ---- SIDEBAR LIST ---- */}
-        <aside id="courts-sidebar" data-testid="courts-sidebar-section" className="space-y-4 lg:col-span-1">
+        <aside id="courts-sidebar" data-testid="courts-sidebar-section" className={`space-y-4 lg:col-span-1${mobileTab === "map" ? " hidden lg:block" : ""}`}>
           {filteredCourts.length > 0 ? (
             filteredCourts.map((c) => (
               <div
@@ -243,7 +270,7 @@ export default function CourtsPage() {
         </aside>
 
         {/* ---- MAP ---- */}
-        <section id="courts-map" data-testid="courts-map-section" className="lg:col-span-2 overflow-hidden rounded-2xl shadow-md border border-gray-100">
+        <section id="courts-map" data-testid="courts-map-section" className={`lg:col-span-2 overflow-hidden rounded-2xl shadow-md border border-gray-100${mobileTab === "list" ? " hidden lg:block" : ""}`}>
           <CourtMap courts={filteredCourts} focusId={focusId} />
         </section>
       </div>

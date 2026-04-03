@@ -87,7 +87,7 @@ export default function LevelsPage() {
     <div className="px-4 py-10 text-center">
       <section id="levels-header" data-testid="levels-header-section">
         <h2 className="text-3xl font-extrabold text-amber-700 mb-6">
-          🎣 Padel Level Scale
+          <span aria-hidden="true">🎾</span> Padel Level Scale
         </h2>
         <p className="max-w-2xl mx-auto text-gray-700 mb-10 leading-relaxed">
           The community uses this scale to keep matches balanced and fair.  

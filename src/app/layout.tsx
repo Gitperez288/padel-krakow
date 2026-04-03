@@ -3,8 +3,14 @@ import "./globals.css";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { Metadata } from "next";
+import { Inter } from "next/font/google";
 import { Providers } from "./providers";
 import SiteHeader from "./_components/SiteHeader";
+
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: {
@@ -13,19 +19,17 @@ export const metadata: Metadata = {
   },
   description:
     "Join over 900 padel players in Kraków and Małopolska. A people-first community on a mission to grow the sport. Discover court locations, skill levels, community groups, and the latest padel news.",
-  keywords:[
-    "Padel",
-    "Padel Kraków",
-    "Padel Krakow",
-    "Padel Małopolska",
+  keywords: [
+    "padel Kraków",
+    "padel Krakow",
+    "padel Małopolska",
     "padel community Poland",
     "padel courts Kraków",
     "padel players Kraków",
     "padel sport Poland",
-    "Community",
-    "Courts",
-    "Players",
-    "Tennis",
+    "padel Polska",
+    "gdzie grać w padla Kraków",
+    "padel club Kraków",
   ],
   authors: [{ name: "Padel Kraków Community" }],
   creator: "Padel Kraków Community",
@@ -77,7 +81,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <link rel="icon" href="/dragon-logo.png" />
         <link rel="apple-touch-icon" href="/dragon-logo.png" />
       </head>
-      <body className="min-h-screen bg-gradient-to-b from-amber-50 to-orange-100 text-gray-900 flex flex-col">
+      <body className={`${inter.className} min-h-screen bg-gradient-to-b from-amber-50 to-orange-100 text-gray-900 flex flex-col`}>
         <Providers>
           <SiteHeader />
 
@@ -176,9 +180,29 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                 <h4 className="text-sm font-semibold text-white mb-4">
                   Contact
                 </h4>
-                <p className="text-sm text-white/60">
-                  Join our WhatsApp groups to connect with players!
-                </p>
+                <ul className="space-y-2 text-sm">
+                  <li>
+                    <a
+                      href="mailto:padelkrkcommunity@gmail.com"
+                      className="text-white/60 hover:text-white transition"
+                    >
+                      padelkrkcommunity@gmail.com
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="https://www.instagram.com/padelkrkcommunity"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-white/60 hover:text-white transition"
+                    >
+                      @padelkrkcommunity
+                    </a>
+                  </li>
+                  <li className="text-white/60">
+                    Join our WhatsApp communities to find matches!
+                  </li>
+                </ul>
               </div>
             </div>
             <div className="border-t border-white/10 pt-8 text-center text-sm text-white/60">
@@ -188,22 +212,24 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           </div>
         </footer>
 
-        {/* JSON-LD */}
+        {/* JSON-LD – site-wide organisation identity */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "Organization",
+              "@type": "SportsOrganization",
               name: "Padel Kraków Community",
               url: "https://padel-krakow.vercel.app",
               description:
-                "Padel community platform for Kraków and Małopolska",
-              sameAs: [],
+                "People-first padel community in Kraków and Małopolska with over 900 players.",
+              sport: "Padel",
+              email: "padelkrkcommunity@gmail.com",
+              sameAs: ["https://www.instagram.com/padelkrkcommunity"],
               address: {
                 "@type": "PostalAddress",
                 addressCountry: "PL",
-                addressRegion: "Kraków",
+                addressRegion: "Małopolska",
               },
             }),
           }}

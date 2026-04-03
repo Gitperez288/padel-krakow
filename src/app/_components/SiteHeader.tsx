@@ -2,8 +2,11 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Instagram } from "lucide-react";
+
+const INSTAGRAM_URL = "https://www.instagram.com/padelkrkcommunity";
 
 const navLinks = [
   { href: "/levels", label: "Levels" },
@@ -33,16 +36,26 @@ export default function SiteHeader() {
 
   return (
     <header className="bg-white shadow-md sticky top-0 z-50">
-      <nav className="max-w-7xl mx-auto px-4 lg:px-8 py-4 flex justify-between items-center">
+      <nav className="max-w-7xl mx-auto px-4 lg:px-8 py-3 flex justify-between items-center">
         <Link
           href="/"
-          className="text-3xl font-extrabold text-orange-600 hover:opacity-90 transition"
+          className="flex items-center gap-2 hover:opacity-90 transition"
         >
-          Padel Kraków
+          <Image
+            src="/dragon-logo.png"
+            alt=""
+            width={36}
+            height={36}
+            className="h-9 w-auto"
+            priority
+          />
+          <span className="text-2xl font-extrabold text-orange-600">
+            Padel Kraków
+          </span>
         </Link>
 
         {/* Desktop nav */}
-        <div className="hidden md:flex space-x-8 items-center">
+        <div className="hidden md:flex space-x-6 items-center">
           {navLinks.map((link) => (
             <Link
               key={link.href}
@@ -56,6 +69,15 @@ export default function SiteHeader() {
               {link.label}
             </Link>
           ))}
+          <a
+            href={INSTAGRAM_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Padel Kraków on Instagram"
+            className="text-gray-400 hover:text-pink-600 transition ml-1"
+          >
+            <Instagram size={20} />
+          </a>
         </div>
 
         {/* Mobile hamburger */}
@@ -93,6 +115,18 @@ export default function SiteHeader() {
               </li>
             ))}
           </ul>
+          <div className="px-4 pb-4 pt-1 border-t border-gray-100">
+            <a
+              href={INSTAGRAM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 px-4 py-3 rounded-xl text-gray-600 hover:bg-pink-50 hover:text-pink-600 transition font-medium"
+              onClick={() => setOpen(false)}
+            >
+              <Instagram size={18} />
+              @padelkrkcommunity
+            </a>
+          </div>
         </div>
       )}
     </header>

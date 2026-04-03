@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { db } from "@/lib/db";
 import {
   MapPin,
@@ -8,7 +9,7 @@ import {
   Share2,
   ArrowRight,
   Calendar,
-  Camera,
+  Instagram,
 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import type { Metadata } from "next";
@@ -56,20 +57,6 @@ export const metadata: Metadata = {
   },
 };
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "SportsOrganization",
-  name: "Padel Kraków Community",
-  url: "https://padel-krakow.vercel.app",
-  description:
-    "People-first padel community in Kraków and Małopolska with over 900 players.",
-  sport: "Padel",
-  areaServed: {
-    "@type": "Place",
-    name: "Kraków, Małopolska, Poland",
-  },
-};
-
 export default async function HomePage() {
   const latestPosts = await db.post.findMany({
     where: { published: true },
@@ -113,10 +100,6 @@ export default async function HomePage() {
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
       {/* Hero Section */}
       <section id="hero" data-testid="hero-section" className="relative overflow-hidden text-gray-800" style={{ backgroundColor: '#E9E4C9' }}>
         <div className="absolute inset-0 opacity-10">
@@ -143,10 +126,13 @@ export default async function HomePage() {
           <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12 mb-12">
             {/* Logo Section */}
             <div className="flex-shrink-0 w-full lg:w-auto flex justify-center lg:justify-start">
-              <img
+              <Image
                 src="/dragon-logo.png"
-                alt="Dragon Logo"
+                alt="Padel Kraków community dragon mascot"
+                width={384}
+                height={384}
                 className="w-48 sm:w-64 md:w-80 lg:w-96 h-auto object-contain"
+                priority
               />
             </div>
 
@@ -167,17 +153,17 @@ export default async function HomePage() {
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                 <Link
                   href="/courts"
-                  className="inline-flex items-center gap-2 bg-teal-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-teal-700 transition transform hover:scale-105"
+                  className="inline-flex items-center gap-2 bg-amber-700 text-white px-8 py-3 rounded-lg font-bold hover:bg-amber-800 transition transform hover:scale-105"
                 >
                   <MapPin size={20} />
                   Find Courts
                 </Link>
                 <Link
-                  href="/groups"
-                  className="inline-flex items-center gap-2 bg-green-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-green-700 transition transform hover:scale-105"
+                  href="/community"
+                  className="inline-flex items-center gap-2 bg-orange-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-orange-700 transition transform hover:scale-105"
                 >
                   <Share2 size={20} />
-                  Join Groups
+                  Join Community
                 </Link>
               </div>
             </div>
@@ -327,11 +313,29 @@ export default async function HomePage() {
             </div>
           </div>
           <div className="rounded-2xl bg-gradient-to-br from-amber-50 to-orange-100 border-2 border-dashed border-amber-300 flex flex-col items-center justify-center gap-4 py-20 px-8 text-center">
-            <Camera className="w-14 h-14 text-amber-400" />
-            <p className="text-xl font-semibold text-amber-700">Community gallery coming soon!</p>
+            <Instagram className="w-14 h-14 text-pink-500" />
+            <p className="text-xl font-semibold text-amber-700">Follow us on Instagram!</p>
             <p className="text-gray-500 max-w-sm">
-              We&apos;re collecting the best moments from our courts and events. Stay tuned!
+              We share event photos, court highlights, and community moments at{" "}
+              <a
+                href="https://www.instagram.com/padelkrkcommunity"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-amber-700 font-semibold underline hover:text-amber-900"
+              >
+                @padelkrkcommunity
+              </a>
+              .
             </p>
+            <a
+              href="https://www.instagram.com/padelkrkcommunity"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-2 inline-flex items-center gap-2 bg-pink-600 text-white px-6 py-2.5 rounded-lg font-semibold hover:bg-pink-700 transition"
+            >
+              <Instagram size={16} />
+              Follow @padelkrkcommunity
+            </a>
           </div>
         </div>
       </section>
@@ -344,7 +348,7 @@ export default async function HomePage() {
             Start by finding your skill level, then join one of our community groups to find matches near you.
           </p>
           <Link
-            href="/groups"
+            href="/community"
             className="inline-block bg-white text-amber-600 px-8 py-3 rounded-lg font-bold hover:bg-amber-50 transition transform hover:scale-105"
           >
             Join the Community
