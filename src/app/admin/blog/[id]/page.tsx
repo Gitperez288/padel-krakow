@@ -2,9 +2,9 @@
 
 import { useSession } from "next-auth/react";
 import { useRouter, useParams } from "next/navigation";
-import { useEffect, useState, ChangeEvent, FormEvent, useCallback } from "react";
+import { useEffect, useState, useRef, ChangeEvent, FormEvent, useCallback } from "react";
 import Link from "next/link";
-import { ArrowLeft, Save, Wand2, Bold, Italic, List, ListOrdered, Quote, Code, Minus, Undo, Redo } from "lucide-react";
+import { ArrowLeft, Save, Wand2, Bold, Italic, List, ListOrdered, Quote, Code, Minus, Undo, Redo, Upload, ImageIcon, X as XIcon } from "lucide-react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
@@ -75,6 +75,9 @@ export default function BlogEditorPage() {
   const [loading, setLoading] = useState(!isNew);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState("");
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [post, setPost] = useState<Post>({
     id: "",
     title: "",
@@ -138,6 +141,36 @@ export default function BlogEditorPage() {
       setPost({ ...post, [name]: (e.currentTarget as HTMLInputElement).checked });
     } else {
       setPost({ ...post, [name]: value });
+    }
+  };
+
+  const handleFileUpload = async (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Reset input value so the same file can be re-selected after removal
+    e.target.value = "";
+
+    setUploading(true);
+    setUploadError("");
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const res = await fetch("/api/upload", { method: "POST", body: formData });
+      const data = await res.json();
+
+      if (!res.ok) {
+        setUploadError(data.error || "Upload failed.");
+        return;
+      }
+
+      setPost((prev) => ({ ...prev, coverImage: data.url }));
+    } catch {
+      setUploadError("Network error — could not upload the image.");
+    } finally {
+      setUploading(false);
     }
   };
 
@@ -268,24 +301,84 @@ export default function BlogEditorPage() {
 
               {/* Cover Image */}
               <div className="bg-white p-6 rounded-lg shadow">
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Cover Image URL
-                </label>
-                <input
-                  type="url"
-                  name="coverImage"
-                  value={post.coverImage || ""}
-                  onChange={handleChange}
-                  placeholder="https://example.com/image.jpg"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
-                />
-                {post.coverImage && (
-                  <img
-                    src={post.coverImage}
-                    alt="Cover preview"
-                    className="mt-4 h-40 w-full object-cover rounded-lg"
-                  />
+                <div className="flex items-center justify-between mb-3">
+                  <label className="text-sm font-semibold text-gray-700">Cover Image</label>
+                  {post.coverImage && (
+                    <button
+                      type="button"
+                      onClick={() => setPost((prev) => ({ ...prev, coverImage: "" }))}
+                      className="flex items-center gap-1 text-xs text-red-500 hover:text-red-700 transition"
+                    >
+                      <XIcon size={13} /> Remove
+                    </button>
+                  )}
+                </div>
+
+                {/* Preview */}
+                {post.coverImage ? (
+                  <div className="relative mb-4 rounded-lg overflow-hidden">
+                    <img
+                      src={post.coverImage}
+                      alt="Cover preview"
+                      className="h-44 w-full object-cover"
+                    />
+                  </div>
+                ) : (
+                  /* Upload drop zone */
+                  <button
+                    type="button"
+                    disabled={uploading}
+                    onClick={() => fileInputRef.current?.click()}
+                    className="w-full mb-4 flex flex-col items-center justify-center gap-2 border-2 border-dashed border-gray-300 hover:border-amber-400 rounded-lg py-8 text-gray-400 hover:text-amber-600 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {uploading ? (
+                      <>
+                        <svg className="animate-spin w-7 h-7 text-amber-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+                        </svg>
+                        <span className="text-sm">Processing image…</span>
+                      </>
+                    ) : (
+                      <>
+                        <Upload size={28} />
+                        <span className="text-sm font-medium">Click to upload image</span>
+                        <span className="text-xs">JPG, PNG, WebP, AVIF · max 800 px · ≤ 150 KB output</span>
+                      </>
+                    )}
+                  </button>
                 )}
+
+                {/* Hidden file input */}
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp,image/avif,image/gif"
+                  className="hidden"
+                  onChange={handleFileUpload}
+                />
+
+                {uploadError && (
+                  <p className="text-xs text-red-600 mb-3 flex items-center gap-1">
+                    <XIcon size={13} /> {uploadError}
+                  </p>
+                )}
+
+                {/* URL fallback */}
+                <div>
+                  <label className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 mb-1.5">
+                    <ImageIcon size={13} />
+                    Or paste an image URL
+                  </label>
+                  <input
+                    type="url"
+                    name="coverImage"
+                    value={post.coverImage || ""}
+                    onChange={handleChange}
+                    placeholder="https://example.com/image.jpg"
+                    className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                  />
+                </div>
               </div>
 
               {/* Rich Text Editor */}
