@@ -14,6 +14,7 @@ const navLinks = [
   { href: "/community", label: "Community" },
   { href: "/coaches", label: "Coaches" },
   { href: "/blog", label: "Blog" },
+  { href: "/sponsors", label: "Sponsors" },
   { href: "/who-we-are", label: "Who We Are" },
 ];
 

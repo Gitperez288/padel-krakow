@@ -10,7 +10,9 @@ import {
   ArrowRight,
   Calendar,
   Instagram,
+  Handshake,
 } from "lucide-react";
+import { sponsors } from "@/lib/sponsors";
 import { formatDistanceToNow } from "date-fns";
 import type { Metadata } from "next";
 
@@ -303,6 +305,77 @@ export default async function HomePage() {
               <p className="text-gray-500 text-lg">No posts yet — check back soon!</p>
               <Link href="/blog" className="mt-4 inline-block text-amber-700 font-semibold hover:underline">
                 Go to Blog
+              </Link>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* Community Sponsors Section */}
+      <section id="community-sponsors" data-testid="community-sponsors-section" className="bg-amber-50 py-14 px-4">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+            <div>
+              <h2 className="text-3xl font-bold text-amber-700 mb-2">Community Sponsors</h2>
+              <p className="text-gray-600 max-w-xl">
+                Local partners who support our community events and keep padel in Kraków accessible for everyone.
+              </p>
+            </div>
+            <Link
+              href="/sponsors"
+              className="inline-flex items-center gap-2 text-amber-700 font-semibold hover:text-amber-900 transition shrink-0"
+            >
+              View all sponsors <ArrowRight size={16} />
+            </Link>
+          </div>
+
+          {sponsors.length > 0 ? (
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+              {sponsors.map((sponsor) => (
+                <Link
+                  key={sponsor.id}
+                  href="/sponsors"
+                  className="group bg-white rounded-2xl shadow hover:shadow-lg transition flex flex-col items-center justify-center gap-2 p-5 text-center h-32"
+                >
+                  {sponsor.logo ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={sponsor.logo}
+                      alt={sponsor.name}
+                      className="max-h-14 w-auto object-contain"
+                    />
+                  ) : (
+                    <Handshake className="w-8 h-8 text-amber-400" strokeWidth={1.4} />
+                  )}
+                  <span className="text-xs font-semibold text-gray-700 group-hover:text-amber-700 transition line-clamp-1">
+                    {sponsor.name}
+                  </span>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            /* Placeholder shown until first real sponsor is added */
+            <div className="rounded-2xl border-2 border-dashed border-amber-300 bg-white flex flex-col items-center justify-center gap-4 py-16 px-8 text-center">
+              <Handshake className="w-12 h-12 text-amber-400" strokeWidth={1.2} />
+              <p className="text-lg font-semibold text-amber-700">Sponsors joining soon!</p>
+              <p className="text-gray-500 max-w-sm text-sm">
+                We are building our partner network. Visit the sponsors page for updates or{" "}
+                <a
+                  href="https://www.instagram.com/padelkrkcommunity"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-amber-700 underline hover:text-amber-900"
+                >
+                  follow us on Instagram
+                </a>
+                .
+              </p>
+              <Link
+                href="/sponsors"
+                className="mt-2 inline-flex items-center gap-2 bg-amber-700 text-white px-5 py-2 rounded-lg font-semibold hover:bg-amber-800 transition text-sm"
+              >
+                <Handshake size={15} />
+                Learn about sponsorships
               </Link>
             </div>
           )}
