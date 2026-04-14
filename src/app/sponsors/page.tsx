@@ -34,8 +34,8 @@ export default function SponsorsPage() {
           </h1>
           <p className="text-lg md:text-xl text-amber-100 max-w-3xl mx-auto leading-relaxed">
             Padel Kraków Community is a <strong className="text-white">non-profit, people-first</strong> community.
-            We don&apos;t charge our members to belong — but we do believe in using our
-            collective voice to deliver real value to the people who make this community great.
+            We believe in using our collective voice to improve the experience of all the
+            players who make this community great.
           </p>
         </div>
       </section>
