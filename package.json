@@ -13,6 +13,7 @@
     "@tiptap/pm": "^3.21.0",
     "@tiptap/react": "^3.21.0",
     "@tiptap/starter-kit": "^3.21.0",
+    "@vercel/blob": "^2.3.3",
     "bcryptjs": "^2.4.3",
     "classnames": "^2.5.1",
     "date-fns": "^3.6.0",
@@ -28,6 +29,7 @@
     "react-leaflet": "^4.2.1",
     "remark": "^15.0.1",
     "remark-html": "^16.0.1",
+    "sharp": "^0.34.5",
     "slugify": "^1.6.6",
     "zod": "^3.22.4"
   },
