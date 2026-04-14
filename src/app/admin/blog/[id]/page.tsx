@@ -4,10 +4,11 @@ import { useSession } from "next-auth/react";
 import { useRouter, useParams } from "next/navigation";
 import { useEffect, useState, useRef, ChangeEvent, FormEvent, useCallback } from "react";
 import Link from "next/link";
-import { ArrowLeft, Save, Wand2, Bold, Italic, List, ListOrdered, Quote, Code, Minus, Undo, Redo, Upload, ImageIcon, X as XIcon } from "lucide-react";
+import { ArrowLeft, Save, Wand2, Bold, Italic, List, ListOrdered, Quote, Code, Minus, Undo, Redo, Upload, ImageIcon, X as XIcon, Link2, Unlink } from "lucide-react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
+import TiptapLink from "@tiptap/extension-link";
 
 interface Post {
   id: string;
@@ -24,6 +25,17 @@ interface Post {
 
 function EditorToolbar({ editor }: { editor: ReturnType<typeof useEditor> }) {
   if (!editor) return null;
+
+  const handleSetLink = () => {
+    const previousUrl = editor.getAttributes("link").href as string | undefined;
+    const url = window.prompt("Enter URL", previousUrl ?? "https://");
+    if (url === null) return; // cancelled
+    if (url === "") {
+      editor.chain().focus().unsetLink().run();
+      return;
+    }
+    editor.chain().focus().setLink({ href: url, target: "_blank" }).run();
+  };
 
   const btn = (
     action: () => void,
@@ -62,6 +74,9 @@ function EditorToolbar({ editor }: { editor: ReturnType<typeof useEditor> }) {
       {btn(() => editor.chain().focus().toggleCodeBlock().run(), editor.isActive("codeBlock"), "Code Block", <span className="font-mono text-xs px-0.5">{"</>"}</span>)}
       <span className="w-px h-5 bg-gray-300 mx-1" />
       {btn(() => editor.chain().focus().setHorizontalRule().run(), false, "Horizontal Rule", <Minus size={15} />)}
+      <span className="w-px h-5 bg-gray-300 mx-1" />
+      {btn(handleSetLink, editor.isActive("link"), "Insert / Edit Link", <Link2 size={15} />)}
+      {editor.isActive("link") && btn(() => editor.chain().focus().unsetLink().run(), false, "Remove Link", <Unlink size={15} />)}
     </div>
   );
 }
@@ -92,6 +107,10 @@ export default function BlogEditorPage() {
     extensions: [
       StarterKit,
       Placeholder.configure({ placeholder: "Write your post content here..." }),
+      TiptapLink.configure({
+        openOnClick: false,
+        HTMLAttributes: { rel: "noopener noreferrer", target: "_blank" },
+      }),
     ],
     content: "",
     onUpdate: ({ editor }) => {

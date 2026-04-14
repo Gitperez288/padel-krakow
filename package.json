@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",
+    "@tiptap/extension-link": "^3.22.3",
     "@tiptap/extension-placeholder": "^3.21.0",
     "@tiptap/pm": "^3.21.0",
     "@tiptap/react": "^3.21.0",
