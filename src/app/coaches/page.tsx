@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Instagram, UserCircle2, ChevronRight } from "lucide-react";
+import { ChevronRight } from "lucide-react";
+import CoachesClient, { type Coach } from "./CoachesClient";
 
 export const metadata: Metadata = {
   title: "Coaches | Padel Kraków Community",
@@ -17,39 +18,49 @@ export const metadata: Metadata = {
   },
 };
 
-const coaches = [
+const coaches: Coach[] = [
   {
     name: "Carlos",
     description:
-      "Experienced padel coach with a passion for developing players of all levels. Available for individual and group sessions in Kraków.",
+      "Experienced padel coach with a passion for developing players of all levels. Trained in Argentina and brings a joyful, energetic style to every session. Available for individual and group training in Kraków.",
+    languages: ["Spanish", "English"],
+    location: "Kraków",
     instagram: null,
     photo: null,
   },
   {
     name: "Mariano",
     description:
-      "Dedicated coach focused on technique and match strategy. Helping players unlock their potential on the court.",
+      "Dedicated coach focused on technique and match strategy. With a background in competitive padel, Mariano helps players of all levels unlock their potential and build consistency on the court.",
+    languages: ["Spanish", "English"],
+    location: "Kraków",
     instagram: null,
     photo: null,
   },
   {
     name: "Victor",
     description:
-      "Dynamic coach specialising in footwork and offensive play. Loves working with beginners and intermediates.",
+      "Dynamic coach specialising in footwork, court coverage, and offensive play. Victor loves working with beginners and intermediates, making each training session engaging, practical, and results-driven.",
+    languages: ["Spanish", "English"],
+    location: "Kraków",
     instagram: null,
     photo: null,
   },
   {
     name: "Maciek",
     description:
-      "Local padel enthusiast turned coach. Brings energy and a player-first mindset to every session.",
+      "Local padel enthusiast turned certified coach. Maciek brings high energy and a player-first mindset to every session. Focused on building a solid foundation and accelerating the progression of new players.",
+    languages: ["Polish"],
+    location: "Kraków",
     instagram: null,
     photo: null,
   },
   {
     name: "Mateusz",
     description:
-      "Focused on tactical development and consistent improvement. Offers training sessions adapted to your schedule.",
+      "Focused on tactical development and consistent improvement. Mateusz offers personalised training sessions adapted to each player's schedule, goals, and current level. Great with intermediate players looking to level up.",
+    languages: ["Polish", "English"],
+    location: "Kraków",
     instagram: null,
     photo: null,
   },
@@ -70,63 +81,8 @@ export default function CoachesPage() {
         </div>
       </section>
 
-      {/* Coach Cards */}
-      <section className="py-16 px-4">
-        <div className="max-w-5xl mx-auto">
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {coaches.map((coach) => (
-              <div
-                key={coach.name}
-                className="bg-white rounded-2xl shadow-md hover:shadow-xl transition overflow-hidden flex flex-col"
-              >
-                {/* Photo */}
-                <div className="h-52 bg-gradient-to-br from-amber-100 to-orange-200 flex items-center justify-center">
-                  {coach.photo ? (
-                    <img
-                      src={coach.photo}
-                      alt={`${coach.name} – Padel Coach`}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <UserCircle2 className="w-24 h-24 text-amber-400" strokeWidth={1.2} />
-                  )}
-                </div>
-
-                {/* Info */}
-                <div className="flex flex-col flex-grow p-6">
-                  <h2 className="text-xl font-bold text-gray-900 mb-2">{coach.name}</h2>
-                  <p className="text-sm text-gray-600 leading-relaxed flex-grow">{coach.description}</p>
-
-                  {/* Instagram */}
-                  {coach.instagram ? (
-                    <Link
-                      href={`https://instagram.com/${coach.instagram}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mt-4 inline-flex items-center gap-2 text-pink-600 font-semibold hover:text-pink-800 transition text-sm"
-                    >
-                      <Instagram size={16} />@{coach.instagram}
-                    </Link>
-                  ) : (
-                    <span className="mt-4 inline-flex items-center gap-2 text-gray-400 text-sm">
-                      <Instagram size={16} /> Details coming soon
-                    </span>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* More details coming soon */}
-          <div className="mt-14 text-center bg-white rounded-2xl shadow-sm px-8 py-10">
-            <p className="text-2xl font-bold text-amber-700 mb-2">More details coming soon!</p>
-            <p className="text-gray-500 max-w-lg mx-auto">
-              We&apos;re gathering full profiles, availability, pricing, and more for each coach.
-              Check back soon for the full picture.
-            </p>
-          </div>
-        </div>
-      </section>
+      {/* Interactive coach list (client component) */}
+      <CoachesClient coaches={coaches} />
 
       {/* Self-submission CTA */}
       <section className="py-14 px-4 bg-gradient-to-r from-amber-600 to-orange-600 text-white">
