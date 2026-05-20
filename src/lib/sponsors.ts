@@ -28,7 +28,7 @@ export const sponsors: Sponsor[] = [
   {
     id: "jan-glazek",
     name: "Jan Głazek",
-    tagline: "Certified Personal Trainer — Padel Performance Specialist",
+    tagline: "Certified Personal Trainer - Padel Performance Training",
     description:
       "Jan is a certified personal trainer who offers performance training for padel players. Whether you prefer training online through an app or in person with a dedicated 1:1 session, Jan builds programmes tailored to your level and goals.",
     logo: "/media/janglazek.webp",
