@@ -213,20 +213,23 @@ export default function CoachesClient({ coaches }: Props) {
                     </div>
 
                     {/* Instagram */}
-                    {coach.instagram ? (
-                      <Link
-                        href={coach.instagram}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="mt-1 inline-flex items-center gap-2 text-pink-600 font-semibold hover:text-pink-800 transition text-sm"
-                      >
-                        <Instagram size={16} />@{coach.instagram.replace(/.*instagram\.com\//, "").replace(/\/$/, "")}
-                      </Link>
-                    ) : (
-                      <span className="mt-1 inline-flex items-center gap-2 text-gray-400 text-sm">
-                        <Instagram size={16} /> Details coming soon
-                      </span>
-                    )}
+                    <div className="mt-1">
+                      <p className="text-xs text-gray-400 mb-1">Contact via:</p>
+                      {coach.instagram ? (
+                        <Link
+                          href={coach.instagram}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-2 text-pink-600 font-semibold hover:text-pink-800 transition text-sm"
+                        >
+                          <Instagram size={16} />@{coach.instagram.replace(/.*instagram\.com\//, "").replace(/\/$/, "")}
+                        </Link>
+                      ) : (
+                        <span className="inline-flex items-center gap-2 text-gray-400 text-sm">
+                          <Instagram size={16} /> Details coming soon
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
               ))}
