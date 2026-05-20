@@ -215,12 +215,12 @@ export default function CoachesClient({ coaches }: Props) {
                     {/* Instagram */}
                     {coach.instagram ? (
                       <Link
-                        href={`https://instagram.com/${coach.instagram}`}
+                        href={coach.instagram}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="mt-1 inline-flex items-center gap-2 text-pink-600 font-semibold hover:text-pink-800 transition text-sm"
                       >
-                        <Instagram size={16} />@{coach.instagram}
+                        <Instagram size={16} />@{coach.instagram.replace(/.*instagram\.com\//, "").replace(/\/$/, "")}
                       </Link>
                     ) : (
                       <span className="mt-1 inline-flex items-center gap-2 text-gray-400 text-sm">
