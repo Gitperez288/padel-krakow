@@ -20,7 +20,7 @@ const founders = [
   {
     name: "Fran",
     role: "Co-founder",
-    bio: "A passionate padel player originally from Spain, Fran has been living in Poland for over 9 years. He is the lead developer behind this community page and is committed to building a fair, welcoming, and inclusive space for players of all backgrounds across Kraków and Małopolska.",
+    bio: "A passionate padel player originally from Spain, Fran has been living in Poland for over 9 years. He is the lead developer behind this community page and is committed to building a fair, welcoming, and inclusive space for players across Kraków and Małopolska.",
     photo: "/media/fran.webp",
   },
   {
