@@ -14,6 +14,7 @@ export type Sponsor = {
   website: string | null;
   instagram: string | null;
   discountCode: string | null;
+  discountNote: string | null;
   services: SponsorService[];
   category: string;
 };
@@ -29,11 +30,12 @@ export const sponsors: Sponsor[] = [
     name: "Jan Głazek",
     tagline: "Certified Personal Trainer — Padel Performance Specialist",
     description:
-      "Jan is a certified personal trainer who specialises in performance training for padel players. Whether you prefer training online through an app or in person with a dedicated 1:1 session, Jan builds programmes tailored to your level and goals.",
+      "Jan is a certified personal trainer who offers performance training for padel players. Whether you prefer training online through an app or in person with a dedicated 1:1 session, Jan builds programmes tailored to your level and goals.",
     logo: "/media/janglazek.webp",
-    website: "https://share.google/EI51a20VeQI9pnwD5",
-    instagram: null,
+    website: null,
+    instagram: "https://www.instagram.com/glazek.method",
     discountCode: "PadelLeague",
+    discountNote: "Contact Jan directly via Instagram to get started with the app or book a consultation.",
     category: "Personal Training",
     services: [
       {

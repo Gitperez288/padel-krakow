@@ -177,6 +177,11 @@ export default function SponsorsPage() {
                           <span className="inline-block bg-amber-700 text-white text-sm font-bold px-3 py-1 rounded-lg tracking-widest">
                             {sponsor.discountCode}
                           </span>
+                          {sponsor.discountNote && (
+                            <p className="mt-2 text-xs text-gray-500 leading-relaxed">
+                              {sponsor.discountNote}
+                            </p>
+                          )}
                         </div>
                       )}
 
