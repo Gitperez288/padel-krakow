@@ -96,9 +96,10 @@ export default function CoachesPage() {
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">🎓 Coaches</h1>
           <p className="text-lg md:text-xl text-amber-100 max-w-2xl mx-auto">
-            Meet the coaches of the Padel Kraków community. Whether you&apos;re
-            just starting out or looking to sharpen your game, our coaches are
-            here to help.
+            Whether you are picking up a racket for the first time or trying to take your game to the next level, 
+            our directory helps you find passionate coaches in our community. The coaches listed here operate independently 
+            or in partnership with local clubs, so please reach out to them directly to inquire about training sessions, 
+            availability, and pricing.
           </p>
         </div>
       </section>
@@ -111,9 +112,9 @@ export default function CoachesPage() {
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-3xl font-bold mb-4">Are you a padel coach?</h2>
           <p className="text-amber-100 text-lg mb-8 max-w-xl mx-auto">
-            Want to be featured on this page and reach hundreds of players in
-            Kraków and Małopolska? Get in touch with us and we will add you to
-            the list.
+            This directory of coaches is freely available to everyone in our community. Please let us know if you want to be featured on this page 
+            and reach hundreds of players in Małopolska. Get in touch with us and we will add you to
+            the list without any cost.
           </p>
           <Link
             href="/groups"
