@@ -100,14 +100,14 @@ export default function SponsorsPage() {
                     className="bg-white rounded-2xl shadow-md hover:shadow-xl transition flex flex-col overflow-hidden"
                   >
                     {/* Logo */}
-                    <div className="h-40 bg-gradient-to-br from-amber-50 to-orange-100 flex items-center justify-center p-6">
+                    <div className="h-60 bg-gradient-to-br from-amber-50 to-orange-100 flex items-center justify-center p-6">
                       {sponsor.logo ? (
                         <Image
                           src={sponsor.logo}
                           alt={`${sponsor.name} logo`}
-                          width={200}
-                          height={100}
-                          className="max-h-28 w-auto object-contain"
+                          width={300}
+                          height={150}
+                          className="max-h-44 w-auto object-contain"
                         />
                       ) : (
                         <Handshake

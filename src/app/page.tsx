@@ -330,25 +330,28 @@ export default async function HomePage() {
           </div>
 
           {sponsors.length > 0 ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
               {sponsors.map((sponsor) => (
                 <Link
                   key={sponsor.id}
                   href="/sponsors"
-                  className="group bg-white rounded-2xl shadow hover:shadow-lg transition flex flex-col items-center justify-center gap-2 p-5 text-center h-32"
+                  className="group bg-white rounded-2xl shadow hover:shadow-lg transition flex flex-col items-center justify-center gap-3 p-6 text-center h-48"
                 >
                   {sponsor.logo ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
                       src={sponsor.logo}
                       alt={sponsor.name}
-                      className="max-h-14 w-auto object-contain"
+                      className="max-h-20 w-auto object-contain"
                     />
                   ) : (
-                    <Handshake className="w-8 h-8 text-amber-400" strokeWidth={1.4} />
+                    <Handshake className="w-10 h-10 text-amber-400" strokeWidth={1.4} />
                   )}
-                  <span className="text-xs font-semibold text-gray-700 group-hover:text-amber-700 transition line-clamp-1">
+                  <span className="text-sm font-semibold text-gray-700 group-hover:text-amber-700 transition line-clamp-1">
                     {sponsor.name}
+                  </span>
+                  <span className="text-xs text-amber-600 font-medium group-hover:underline inline-flex items-center gap-1">
+                    View exclusive offers <ArrowRight size={12} />
                   </span>
                 </Link>
               ))}
