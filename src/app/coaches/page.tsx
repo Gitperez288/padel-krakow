@@ -22,11 +22,11 @@ const coaches: Coach[] = [
   {
     name: "Carlos",
     description:
-      "Experienced padel coach with a passion for developing players of all levels. Trained in Argentina and brings a joyful, energetic style to every session. Available for individual and group training in Kraków.",
+      "I'm a certified padel coach accredited by the Polish Padel Federation, with a background in Physical Activity and Sport Sciences 🎾\n\nWhether you're trying padel for the first time or looking to improve your game, I offer private and small group training sessions (max. 4 players) in Kraków for beginners and intermediate players 📈\n\nReady to level up your game while enjoying the process?\nJoin Padel with Carlos 🎾💪",
     languages: ["Spanish", "English"],
     location: "Kraków",
-    instagram: null,
-    photo: null,
+    instagram: "https://www.instagram.com/padel_with_carlos",
+    photo: "/media/carlos.webp",
   },
   {
     name: "Mariano",
@@ -50,7 +50,7 @@ const coaches: Coach[] = [
     name: "Maciek",
     description:
       "Local padel enthusiast turned certified coach. Maciek brings high energy and a player-first mindset to every session. Focused on building a solid foundation and accelerating the progression of new players.",
-    languages: ["Polish"],
+    languages: ["Polish", "English"],
     location: "Kraków",
     instagram: null,
     photo: null,
@@ -63,6 +63,24 @@ const coaches: Coach[] = [
     location: "Kraków",
     instagram: null,
     photo: null,
+  },
+  {
+    name: "Alex Cabezas",
+    description:
+      "From Madrid, bringing 15+ years of passion and dual Spain/Poland Padel Federations coach certifications, I offer dynamic, high-energy sessions designed to level up your game while having serious fun. Whether you're refining technique or starting fresh, let's hit the court and improve together.",
+    languages: ["Spanish", "English"],
+    location: "Kraków",
+    instagram: "https://www.instagram.com/alejandropadelkrakow",
+    photo: "/media/alex.webp",
+  },
+  {
+    name: "Miłosz Czech",
+    description:
+      "Padel is my absolute passion, and I want to help you reach your potential. Whether you're a complete beginner or looking to eliminate mistakes and level up, I've got you covered. Let's step on the court, refine your skills, and make real progress!",
+    languages: ["Polish", "English"],
+    location: "Kraków",
+    instagram: "https://www.instagram.com/mcz.padel",
+    photo: "/media/milosz.webp",
   },
 ];
 
