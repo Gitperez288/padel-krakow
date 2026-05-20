@@ -30,7 +30,7 @@ export const sponsors: Sponsor[] = [
     tagline: "Certified Personal Trainer — Padel Performance Specialist",
     description:
       "Jan is a certified personal trainer who specialises in performance training for padel players. Whether you prefer training online through an app or in person with a dedicated 1:1 session, Jan builds programmes tailored to your level and goals.",
-    logo: null,
+    logo: "/media/janglazek.webp",
     website: "https://share.google/EI51a20VeQI9pnwD5",
     instagram: null,
     discountCode: "PadelLeague",
