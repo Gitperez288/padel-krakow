@@ -20,21 +20,24 @@ const founders = [
   {
     name: "Fran",
     role: "Co-founder",
-    bio: "More about Fran coming soon. Stay tuned!",
-    photo: null,
+    bio: "A passionate padel player originally from Spain, Fran has been living in Poland for over 9 years. He is the lead developer behind this community page and is committed to building a fair, welcoming, and inclusive space for players of all backgrounds across Kraków and Małopolska.",
+    photo: "/media/fran.webp",
   },
   {
     name: "Carlos",
     role: "Co-founder",
-    bio: "More about Carlos coming soon. Stay tuned!",
-    photo: null,
+    bio: "Born in Spain and based in Kraków, Carlos is a certified padel coach and one of the driving forces behind the community. He helps grow and moderate the space, making sure it stays welcoming, active, and accessible for players of all levels.",
+    photo: "/media/carlos.webp",
   },
 ];
 
 const collaborators = [
-  { name: "Collaborator 1", role: "Blog & Community", photo: null },
-  { name: "Collaborator 2", role: "Events & Outreach", photo: null },
-  { name: "Collaborator 3", role: "Courts & Logistics", photo: null },
+  {
+    name: "Gabriele",
+    role: "Community Events Coordinator",
+    bio: "Gabriele is from Sardinia 🇮🇹 and has been living in Kraków for the past 12 years. Passionate about padel and community building, he organises events, tournaments, and leagues in Kraków, helping bring players together and grow the sport locally.\n\nAlways looking for new ideas and initiatives, Gabriele encourages more people to discover padel and actively contributes to building a strong, welcoming community for players of all levels.",
+    photo: "/media/gabriele.webp",
+  },
 ];
 
 export default function WhoWeArePage() {
@@ -59,7 +62,8 @@ export default function WhoWeArePage() {
             <h2 className="text-3xl font-bold text-amber-700 mb-2">The Founders</h2>
             <p className="text-gray-600 max-w-xl mx-auto">
               Padel Kraków Community was started by two friends who fell in love
-              with the sport and wanted to share it with the whole region.
+              with Padel and wanted to share it with the whole region. The group
+              started when there was just one court in Cracow!
             </p>
           </div>
 
@@ -125,35 +129,32 @@ export default function WhoWeArePage() {
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-3 gap-6">
+          <div className="grid sm:grid-cols-1 gap-10 max-w-sm mx-auto">
             {collaborators.map((collab) => (
               <div
                 key={collab.name}
-                className="bg-white rounded-2xl shadow hover:shadow-lg transition p-6 flex flex-col items-center text-center"
+                className="bg-white rounded-2xl shadow-md overflow-hidden flex flex-col items-center text-center hover:shadow-xl transition"
               >
-                <div className="w-20 h-20 rounded-full bg-gradient-to-br from-amber-100 to-orange-200 flex items-center justify-center mb-4">
+                <div className="w-full aspect-square bg-gradient-to-br from-amber-100 to-orange-200 flex items-center justify-center overflow-hidden">
                   {collab.photo ? (
                     <img
                       src={collab.photo}
                       alt={collab.name}
-                      className="w-full h-full object-cover rounded-full"
+                      className="w-full h-full object-cover"
                     />
                   ) : (
-                    <UserCircle2 className="w-12 h-12 text-amber-400" strokeWidth={1.2} />
+                    <UserCircle2 className="w-32 h-32 text-amber-400" strokeWidth={1.2} />
                   )}
                 </div>
-                <p className="font-semibold text-gray-400 text-sm">{collab.role}</p>
+                <div className="p-6">
+                  <h3 className="text-2xl font-bold text-gray-900">{collab.name}</h3>
+                  <span className="inline-block mt-1 mb-4 text-sm font-medium text-amber-700 bg-amber-100 px-3 py-1 rounded-full">
+                    {collab.role}
+                  </span>
+                  <p className="text-gray-500 text-sm leading-relaxed whitespace-pre-line">{collab.bio}</p>
+                </div>
               </div>
             ))}
-          </div>
-
-          {/* Coming soon */}
-          <div className="mt-12 text-center bg-white rounded-2xl shadow-sm px-8 py-10 border-2 border-dashed border-amber-200">
-            <p className="text-xl font-bold text-amber-700 mb-2">More coming soon!</p>
-            <p className="text-gray-500 max-w-md mx-auto">
-              We&apos;re building a team of passionate people who love padel and
-              community. Full collaborator profiles will be published shortly.
-            </p>
           </div>
         </div>
       </section>
