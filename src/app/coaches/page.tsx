@@ -18,16 +18,8 @@ export const metadata: Metadata = {
   },
 };
 
-const coaches: Coach[] = [
-  {
-    name: "Carlos",
-    description:
-      "I'm a certified padel coach accredited by the Polish Padel Federation, with a background in Physical Activity and Sport Sciences 🎾\n\nWhether you're trying padel for the first time or looking to improve your game, I offer private and small group training sessions (max. 4 players) in Kraków for beginners and intermediate players 📈\n\nReady to level up your game while enjoying the process?\nJoin Padel with Carlos 🎾💪",
-    languages: ["Spanish", "English"],
-    location: "Kraków",
-    instagram: "https://www.instagram.com/padel_with_carlos",
-    photo: "/media/carlos.webp",
-  },
+// Draft coaches — not yet shown publicly
+const _draftCoaches: Coach[] = [
   {
     name: "Mariano",
     description:
@@ -63,6 +55,18 @@ const coaches: Coach[] = [
     location: "Kraków",
     instagram: null,
     photo: null,
+  },
+];
+
+const coaches: Coach[] = [
+  {
+    name: "Carlos",
+    description:
+      "I'm a certified padel coach accredited by the Polish Padel Federation, with a background in Physical Activity and Sport Sciences 🎾\n\nWhether you're trying padel for the first time or looking to improve your game, I offer private and small group training sessions (max. 4 players) in Kraków for beginners and intermediate players 📈\n\nReady to level up your game while enjoying the process?\nJoin Padel with Carlos 🎾💪",
+    languages: ["Spanish", "English"],
+    location: "Kraków",
+    instagram: "https://www.instagram.com/padel_with_carlos",
+    photo: "/media/carlos.webp",
   },
   {
     name: "Alex Cabezas",

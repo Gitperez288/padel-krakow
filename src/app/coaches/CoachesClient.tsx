@@ -169,7 +169,7 @@ export default function CoachesClient({ coaches }: Props) {
                   className="bg-white rounded-2xl shadow-md hover:shadow-xl transition overflow-hidden flex flex-col"
                 >
                   {/* Photo */}
-                  <div className="h-52 bg-gradient-to-br from-amber-100 to-orange-200 flex items-center justify-center overflow-hidden">
+                  <div className="aspect-square w-full bg-gradient-to-br from-amber-100 to-orange-200 flex items-center justify-center overflow-hidden">
                     {coach.photo ? (
                       <img
                         src={coach.photo}
