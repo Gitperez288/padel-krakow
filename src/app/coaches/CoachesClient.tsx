@@ -233,16 +233,6 @@ export default function CoachesClient({ coaches }: Props) {
             </div>
           )}
 
-          {/* More details coming soon */}
-          <div className="mt-14 text-center bg-white rounded-2xl shadow-sm px-8 py-10">
-            <p className="text-2xl font-bold text-amber-700 mb-2">
-              More details coming soon!
-            </p>
-            <p className="text-gray-500 max-w-lg mx-auto">
-              We&apos;re gathering full profiles, availability, pricing, and
-              more for each coach. Check back soon for the full picture.
-            </p>
-          </div>
         </div>
       </section>
     </>
