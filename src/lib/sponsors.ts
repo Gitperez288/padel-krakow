@@ -1,3 +1,10 @@
+export type SponsorService = {
+  title: string;
+  description: string;
+  benefit: string;
+  normalPrice?: string;
+};
+
 export type Sponsor = {
   id: string;
   name: string;
@@ -7,7 +14,7 @@ export type Sponsor = {
   website: string | null;
   instagram: string | null;
   discountCode: string | null;
-  discountDescription: string | null;
+  services: SponsorService[];
   category: string;
 };
 
@@ -17,18 +24,31 @@ export type Sponsor = {
  * /sponsors page and the home-page preview section.
  */
 export const sponsors: Sponsor[] = [
-  // ── Add real sponsors below ──────────────────────────────────────────────
-  // {
-  //   id: "example-brand",
-  //   name: "Example Brand",
-  //   tagline: "The best gear for padel players",
-  //   description:
-  //     "Example Brand provides high-quality padel equipment and apparel for players of all levels.",
-  //   logo: "/media/sponsors/example-brand.png",
-  //   website: "https://www.example.com",
-  //   instagram: "https://www.instagram.com/examplebrand",
-  //   discountCode: "PADEL10",
-  //   discountDescription: "10% off your entire purchase — valid online & in-store.",
-  //   category: "Equipment",
-  // },
+  {
+    id: "jan-glazek",
+    name: "Jan Głazek",
+    tagline: "Certified Personal Trainer — Padel Performance Specialist",
+    description:
+      "Jan is a certified personal trainer who specialises in performance training for padel players. Whether you prefer training online through an app or in person with a dedicated 1:1 session, Jan builds programmes tailored to your level and goals.",
+    logo: null,
+    website: "https://share.google/EI51a20VeQI9pnwD5",
+    instagram: null,
+    discountCode: "PadelLeague",
+    category: "Personal Training",
+    services: [
+      {
+        title: "Online Training Programmes (in app)",
+        description:
+          "Personalized training plans delivered through an app, allowing players to train anytime, anywhere. Includes structured programmes focused on strength, mobility, conditioning, and injury prevention to improve padel performance and keep you consistent off the court.",
+        benefit: "1 week free",
+        normalPrice: "100 zł / month",
+      },
+      {
+        title: "1:1 Personal Training Session (60 min) – Padel Performance",
+        description:
+          "Personalized training designed specifically for padel players to improve strength, mobility, speed, and injury prevention. Sessions focus on movement efficiency, power, core stability, and durability to help you perform better on court and recover faster.",
+        benefit: "15% off all packages",
+      },
+    ],
+  },
 ];

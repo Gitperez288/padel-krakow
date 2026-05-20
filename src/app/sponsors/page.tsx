@@ -132,18 +132,48 @@ export default function SponsorsPage() {
                         {sponsor.description}
                       </p>
 
-                      {/* Discount code */}
+                      {/* Services */}
+                      {sponsor.services && sponsor.services.length > 0 && (
+                        <div className="mt-4 space-y-3">
+                          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide">
+                            What you get
+                          </p>
+                          {sponsor.services.map((service, i) => (
+                            <div
+                              key={i}
+                              className="bg-gray-50 border border-gray-100 rounded-xl p-3"
+                            >
+                              <p className="text-sm font-semibold text-gray-800 mb-1">
+                                {service.title}
+                              </p>
+                              <p className="text-xs text-gray-500 leading-relaxed mb-2">
+                                {service.description}
+                              </p>
+                              <div className="flex flex-wrap items-center gap-2">
+                                <span className="inline-flex items-center gap-1 bg-green-100 text-green-700 text-xs font-bold px-2.5 py-1 rounded-full">
+                                  <Tag size={11} />
+                                  {service.benefit}
+                                </span>
+                                {service.normalPrice && (
+                                  <span className="text-xs text-gray-400">
+                                    Regular: {service.normalPrice}
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Promo code */}
                       {sponsor.discountCode && (
                         <div className="mt-4 bg-amber-50 border border-amber-200 rounded-xl p-3">
-                          <div className="flex items-center gap-2 mb-1">
+                          <div className="flex items-center gap-2 mb-2">
                             <Tag size={14} className="text-amber-600" />
                             <span className="text-xs font-semibold text-amber-700 uppercase tracking-wide">
-                              Member discount
+                              Community code
                             </span>
                           </div>
-                          <p className="text-xs text-gray-600 mb-2">
-                            {sponsor.discountDescription}
-                          </p>
                           <span className="inline-block bg-amber-700 text-white text-sm font-bold px-3 py-1 rounded-lg tracking-widest">
                             {sponsor.discountCode}
                           </span>
