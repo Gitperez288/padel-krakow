@@ -166,7 +166,6 @@ export default function SponsorsPage() {
                                   target="_blank"
                                   rel="noopener noreferrer"
                                   className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-white bg-amber-600 hover:bg-amber-700 px-3 py-1.5 rounded-lg transition"
-                                  onClick={(e) => e.stopPropagation()}
                                 >
                                   <ExternalLink size={12} />
                                   Register in App
