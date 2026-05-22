@@ -36,7 +36,7 @@ export const sponsors: Sponsor[] = [
     logo: "/media/janglazek.webp",
     website: null,
     instagram: "https://www.instagram.com/glazek.method",
-    discountCode: "PadelLeague",
+    discountCode: "Padel League",
     discountNote: "Register in the app via the link below and Jan will reach out personally to activate your free week. For 1:1 sessions, contact Jan directly on Instagram.",
     category: "Personal Training",
     services: [
@@ -61,13 +61,13 @@ export const sponsors: Sponsor[] = [
     name: "Pizzeria Vicenti",
     tagline: "Roman-style pizza al taglio & Italian specialities in Kraków",
     description:
-      "Vicenti brings authentic Roman-style pizza al taglio and Italian specialities to Kraków. Freshly made, sold by the slice, and packed with flavour — the perfect fuel before or after your padel session.",
+      "Vicenti brings authentic Roman-style pizza al taglio and Italian specialities to Kraków. Freshly made, sold by the slice, and packed with flavour, the perfect fuel before or after your padel session.",
     logo: "/media/vicenti.jpg",
     website: "https://www.vicenti.pl/",
     facebook: "https://www.facebook.com/pizzeriavicenti/",
     instagram: "https://www.instagram.com/pizzeria_vicenti/",
-    discountCode: "Padel Liga",
-    discountNote: "Say \"Padel Liga\" at the till in any of their Kraków locations to get 15% off your purchase. Valid at: ul. Szewska 27 (Planty), ul. Urzędnicza 59, ul. Karmelicka 17, ul. Karmelicka 55.",
+    discountCode: "Padel League",
+    discountNote: "Say \"Padel League\" at the till in any of their Kraków locations to get 15% off your purchase. Valid at: ul. Szewska 27 (Planty), ul. Urzędnicza 59, ul. Karmelicka 17, ul. Karmelicka 55.",
     category: "Food & Drink",
     services: [
       {
