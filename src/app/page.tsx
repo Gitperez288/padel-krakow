@@ -302,7 +302,7 @@ export default async function HomePage() {
           ) : (
             <div className="text-center py-12 bg-white rounded-2xl shadow-sm">
               <Newspaper className="w-12 h-12 text-amber-300 mx-auto mb-4" />
-              <p className="text-gray-500 text-lg">No posts yet — check back soon!</p>
+              <p className="text-gray-500 text-lg">No posts yet, check back soon!</p>
               <Link href="/blog" className="mt-4 inline-block text-amber-700 font-semibold hover:underline">
                 Go to Blog
               </Link>

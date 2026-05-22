@@ -4,7 +4,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "Privacy Policy | Padel Kraków Community",
   description:
-    "Privacy policy for the Padel Kraków Community platform — how we collect and use your data.",
+    "Privacy policy for the Padel Kraków Community platform; how we collect and use your data.",
   alternates: {
     canonical: "https://padel-krakow.vercel.app/privacy",
   },
@@ -82,7 +82,7 @@ export default function PrivacyPage() {
             <h2 className="text-xl font-bold text-gray-900 mb-3">4. Data sharing</h2>
             <p>
               We do not sell or share your personal data with third parties, except
-              where required by law. This platform is hosted on Vercel — see{" "}
+              where required by law. This platform is hosted on Vercel, see{" "}
               <a
                 href="https://vercel.com/legal/privacy-policy"
                 target="_blank"

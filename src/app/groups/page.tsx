@@ -16,7 +16,7 @@ export default function GroupsPage() {
       name: "Padel Kraków & Małopolska Community",
       platform: "WhatsApp",
       encodedLink: "aHR0cHM6Ly9jaGF0LndoYXRzYXBwLmNvbS9MZWRjYTF3ZFN6UzgzbXhtbVlUUnBi", // main community
-      desc: "Our main regional group — connect with players across Małopolska, find matches, share news, and join events.",
+      desc: "Our main regional group; connect with players across Małopolska, find matches, share news, and join events.",
       available: true,
     },
     {
@@ -34,7 +34,7 @@ export default function GroupsPage() {
     {
       name: "Bajada Sports Club",
       platform: "WhatsApp",
-      desc: "Bajada Sports community chat — join matches and sessions once approved by club management.",
+      desc: "Bajada Sports community chat; join matches and sessions once approved by club management.",
       available: false,
     },
   ];
@@ -154,7 +154,7 @@ export default function GroupsPage() {
       <section id="groups-footer" data-testid="groups-footer-section" className="mt-16 max-w-3xl mx-auto text-gray-700 leading-relaxed text-lg">
         <p>
           Thanks to our <span className="font-semibold text-amber-700">Padel Kraków & Małopolska Community</span>,
-          players can connect and organize matches anywhere — from Kraków to Niepołomice, Skawina, and beyond.  
+          players can connect and organize matches anywhere, from Kraków to Niepołomice, Skawina, and beyond.  
           Use these groups to meet new partners, schedule games, and grow the sport together. 💪
         </p>
       </section>

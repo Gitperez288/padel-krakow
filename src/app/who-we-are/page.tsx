@@ -4,14 +4,14 @@ import { UserCircle2, Users2, Star } from "lucide-react";
 export const metadata: Metadata = {
   title: "Who We Are | Padel Kraków Community",
   description:
-    "Meet the founders and collaborators behind the Padel Kraków Community — the people-first initiative growing padel across Kraków and Małopolska.",
+    "Meet the founders and collaborators behind the Padel Kraków Community, the people-first initiative growing padel across Kraków and Małopolska.",
   alternates: {
     canonical: "https://padel-krakow.vercel.app/who-we-are",
   },
   openGraph: {
     title: "Who We Are – Padel Kraków Community",
     description:
-      "Meet the team behind Padel Kraków Community — growing padel across Kraków and Małopolska.",
+      "Meet the team behind Padel Kraków Community, growing padel across Kraków and Małopolska.",
     url: "https://padel-krakow.vercel.app/who-we-are",
   },
 };
@@ -108,7 +108,7 @@ export default function WhoWeArePage() {
           <Star className="w-10 h-10 text-amber-500 mx-auto mb-4" />
           <h2 className="text-2xl font-bold text-amber-700 mb-4">Our Mission</h2>
           <p className="text-gray-600 text-lg leading-relaxed">
-            We believe padel is more than a sport — it&apos;s about people,
+            We believe padel is more than a sport; it&apos;s about people,
             connections, and community. Our goal is to make padel accessible and
             enjoyable for everyone in Kraków and Małopolska, from absolute
             beginners to seasoned players. More details about our story coming

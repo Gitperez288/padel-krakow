@@ -8,7 +8,7 @@ export default function AboutPage() {
           to find partners, discover courts, and grow the sport locally through events, leagues, and shared resources.
         </p>
         <p className="text-gray-700 leading-relaxed mt-4">
-          This website gathers all information — court locations, level definitions, community groups, and a blog focused
+          This website gathers all information; court locations, level definitions, community groups, and a blog focused
           on Padel's development in the region. Join us and see you on court!
         </p>
       </section>

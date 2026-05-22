@@ -5,7 +5,6 @@ import { useState } from "react";
 type ClubCommunity = {
   name: string;
   instagramUrl: string;
-  desc: string;
 };
 
 type MainCommunity = {
@@ -17,34 +16,29 @@ type MainCommunity = {
 const mainCommunity: MainCommunity = {
   name: "Padel Kraków & Małopolska Community",
   encodedLink: "aHR0cHM6Ly9jaGF0LndoYXRzYXBwLmNvbS9MZWRjYTF3ZFN6UzgzbXhtbVlUUnBi",
-  desc: "Our main regional community — connect with players across Małopolska, find matches, share news, and join events.",
+  desc: "Our main regional community; connect with players across Małopolska, find matches, share news, and join events.",
 };
 
 const clubCommunities: ClubCommunity[] = [
   {
     name: "Ahoj Padel",
     instagramUrl: "https://www.instagram.com/ahoj_padel/",
-    desc: "Ahoj Padel runs its own club WhatsApp group. Follow them on Instagram and send a DM to ask to be added.",
   },
   {
     name: "SAO Sports Hub",
     instagramUrl: "https://www.instagram.com/saosportshub/",
-    desc: "SAO Sports Hub has an active padel community. Reach out to them on Instagram to join their group.",
   },
   {
     name: "Bajada Sports Club",
     instagramUrl: "https://www.instagram.com/bajada_padel_club/",
-    desc: "Bajada Sports Club keeps a tight-knit padel group. DM them on Instagram to get an invite.",
   },
   {
     name: "Padel House",
     instagramUrl: "https://www.instagram.com/padelhouse_krakow/",
-    desc: "Padel House Kraków has a growing padel community. Follow and message them on Instagram to join.",
   },
   {
     name: "Garden Padel",
     instagramUrl: "https://www.instagram.com/gardenpadel_krakow/",
-    desc: "Garden Padel's community is just a DM away. Find them on Instagram to get connected.",
   },
 ];
 
@@ -77,7 +71,7 @@ export default function CommunityPage() {
           <span className="font-semibold">Padel Kraków & Małopolska</span>{" "}
           community! Join our WhatsApp group to find partners, coordinate
           matches, and stay updated with events in your area. Each club also
-          runs its own group — reach out to them directly via Instagram to get
+          runs its own group; reach out to them directly via Instagram to get
           added.
         </p>
       </section>
@@ -128,11 +122,11 @@ export default function CommunityPage() {
         </h3>
         <p className="text-gray-600 mb-8 max-w-xl mx-auto text-sm leading-relaxed">
           These clubs manage their own WhatsApp communities. To avoid spam, we
-          don't publish their links directly — follow each club on Instagram and
+          don't publish their links directly; follow each club on Instagram and
           send them a DM to be added to their group.
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {clubCommunities.map(({ name, instagramUrl, desc }) => (
+          {clubCommunities.map(({ name, instagramUrl }) => (
             <div
               key={name}
               className="p-6 rounded-2xl border border-gray-100 bg-white shadow hover:shadow-lg transition text-left flex flex-col"
@@ -140,7 +134,7 @@ export default function CommunityPage() {
               <h4 className="text-xl font-bold text-amber-700 mb-1">{name}</h4>
               <p className="text-sm text-gray-500 mb-3">WhatsApp Group via Instagram</p>
               <p className="text-gray-700 mb-5 text-sm leading-relaxed flex-1">
-                {desc}
+                This club has its own WhatsApp community for players. Follow them on Instagram and send a DM, they&apos;ll be happy to add you!
               </p>
               <a
                 href={instagramUrl}
@@ -216,7 +210,7 @@ export default function CommunityPage() {
           <span className="font-semibold text-amber-700">
             Padel Kraków & Małopolska Community
           </span>
-          , players can connect and organise matches anywhere — from Kraków to
+          , players can connect and organise matches anywhere, from Kraków to
           Niepołomice, Skawina, and beyond. Use these communities to meet new
           partners, schedule games, and grow the sport together. 💪
         </p>
