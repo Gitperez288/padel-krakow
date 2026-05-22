@@ -9,11 +9,19 @@ export async function GET(
 ) {
   try {
     const { id } = await params;
+
+    // Require authentication — this endpoint is used by the admin UI only
+    const session = await auth();
+    if (!session?.user?.email) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const post = await db.post.findUnique({
       where: { id },
       include: {
         author: {
-          select: { name: true, email: true },
+          // Exclude email from the response to avoid unintended data exposure
+          select: { name: true },
         },
       },
     });

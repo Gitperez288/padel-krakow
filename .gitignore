@@ -36,6 +36,9 @@ yarn-error.log*
 # Admin setup documentation (contains sensitive credentials)
 ADMIN_SETUP.md
 
+# Private user notes and audit files — never commit to public repo
+z_user/
+
 # vercel
 .vercel
 

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { remark } from "remark";
 import remarkHtml from "remark-html";
 import { formatDistanceToNow } from "date-fns";
+import sanitizeHtml from "sanitize-html";
 
 export const dynamic = 'force-dynamic';
 
@@ -80,7 +81,28 @@ export default async function BlogPostPage({
   const isHtml = post.content.trimStart().startsWith('<');
   let contentHtml: string;
   if (isHtml) {
-    contentHtml = post.content;
+    // Sanitize stored HTML to prevent XSS from a compromised author/admin account
+    contentHtml = sanitizeHtml(post.content, {
+      allowedTags: [
+        "p", "h1", "h2", "h3", "h4", "h5", "h6",
+        "strong", "em", "s", "u", "code", "pre", "blockquote",
+        "ul", "ol", "li", "br", "hr",
+        "a", "img",
+        "figure", "figcaption",
+        "table", "thead", "tbody", "tr", "th", "td",
+      ],
+      allowedAttributes: {
+        a: ["href", "target", "rel"],
+        img: ["src", "alt", "width", "height", "loading"],
+        td: ["colspan", "rowspan"],
+        th: ["colspan", "rowspan"],
+        "*": ["class"],
+      },
+      // Force safe link targets
+      transformTags: {
+        a: sanitizeHtml.simpleTransform("a", { rel: "noopener noreferrer" }),
+      },
+    });
   } else {
     const processedContent = await remark().use(remarkHtml).process(post.content);
     contentHtml = processedContent.toString();

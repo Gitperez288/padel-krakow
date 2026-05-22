@@ -37,10 +37,19 @@ const MAX_DIMENSION = 800;
 // ── Route handler ─────────────────────────────────────────────────────────────
 
 export async function POST(req: NextRequest) {
-  // Auth check
+  // Auth check — require admin role to upload
   const session = await auth();
   if (!session?.user?.email) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  // Verify the user exists and has an authorised role
+  const uploader = await (await import("@/lib/db")).db.user.findUnique({
+    where: { email: session.user.email },
+    select: { role: true },
+  });
+  if (!uploader || (uploader.role !== "admin" && uploader.role !== "author")) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
   let formData: FormData;

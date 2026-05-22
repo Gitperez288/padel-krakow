@@ -20,6 +20,11 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
+    // Only admins can create posts
+    if (user.role !== "admin") {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+
     const body = await req.json();
     const { title, content, excerpt, coverImage, published, metaTitle, metaDescription, metaKeywords, ogImage } = body;
 
