@@ -62,7 +62,7 @@ const coaches: Coach[] = [
   {
     name: "Carlos",
     description:
-      "I'm a certified padel coach accredited by the Polish Padel Federation, with a background in Physical Activity and Sport Sciences 🎾\n\nWhether you're trying padel for the first time or looking to improve your game, I offer private and small group training sessions (max. 4 players) in Kraków for beginners and intermediate players 📈\n\nReady to level up your game while enjoying the process?\nJoin Padel with Carlos 🎾💪",
+      "Hi! I'm a certified padel coach accredited by the Spanish & Polish Padel Federations, with a background in Physical Activity and Sport Sciences.\n\nWhether you're trying padel for the first time or looking to improve your game, I offer individual & small group training sessions for beginners and intermediate players 📈\n\nMy coaching focuses on developing solid technique, improving tactical understanding, and helping players build confidence on court; always in a positive environment where learning and enjoying the game go hand in hand.\n\nReady to level up your game while enjoying the process? Join Padel with Carlos 🎾💪",
     languages: ["Spanish", "English"],
     location: "Kraków",
     instagram: "https://www.instagram.com/padel_with_carlos",

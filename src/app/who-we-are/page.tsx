@@ -26,7 +26,7 @@ const founders = [
   {
     name: "Carlos",
     role: "Co-founder",
-    bio: "Born in Spain and based in Kraków, Carlos is a certified padel coach and one of the driving forces behind the community. He helps grow and moderate the space, making sure it stays welcoming, active, and accessible for players of all levels.",
+    bio: "Born in Spain and based in Kraków, Carlos is a certified padel coach and one of the driving forces behind the community. Everything began when he created the original Matchmaking group in 2022! He helps grow and moderate the space, making sure it stays welcoming, active, and accessible for players of all levels.",
     photo: "/media/carlos.webp",
   },
 ];
@@ -74,7 +74,7 @@ export default function WhoWeArePage() {
                 className="bg-white rounded-2xl shadow-md overflow-hidden flex flex-col items-center text-center hover:shadow-xl transition"
               >
                 {/* Photo */}
-                <div className="w-full h-64 bg-gradient-to-br from-amber-100 to-orange-200 flex items-center justify-center">
+                <div className="w-full aspect-square bg-gradient-to-br from-amber-100 to-orange-200 flex items-center justify-center overflow-hidden">
                   {person.photo ? (
                     <img
                       src={person.photo}
