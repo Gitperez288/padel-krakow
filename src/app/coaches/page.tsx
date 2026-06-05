@@ -86,6 +86,15 @@ const coaches: Coach[] = [
     instagram: "https://www.instagram.com/mcz.padel",
     photo: "/media/milosz.webp",
   },
+  {
+    name: "Angelika",
+    description:
+      "Certified padel coach and active player competing in national tournaments, as well as a passionate enthusiast of the sport 🎾\n\nShe has gained her experience under the guidance of top coaches in Poland and Spain 🇵🇱🇪🇸\n\nShe works with beginners, intermediate players, and children. She helps players understand the game on court - from the very first shot to tactical play.\n\nShe conducts training sessions with great dedication and an individual approach to every player.\n\nJoin her for an individual or group training session 👥",
+    languages: ["Polish", "English"],
+    location: "Kraków",
+    instagram: "https://www.instagram.com/_angelika.b",
+    photo: "/media/angelika.webp",
+  },
 ];
 
 export default function CoachesPage() {
