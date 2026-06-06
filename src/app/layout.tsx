@@ -174,6 +174,14 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                       Terms of Service
                     </Link>
                   </li>
+                  <li>
+                    <Link
+                      href="/guidelines"
+                      className="text-white/60 hover:text-white transition"
+                    >
+                      Community Guidelines
+                    </Link>
+                  </li>
                 </ul>
               </div>
               <div>

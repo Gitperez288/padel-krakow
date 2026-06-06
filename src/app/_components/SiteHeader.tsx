@@ -16,6 +16,7 @@ const navLinks = [
   { href: "/blog", label: "Blog" },
   { href: "/sponsors", label: "Sponsors" },
   { href: "/who-we-are", label: "Who We Are" },
+  { href: "/guidelines", label: "Guidelines" },
 ];
 
 export default function SiteHeader() {
