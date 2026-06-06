@@ -203,11 +203,11 @@ export default async function HomePage() {
             </h2>
           </div>
 
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
             {features.map((feature) => {
               const Icon = feature.icon;
               const cardContent = (
-                <div className="group relative overflow-hidden bg-white rounded-xl shadow hover:shadow-lg transition aspect-[2/1] flex items-center gap-4 px-5">
+                <div className="group relative overflow-hidden bg-white rounded-xl shadow hover:shadow-lg transition aspect-[3/2] lg:aspect-[2/1] flex items-center gap-4 px-5">
                   <div className={`flex-shrink-0 w-11 h-11 rounded-lg bg-gradient-to-br ${feature.color} text-white flex items-center justify-center`}>
                     <Icon size={22} />
                   </div>
