@@ -140,26 +140,6 @@ export default async function HomePage() {
     <>
       {/* Hero Section */}
       <section id="hero" data-testid="hero-section" className="relative overflow-hidden text-gray-800" style={{ backgroundColor: '#E9E4C9' }}>
-        <div className="absolute inset-0 opacity-10">
-          <svg
-            className="w-full h-full"
-            viewBox="0 0 1200 600"
-            preserveAspectRatio="xMidYMid slice"
-          >
-            <defs>
-              <pattern
-                id="grid"
-                width="40"
-                height="40"
-                patternUnits="userSpaceOnUse"
-              >
-                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#8B7355" strokeWidth="0.5" />
-              </pattern>
-            </defs>
-            <rect width="1200" height="600" fill="url(#grid)" />
-          </svg>
-        </div>
-
         <div className="relative max-w-6xl mx-auto px-4 py-12 md:py-20">
           <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12 mb-8">
             {/* Logo Section */}
