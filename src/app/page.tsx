@@ -7,7 +7,6 @@ import {
   Users,
   Newspaper,
   Target,
-  UserCheck,
   ArrowRight,
   Calendar,
   Instagram,
@@ -99,13 +98,6 @@ export default async function HomePage() {
       color: "from-green-500 to-green-600",
     },
     {
-      icon: UserCheck,
-      title: "Find Coaches",
-      description: "Connect with certified local padel coaches.",
-      href: "/coaches",
-      color: "from-teal-500 to-teal-600",
-    },
-    {
       icon: Users,
       title: "Community Groups",
       description: "Join WhatsApp and Facebook player groups.",
@@ -118,13 +110,6 @@ export default async function HomePage() {
       description: "Local partners keeping padel accessible.",
       href: "/sponsors",
       color: "from-amber-500 to-amber-600",
-    },
-    {
-      icon: Newspaper,
-      title: "Latest News",
-      description: "Stories and updates from our community.",
-      href: "/blog",
-      color: "from-orange-500 to-orange-600",
     },
     {
       icon: Instagram,
@@ -149,7 +134,7 @@ export default async function HomePage() {
                 alt="Padel Kraków community dragon mascot"
                 width={384}
                 height={384}
-                className="w-48 sm:w-64 md:w-80 lg:w-96 h-auto object-contain"
+                className="w-60 sm:w-72 md:w-80 lg:w-96 h-auto object-contain"
                 priority
               />
             </div>
@@ -168,6 +153,32 @@ export default async function HomePage() {
                 Find courts near you, discover your skill level, and connect
                 with local groups to start playing today.
               </p>
+
+              {/* Stat strip */}
+              <div className="flex flex-wrap gap-6 mt-6 justify-center lg:justify-start">
+                <div className="text-center lg:text-left">
+                  <p className="text-3xl font-extrabold text-amber-700 leading-none">900+</p>
+                  <p className="text-sm text-gray-500 mt-0.5">Active players</p>
+                </div>
+                <div className="w-px bg-gray-300 self-stretch hidden sm:block" />
+                <div className="text-center lg:text-left">
+                  <p className="text-3xl font-extrabold text-amber-700 leading-none">10+</p>
+                  <p className="text-sm text-gray-500 mt-0.5">Courts</p>
+                </div>
+                <div className="w-px bg-gray-300 self-stretch hidden sm:block" />
+                <div className="text-center lg:text-left">
+                  <p className="text-3xl font-extrabold text-amber-700 leading-none">All levels</p>
+                  <p className="text-sm text-gray-500 mt-0.5">Welcome</p>
+                </div>
+              </div>
+
+              {/* Newcomer nudge */}
+              <p className="mt-5 text-sm text-gray-500">
+                New to padel?{" "}
+                <Link href="/levels" className="text-amber-700 font-semibold hover:text-amber-900 underline underline-offset-2">
+                  Find your level first →
+                </Link>
+              </p>
             </div>
           </div>
         </div>
@@ -183,7 +194,7 @@ export default async function HomePage() {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
             {features.map((feature) => {
               const Icon = feature.icon;
               const cardContent = (
@@ -222,7 +233,7 @@ export default async function HomePage() {
       </section>
 
       {/* Blog Highlights Section */}
-      <section id="blog-highlights" data-testid="blog-highlights-section" className="bg-gray-50 py-16 px-4">
+      <section id="blog-highlights" data-testid="blog-highlights-section" className="bg-white py-16 px-4">
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
             <div>

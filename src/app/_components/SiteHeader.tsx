@@ -11,7 +11,7 @@ const INSTAGRAM_URL = "https://www.instagram.com/padelkrkcommunity";
 const navLinks = [
   { href: "/levels", label: "Levels" },
   { href: "/courts", label: "Courts" },
-  { href: "/community", label: "Community" },
+  { href: "/community", label: "Groups" },
   { href: "/coaches", label: "Coaches" },
   { href: "/blog", label: "Blog" },
   { href: "/sponsors", label: "Sponsors" },
