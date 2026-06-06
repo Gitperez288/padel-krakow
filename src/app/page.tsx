@@ -162,13 +162,8 @@ export default async function HomePage() {
                 </div>
                 <div className="w-px bg-gray-300 self-stretch hidden sm:block" />
                 <div className="text-center lg:text-left">
-                  <p className="text-3xl font-extrabold text-amber-700 leading-none">10+</p>
+                  <p className="text-3xl font-extrabold text-amber-700 leading-none">26+</p>
                   <p className="text-sm text-gray-500 mt-0.5">Courts</p>
-                </div>
-                <div className="w-px bg-gray-300 self-stretch hidden sm:block" />
-                <div className="text-center lg:text-left">
-                  <p className="text-3xl font-extrabold text-amber-700 leading-none">All levels</p>
-                  <p className="text-sm text-gray-500 mt-0.5">Welcome</p>
                 </div>
               </div>
 
@@ -194,19 +189,19 @@ export default async function HomePage() {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {features.map((feature) => {
               const Icon = feature.icon;
               const cardContent = (
-                <div className="group relative overflow-hidden bg-white rounded-xl shadow hover:shadow-lg transition py-5 px-6 lg:py-0 lg:px-5 lg:aspect-[2/1] flex items-center gap-5 lg:gap-4">
-                  <div className={`flex-shrink-0 w-12 h-12 lg:w-11 lg:h-11 rounded-lg bg-gradient-to-br ${feature.color} text-white flex items-center justify-center`}>
-                    <Icon size={22} />
+                <div className="group relative overflow-hidden bg-white rounded-xl shadow hover:shadow-lg transition py-5 px-6 lg:aspect-[2/1] lg:py-0 lg:px-7 flex items-center gap-5">
+                  <div className={`flex-shrink-0 w-12 h-12 lg:w-14 lg:h-14 rounded-lg bg-gradient-to-br ${feature.color} text-white flex items-center justify-center`}>
+                    <Icon size={24} />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-base lg:text-sm font-bold text-gray-900 leading-snug">
+                    <h3 className="text-base font-bold text-gray-900 leading-snug">
                       {feature.title}
                     </h3>
-                    <p className="text-sm lg:text-xs text-gray-500 mt-1 lg:mt-0.5 leading-snug lg:line-clamp-2">
+                    <p className="text-sm text-gray-500 mt-1 leading-snug lg:line-clamp-2">
                       {feature.description}
                     </p>
                   </div>
