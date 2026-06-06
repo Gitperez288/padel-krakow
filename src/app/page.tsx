@@ -1,3 +1,4 @@
+import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { db } from "@/lib/db";
@@ -6,7 +7,7 @@ import {
   Users,
   Newspaper,
   Target,
-  Share2,
+  UserCheck,
   ArrowRight,
   Calendar,
   Instagram,
@@ -75,34 +76,63 @@ export default async function HomePage() {
     take: 3,
   });
 
-  const features = [
+  const features: Array<{
+    icon: React.ElementType;
+    title: string;
+    description: string;
+    href: string;
+    color: string;
+    external?: boolean;
+  }> = [
     {
       icon: Target,
       title: "Find Your Level",
-      description: "Explore our comprehensive skill level scale from beginner to professional.",
+      description: "Skill levels from beginner to professional.",
       href: "/levels",
       color: "from-blue-500 to-blue-600",
     },
     {
       icon: MapPin,
-      title: "Court Locations",
-      description: "Discover all padel courts around Kraków and Małopolska with interactive map.",
+      title: "Find Padel Courts",
+      description: "All courts in Kraków & Małopolska on one map.",
       href: "/courts",
       color: "from-green-500 to-green-600",
     },
     {
+      icon: UserCheck,
+      title: "Find Coaches",
+      description: "Connect with certified local padel coaches.",
+      href: "/coaches",
+      color: "from-teal-500 to-teal-600",
+    },
+    {
       icon: Users,
       title: "Community Groups",
-      description: "Connect with local players through WhatsApp and Facebook groups.",
+      description: "Join WhatsApp and Facebook player groups.",
       href: "/groups",
       color: "from-purple-500 to-purple-600",
     },
     {
+      icon: Handshake,
+      title: "Community Sponsors",
+      description: "Local partners keeping padel accessible.",
+      href: "/sponsors",
+      color: "from-amber-500 to-amber-600",
+    },
+    {
       icon: Newspaper,
       title: "Latest News",
-      description: "Read blog posts about Padel growth and community stories.",
+      description: "Stories and updates from our community.",
       href: "/blog",
       color: "from-orange-500 to-orange-600",
+    },
+    {
+      icon: Instagram,
+      title: "Follow on Instagram",
+      description: "@padelkrkcommunity — join the conversation.",
+      href: "https://www.instagram.com/padelkrkcommunity",
+      color: "from-pink-500 to-rose-500",
+      external: true,
     },
   ];
 
@@ -130,8 +160,8 @@ export default async function HomePage() {
           </svg>
         </div>
 
-        <div className="relative max-w-6xl mx-auto px-4 py-20 md:py-32">
-          <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12 mb-12">
+        <div className="relative max-w-6xl mx-auto px-4 py-12 md:py-20">
+          <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12 mb-8">
             {/* Logo Section */}
             <div className="flex-shrink-0 w-full lg:w-auto flex justify-center lg:justify-start">
               <Image
@@ -154,83 +184,56 @@ export default async function HomePage() {
                 <strong>900 players</strong>, on a mission to grow padel
                 across Kraków and Małopolska.
               </p>
-              <p className="text-lg md:text-xl text-gray-600 mb-8 leading-relaxed">
+              <p className="text-lg md:text-xl text-gray-600 leading-relaxed">
                 Find courts near you, discover your skill level, and connect
                 with local groups to start playing today.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                <Link
-                  href="/courts"
-                  className="inline-flex items-center gap-2 bg-amber-700 text-white px-8 py-3 rounded-lg font-bold hover:bg-amber-800 transition transform hover:scale-105"
-                >
-                  <MapPin size={20} />
-                  Find Courts
-                </Link>
-                <Link
-                  href="/community"
-                  className="inline-flex items-center gap-2 bg-orange-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-orange-700 transition transform hover:scale-105"
-                >
-                  <Share2 size={20} />
-                  Join Community
-                </Link>
-              </div>
             </div>
           </div>
         </div>
 
-        {/* Wave divider */}
-        <div className="absolute bottom-0 left-0 right-0">
-          <svg
-            viewBox="0 0 1200 120"
-            xmlns="http://www.w3.org/2000/svg"
-            preserveAspectRatio="none"
-            className="w-full h-auto"
-          >
-            <path
-              d="M0,50 Q300,0 600,50 T1200,50 L1200,120 L0,120 Z"
-              fill="rgb(250, 245, 240)"
-            />
-          </svg>
-        </div>
       </section>
 
       {/* Features Section */}
-      <section id="features" data-testid="features-section" className="py-20 px-4">
+      <section id="features" data-testid="features-section" className="py-10 px-4" style={{ backgroundColor: '#F5F0E0' }}>
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-amber-700 mb-4">
-              Everything You Need
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-bold text-amber-700 mb-2">
+              Explore our community
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Get connected with the local padel community with tools designed for players
-            </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             {features.map((feature) => {
               const Icon = feature.icon;
-              return (
-                <Link
-                  key={feature.title}
-                  href={feature.href}
-                  className="group relative overflow-hidden bg-white rounded-2xl shadow-lg hover:shadow-2xl transition"
-                >
-                  <div className={`absolute inset-0 bg-gradient-to-br ${feature.color} opacity-0 group-hover:opacity-10 transition`} />
-                  <div className="relative p-8 h-full flex flex-col">
-                    <div className={`inline-flex w-14 h-14 rounded-lg bg-gradient-to-br ${feature.color} text-white items-center justify-center mb-4`}>
-                      <Icon size={28} />
-                    </div>
-                    <h3 className="text-2xl font-bold text-gray-900 mb-2">
+              const cardContent = (
+                <div className="group relative overflow-hidden bg-white rounded-xl shadow hover:shadow-lg transition aspect-[2/1] flex items-center gap-4 px-5">
+                  <div className={`flex-shrink-0 w-11 h-11 rounded-lg bg-gradient-to-br ${feature.color} text-white flex items-center justify-center`}>
+                    <Icon size={22} />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-sm font-bold text-gray-900 leading-snug">
                       {feature.title}
                     </h3>
-                    <p className="text-gray-600 mb-6 flex-grow">
+                    <p className="text-xs text-gray-500 mt-0.5 leading-snug line-clamp-2">
                       {feature.description}
                     </p>
-                    <div className="flex items-center text-amber-600 font-semibold group-hover:gap-2 transition-all">
-                      Learn more
-                      <span className="ml-2">→</span>
-                    </div>
                   </div>
+                  <ArrowRight size={16} className="flex-shrink-0 text-amber-500 opacity-0 group-hover:opacity-100 transition" />
+                </div>
+              );
+              return feature.external ? (
+                <a
+                  key={feature.title}
+                  href={feature.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {cardContent}
+                </a>
+              ) : (
+                <Link key={feature.title} href={feature.href}>
+                  {cardContent}
                 </Link>
               );
             })}
