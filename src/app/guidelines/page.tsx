@@ -90,7 +90,7 @@ const groups = [
       },
       {
         heading: "Relevant content only",
-        body: "Keep posts directly related to your club's padel activity. No promotional spam or unrelated content.",
+        body: "Keep posts directly related to your club's padel activity. Avoid unrelated content.",
       },
       {
         heading: "Coaches and independent organisers",
