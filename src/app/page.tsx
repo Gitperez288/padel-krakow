@@ -207,7 +207,7 @@ export default async function HomePage() {
             {features.map((feature) => {
               const Icon = feature.icon;
               const cardContent = (
-                <div className="group relative overflow-hidden bg-white rounded-xl shadow hover:shadow-lg transition aspect-[5/3] lg:aspect-[2/1] flex items-center gap-5 lg:gap-4 px-6 lg:px-5">
+                <div className="group relative overflow-hidden bg-white rounded-xl shadow hover:shadow-lg transition py-5 px-6 lg:py-0 lg:px-5 lg:aspect-[2/1] flex items-center gap-5 lg:gap-4">
                   <div className={`flex-shrink-0 w-12 h-12 lg:w-11 lg:h-11 rounded-lg bg-gradient-to-br ${feature.color} text-white flex items-center justify-center`}>
                     <Icon size={22} />
                   </div>
@@ -215,7 +215,7 @@ export default async function HomePage() {
                     <h3 className="text-base lg:text-sm font-bold text-gray-900 leading-snug">
                       {feature.title}
                     </h3>
-                    <p className="text-sm lg:text-xs text-gray-500 mt-0.5 leading-snug line-clamp-2">
+                    <p className="text-sm lg:text-xs text-gray-500 mt-1 lg:mt-0.5 leading-snug lg:line-clamp-2">
                       {feature.description}
                     </p>
                   </div>
