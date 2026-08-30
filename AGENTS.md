@@ -23,8 +23,12 @@ isolated Neon database branches.
 - Do not run `prisma db push`, `prisma migrate`, `prisma migrate reset`, or the
   seed command against production without explicit approval and a recovery
   plan.
-- The project does not yet have a Prisma migration baseline. Until one is
-  established, database schema changes require a dedicated migration task.
+- The checked-in Prisma history begins at `prisma/migrations/0_init`; never
+  modify an applied migration.
+- Create and test every new migration on `vercel-dev` or an isolated preview
+  branch before production.
+- Applying migrations to production requires explicit approval, a verified
+  target, and a recovery point.
 
 ## Required verification
 

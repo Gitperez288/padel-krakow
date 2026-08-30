@@ -29,13 +29,14 @@ npm run start      # Serve a completed production build
 Database commands exist for deliberate administration only:
 
 ```bash
-npm run db:push
-npm run db:seed
+npm run db:migrate:status  # Inspect migration state
+npm run db:migrate:deploy  # Apply committed migrations to the current database
+npm run db:push            # Prototype schema changes; never use in production
+npm run db:seed            # Explicit initial-user seed
 ```
 
-Do not run either command against production, and do not use them during normal
-local setup. Schema changes require a dedicated migration task until the Prisma
-migration baseline is established.
+Do not run database-write commands against production without explicit approval,
+a verified target, and a recovery point.
 
 ## Environment variables
 
@@ -90,15 +91,22 @@ Also inspect the Vercel build logs and recent runtime errors.
 
 ## Database migrations
 
-The live schema predates a checked-in Prisma migration history. Do not enable
-`prisma migrate deploy` in Vercel yet. The safe next step is a separate baseline
-task that:
+The migration history begins at `prisma/migrations/0_init`. That baseline was
+generated from `prisma/schema.prisma` and validated against the existing
+production schema.
 
-1. compares `prisma/schema.prisma` with the production schema;
-2. creates an initial migration without recreating existing tables;
-3. marks that baseline as applied in production;
-4. tests deployment on an isolated Neon branch;
-5. only then enables automated migration deployment.
+For each schema change:
+
+1. create a new migration from the latest `main` on `vercel-dev`;
+2. review the generated SQL and commit it with the Prisma schema change;
+3. verify it on the pull request's isolated Neon preview branch;
+4. obtain explicit approval before applying it to production;
+5. run `npm run db:migrate:deploy` against the verified target;
+6. confirm migration status and application health.
+
+Never edit `0_init` or any migration already recorded as applied. Automated
+production migration deployment remains disabled until a later, dedicated
+workflow decision.
 
 ## Troubleshooting
 
