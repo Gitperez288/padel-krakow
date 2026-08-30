@@ -366,7 +366,7 @@ export default function CourtsPage() {
               </p>
             </div>
             <Link
-              href="/groups"
+              href="/community"
               className="inline-flex items-center gap-2 self-start bg-white text-amber-700 font-bold px-6 py-3 rounded-xl hover:bg-amber-50 transition transform hover:scale-105"
             >
               Tell us about it <ChevronRight size={18} />
@@ -387,7 +387,7 @@ export default function CourtsPage() {
               </p>
             </div>
             <Link
-              href="/groups"
+              href="/community"
               className="inline-flex items-center gap-2 self-start bg-white text-amber-700 font-bold px-6 py-3 rounded-xl hover:bg-amber-50 transition transform hover:scale-105"
             >
               Get your club listed <ChevronRight size={18} />

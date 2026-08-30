@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { UserCircle2, Users2, Star } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Who We Are | Padel Kraków Community",
+  title: "Who We Are",
   description:
     "Meet the founders and collaborators behind the Padel Kraków Community, the people-first initiative growing padel across Kraków and Małopolska.",
   alternates: {

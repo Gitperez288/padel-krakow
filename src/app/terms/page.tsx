@@ -2,7 +2,7 @@
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Terms of Service | Padel Kraków Community",
+  title: "Terms of Service",
   description:
     "Terms of service for the Padel Kraków Community platform.",
   alternates: {

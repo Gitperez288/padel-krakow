@@ -40,6 +40,16 @@ const nextConfig: NextConfig = {
         destination: "/community",
         permanent: true,
       },
+      {
+        source: "/about",
+        destination: "/who-we-are",
+        permanent: true,
+      },
+      {
+        source: "/posts/:slug*",
+        destination: "/blog",
+        permanent: true,
+      },
     ];
   },
 };

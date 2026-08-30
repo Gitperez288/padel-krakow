@@ -4,7 +4,7 @@ import { ChevronRight } from "lucide-react";
 import CoachesClient, { type Coach } from "./CoachesClient";
 
 export const metadata: Metadata = {
-  title: "Coaches | Padel Kraków Community",
+  title: "Padel Coaches in Kraków",
   description:
     "Meet the featured padel coaches of the Kraków and Małopolska community. Find a coach, improve your game, and take your padel to the next level.",
   alternates: {
@@ -126,7 +126,7 @@ export default function CoachesPage() {
             the list without any cost.
           </p>
           <Link
-            href="/groups"
+            href="/community"
             className="inline-flex items-center gap-2 bg-white text-amber-700 font-bold px-8 py-3 rounded-lg hover:bg-amber-50 transition transform hover:scale-105"
           >
             Contact us via Community Groups <ChevronRight size={18} />

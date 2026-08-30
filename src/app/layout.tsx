@@ -6,6 +6,7 @@ import { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Providers } from "./providers";
 import SiteHeader from "./_components/SiteHeader";
+import { SITE_URL } from "@/lib/constants";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -13,6 +14,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "Padel Kraków Community",
     template: "%s | Padel Kraków",
@@ -41,14 +43,14 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "pl_PL",
-    url: "https://padel-krakow.vercel.app",
+    url: SITE_URL,
     siteName: "Padel Kraków Community",
     title: "Padel Kraków Community",
     description:
       "Join over 900 padel players in a people-first community growing padel in Kraków and Małopolska. Find courts, levels, and local groups.",
     images: [
       {
-        url: "https://padel-krakow.vercel.app/og-image.jpg",
+        url: "/og-image.jpg",
         width: 1200,
         height: 630,
         alt: "Padel Kraków Community",
@@ -60,10 +62,7 @@ export const metadata: Metadata = {
     title: "Padel Kraków Community – 900+ Players",
     description:
       "People-first padel community in Kraków and Małopolska. 900+ players, multiple courts, all levels welcome.",
-    images: ["https://padel-krakow.vercel.app/og-image.jpg"],
-  },
-  alternates: {
-    canonical: "https://padel-krakow.vercel.app",
+    images: ["/og-image.jpg"],
   },
 };
 
@@ -228,7 +227,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               "@context": "https://schema.org",
               "@type": "SportsOrganization",
               name: "Padel Kraków Community",
-              url: "https://padel-krakow.vercel.app",
+              url: SITE_URL,
               description:
                 "People-first padel community in Kraków and Małopolska with over 900 players.",
               sport: "Padel",
