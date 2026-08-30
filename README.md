@@ -1,205 +1,94 @@
-# 🎾 Padel Kraków Community Portal
+# Padel Kraków Community Portal
 
-A modern, SEO-optimized web application for the Padel Kraków community featuring an interactive CMS for blog management, court locator, skill levels, and community groups.
+The public website and lightweight content-management system for the Padel
+Kraków Community. It includes the court directory, skill-level guide, community
+groups, coaches, sponsors, news, and a protected blog administration area.
 
-## ✨ Features
+Production: https://padel-krakow.vercel.app
 
-### 🌟 For Community Members
-- **Court Locator** - Interactive map showing all padel courts in Kraków & Małopolska
-- **Skill Levels** - Comprehensive 7-level skill rating system with detailed descriptions
-- **Community Groups** - Links to WhatsApp and Facebook groups for finding matches
-- **Blog Feed** - Read the latest news and stories from the community
+## Stack
 
-### 🔧 For Admins
-- **Secure Admin Dashboard** - Password-protected blog management interface
-- **Blog Editor** - Create, edit, and publish posts with markdown support
-- **SEO Tools** - Built-in meta titles, descriptions, keywords, and social sharing images
-- **Post Management** - Organize posts, set publish dates, manage drafts
-- **User Management** - Support for multiple admin users with role-based access
+- Next.js 15, React 18, and TypeScript
+- Tailwind CSS
+- Prisma ORM with Neon Postgres
+- NextAuth.js 4 credentials authentication
+- Vercel hosting and preview deployments
+- Vercel Blob for blog image uploads
+- Optional Upstash Redis login rate limiting
 
-### 🚀 Tech Features
-- **Next.js 15** - Latest React framework with Turbopack
-- **Responsive Design** - Beautiful UI that works on all devices
-- **Modern UX** - Smooth animations and intuitive navigation
-- **SEO Optimized** - Automatic sitemaps, meta tags, structured data
-- **Type-Safe** - Full TypeScript support throughout
-- **Fast** - Static generation, image optimization, code splitting
+## Development environments
 
----
+Database environments follow the same branching model as the application:
 
-## 🎯 Quick Start
+| Application environment | Neon branch |
+| --- | --- |
+| Production (`main`) | `production` |
+| Local development | `vercel-dev` |
+| Vercel pull-request preview | `preview/<git-branch>` |
 
-### Local Development
+Vercel and Neon create preview database branches automatically. Do not use the
+production connection string for local development or previews.
+
+## Local setup
+
+Prerequisites: Node.js 22, npm, Git, and access to the linked Vercel project.
+
 ```bash
-# 1. Install dependencies
-npm install
-
-# 2. Set up environment variables
+git clone https://github.com/Gitperez288/padel-krakow.git
+cd padel-krakow
+npm ci
 cp .env.local.example .env.local
-# Edit .env.local with your own NEXTAUTH_SECRET
+```
 
-# 3. Create database
-npx prisma db push
+Link this directory to the existing Vercel `padel-krakow` project and pull the
+Development environment into `.env.local`. The Neon integration supplies the
+pooled `DATABASE_URL` for `vercel-dev`. Keep `NEXTAUTH_URL` set to
+`http://localhost:3000` when running locally.
 
-# 4. Seed with sample data
-npx prisma db seed
+Then start the application:
 
-# 5. Start development server
+```bash
 npm run dev
 ```
 
-Visit http://localhost:3000
+Open http://localhost:3000.
 
-⚠️ **For admin credentials and setup instructions, see [ADMIN_SETUP.md](./ADMIN_SETUP.md) (kept locally only)**
+Do not run database push, migration, reset, or seed commands as part of routine
+setup. The shared development branch already contains the application schema
+and data cloned from production.
 
----
+## Verification
 
-## 📚 Documentation
-
-- **[DEVELOPMENT.md](./DEVELOPMENT.md)** - Technical architecture and features
-- **[ADMIN_SETUP.md](./ADMIN_SETUP.md)** - Admin setup guide (local use only, not in public repo)
-
----
-
-## 🗂️ Project Structure
-
-```
-padel-krakow/
-├── src/
-│   ├── app/
-│   │   ├── page.tsx                    # Home page (modern redesign)
-│   │   ├── layout.tsx                  # Root layout with SEO & footer
-│   │   ├── auth/login/                 # Login page
-│   │   ├── admin/blog/                 # Admin dashboard
-│   │   ├── api/
-│   │   │   ├── auth/[...nextauth]/    # Authentication API
-│   │   │   └── blog/                   # Blog CRUD API
-│   │   ├── blog/                       # Public blog pages
-│   │   ├── courts/                     # Court locator
-│   │   ├── levels/                     # Skill levels
-│   │   ├── groups/                     # Community groups
-│   │   ├── robots.ts                   # robots.txt generator
-│   │   └── sitemap.ts                  # Sitemap generator
-│   ├── auth.ts                         # NextAuth configuration
-│   └── middleware.ts                   # Route protection
-├── prisma/
-│   ├── schema.prisma                   # Database schema
-│   └── seed.ts                         # Database seeding
-├── public/                             # Static assets
-├── SETUP_GUIDE.md                      # Setup instructions
-├── DEVELOPMENT.md                      # Technical details
-└── package.json                        # Dependencies
+```bash
+npm run typecheck
+npm run build
 ```
 
----
+`npm run build` requires a working Postgres connection because the sitemap is
+generated from published posts. Pull Vercel's Development environment first.
 
-## 🔐 Security
+## Delivery workflow
 
-- ✅ Password authentication with bcrypt hashing
-- ✅ Protected admin routes with middleware
-- ✅ Environment variables for secrets
-- ✅ HTTPS on Vercel (automatic)
-- ✅ CORS protection
-- ✅ Input validation
+1. Create a feature branch from `main`.
+2. Make and type-check the change.
+3. Open a pull request.
+4. Wait for GitHub CI and the Vercel preview.
+5. Verify the preview and its isolated Neon branch.
+6. Merge only after the required checks pass.
 
----
+See [AGENTS.md](./AGENTS.md) for the repository safety rules and
+[DEVELOPMENT.md](./DEVELOPMENT.md) for technical details.
 
-## 📊 Tech Stack
+## Useful locations
 
-| Category | Technology |
-|----------|-----------|
-| **Frontend** | Next.js 15, React 18, TypeScript |
-| **Styling** | Tailwind CSS, Lucide Icons |
-| **Backend** | Next.js API Routes |
-| **Database** | Prisma ORM, SQLite (dev), PostgreSQL (prod) |
-| **Auth** | NextAuth.js v5 |
-| **Content** | Markdown, Remark |
-| **Deployment** | Vercel |
+- `src/app` — pages and API routes
+- `src/auth.ts` — NextAuth configuration
+- `src/lib/db.ts` — Prisma client
+- `prisma/schema.prisma` — database schema
+- `prisma/seed.js` — explicit initial-user seed script
+- `public` — static assets
 
----
+## SEO endpoints
 
-## 🚀 Deployment
-
-### Deploy to Vercel (5 minutes)
-1. Push code to GitHub
-2. Visit https://vercel.com → Import project
-3. Set environment variables
-4. Deploy!
-
-See [SETUP_GUIDE.md](./SETUP_GUIDE.md#-deployment-to-vercel) for detailed instructions.
-
----
-
-## 📝 Creating Blog Posts
-
-1. Go to `https://yoursite.com/admin/blog`
-2. Log in with admin credentials
-3. Click "New Post"
-4. Write your post in Markdown
-5. Fill in SEO details
-6. Click "Save"
-7. Post appears at `https://yoursite.com/blog/post-title`
-
----
-
-## 🎨 Customization
-
-### Change Brand Colors
-Edit `tailwind.config.ts` - currently using amber/orange theme
-
-### Update Navigation
-Edit links in `src/app/layout.tsx`
-
-### Modify Court Data
-Edit `src/app/courts/page.tsx`
-
-### Update Skill Levels
-Edit `src/app/levels/page.tsx`
-
----
-
-## 📈 SEO Features
-
-✅ Automatic sitemaps at `/sitemap.xml`
-✅ robots.txt at `/robots.xml`
-✅ OpenGraph tags for social sharing
-✅ JSON-LD structured data
-✅ Meta descriptions and keywords
-✅ Canonical URLs
-✅ Mobile-optimized
-✅ Fast page speed
-
----
-
-## 📱 Browser Support
-
-- ✅ Chrome (latest)
-- ✅ Firefox (latest)
-- ✅ Safari (latest)
-- ✅ Edge (latest)
-- ✅ Mobile browsers (iOS Safari, Chrome Mobile)
-
----
-
-## 📞 Support
-
-- **Docs**: See [SETUP_GUIDE.md](./SETUP_GUIDE.md) and [DEVELOPMENT.md](./DEVELOPMENT.md)
-- **Next.js**: https://nextjs.org/docs
-- **Prisma**: https://www.prisma.io/docs
-- **NextAuth**: https://authjs.dev
-- **Tailwind**: https://tailwindcss.com/docs
-
----
-
-## 📄 License
-
-This project is open source. Feel free to use and modify for the Padel Kraków community.
-
----
-
-## 🙏 Credits
-
-Built with Next.js, Prisma, and Tailwind CSS for the amazing Padel Kraków community.
-
-**Last Updated**: March 29, 2024
-**Version**: 2.0 (Complete CMS Rebuild)
+- Sitemap: `/sitemap.xml`
+- Robots: `/robots.txt`

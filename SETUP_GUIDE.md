@@ -1,254 +1,97 @@
-# 🎾 Padel Kraków - Setup & Deployment Guide
+# Setup and Deployment Guide
 
-## Overview
+The GitHub repository, Vercel project, and Neon project are all named
+`padel-krakow` and are already connected. This guide covers maintaining that
+setup; it does not create replacement infrastructure.
 
-Padel Kraków is a modern community portal built with Next.js featuring:
-- **Interactive Court Locator** - Find padel courts on an interactive map
-- **Blog System** - Publish news and community updates
-- **Skill Levels** - Community skill rating system  
-- **Community Groups** - Links to WhatsApp and Facebook communities
-- **SEO Optimized** - Automatic sitemaps, meta tags, structured data
-- **Responsive Design** - Works seamlessly on mobile, tablet, and desktop
+## Existing production resources
 
----
+- Repository: `Gitperez288/padel-krakow`
+- Production branch: `main`
+- Production URL: https://padel-krakow.vercel.app
+- Vercel project: `padel-krakow`
+- Neon project: `padel-krakow`
+- Neon production branch: `production`
+- Neon development branch: `vercel-dev`
 
-## 📋 Technology Stack
+## First local setup
 
-- **Framework**: Next.js 15 with React 18 and TypeScript
-- **Styling**: Tailwind CSS with responsive design
-- **Database**: SQLite (development) / PostgreSQL (production)
-- **Content Management**: Built-in blog CMS with Markdown support
-- **Maps**: Leaflet + React-Leaflet for interactive court locations
-- **SEO**: Automatic sitemaps, robots.txt, structured data (JSON-LD)
+1. Install Node.js 22, npm, Git, and the Vercel CLI.
+2. Clone the repository and install locked dependencies:
 
----
+   ```bash
+   git clone https://github.com/Gitperez288/padel-krakow.git
+   cd padel-krakow
+   npm ci
+   ```
 
-## 🚀 Getting Started
+3. Link the directory to the existing Vercel project.
+4. Pull the Vercel Development environment into `.env.local`.
+5. Confirm variable names are present without printing their values:
 
-### Prerequisites
-- Node.js 18+ and npm installed
-- Git for version control
+   - `DATABASE_URL`
+   - `DATABASE_URL_UNPOOLED`
+   - `NEXTAUTH_SECRET`
+   - `NEXTAUTH_URL`
 
-### 1. Clone the Repository
-```bash
-git clone https://github.com/Gitperez288/padel-krakow.git
-cd padel-krakow
-```
+6. Keep local `NEXTAUTH_URL` set to `http://localhost:3000`.
+7. Run:
 
-### 2. Install Dependencies
-```bash
-npm install
-```
+   ```bash
+   npm run typecheck
+   npm run dev
+   ```
 
-### 3. Environment Setup
-Create a `.env.local` file in the project root:
-```env
-# Database
-DATABASE_URL="file:./prisma/dev.db"
+The Development database URL should point to Neon's `vercel-dev` branch. Do
+not initialize, reset, push, migrate, or seed a database during routine setup.
 
-# NextAuth Configuration
-NEXTAUTH_SECRET="generate-random-secret-with-openssl-rand-base64-32"
-NEXTAUTH_URL="http://localhost:3000"
-```
+## Pull-request previews
 
-Generate a random secret:
-```bash
-openssl rand -base64 32
-```
+Every feature branch should be delivered through a pull request. Vercel builds
+a preview and the Neon integration creates `preview/<git-branch>` from
+production. This gives the preview production-like data without allowing it to
+write to production.
 
-### 4. Initialize Database
-```bash
-# Create database schema
-npx prisma db push
+Before merging:
 
-# Seed with initial data
-npx prisma db seed
-```
+1. GitHub CI must pass.
+2. The Vercel deployment must be ready.
+3. The matching Neon preview branch must exist.
+4. The affected pages must be checked on the preview.
+5. Vercel build and runtime logs must not contain unexplained errors.
 
-### 5. Start Development Server
-```bash
-npm run dev
-```
+Deleting the Git branch allows the integration to clean up its Neon preview
+branch automatically.
 
-Open `http://localhost:3000` in your browser.
+## Production deployment
 
----
+Merging an approved pull request into `main` triggers the Vercel production
+deployment. Do not deploy production from an unreviewed local directory.
 
-## 📝 Blog Management
+After a merge, verify:
 
-The site includes a protected admin dashboard for managing blog content.
+- https://padel-krakow.vercel.app/
+- https://padel-krakow.vercel.app/blog
+- https://padel-krakow.vercel.app/sitemap.xml
+- https://padel-krakow.vercel.app/api/auth/session
 
-**⚠️ For admin credentials and detailed setup instructions, see ADMIN_SETUP.md (kept locally, not in version control)**
+## Environment ownership
 
-### Blog Features
-- Create and edit posts in Markdown format
-- Add cover images, excerpts, and publish status control
-- SEO customization per post (meta titles, descriptions, keywords)
-- Social sharing optimization (OG images, Twitter cards)
-- Automatic URL slug generation
+- Neon integration: `DATABASE_URL`, `DATABASE_URL_UNPOOLED`, and PostgreSQL
+  compatibility variables.
+- Vercel project settings: `NEXTAUTH_SECRET`, `NEXTAUTH_URL`, Blob, and Upstash
+  credentials.
+- Repository: placeholder names only; never secret values.
 
----
+## Database changes
 
-## 🌐 Deployment to Vercel
+The repository does not yet have a Prisma migration baseline. Do not add
+`prisma migrate deploy` to the Vercel build or alter production schema as part
+of an unrelated feature. Establish the migration baseline in a dedicated,
+reversible task and test it on an isolated Neon branch first.
 
-### Prerequisites
-- GitHub repository with pushes enabled
-- Vercel account (free tier supported)
+## Recovery and destructive commands
 
-### Deployment Steps
-
-1. **Push to GitHub**
-```bash
-git add .
-git commit -m "Ready for deployment"
-git push origin main
-```
-
-2. **Connect to Vercel**
-   - Visit [vercel.com](https://vercel.com)
-   - Click "New Project"
-   - Select your GitHub repository
-   - Click "Import"
-
-3. **Configure Environment Variables**
-   - In Vercel dashboard, go to Settings > Environment Variables
-   - Add the following variables:
-     ```
-     DATABASE_URL=your-production-database-url
-     NEXTAUTH_SECRET=your-production-secret
-     NEXTAUTH_URL=https://your-domain.com
-     ```
-   - For databases: PostgreSQL recommended for production
-
-4. **Deploy**
-   - Click "Deploy"
-   - Vercel will automatically build and deploy your site
-
-### Automatic Deployments
-Any push to the `main` branch will trigger an automatic deployment on Vercel.
-
-### Production Database Setup
-
-**Option A: Using Vercel Postgres (Recommended)**
-1. In Vercel Dashboard, go to Storage → Create Database
-2. Select "Postgres"
-3. Copy the connection string
-4. Update `DATABASE_URL` environment variable
-5. Update `prisma/schema.prisma` to use PostgreSQL:
-```prisma
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
-```
-
-**Option B: Using Neon DB (Free tier available)**
-1. Sign up at https://neon.tech
-2. Create a project and copy Postgres connection string
-3. Add to Vercel environment variables
-
-### Initialize Production Database
-After connecting your production database:
-```bash
-npx prisma db push
-npx prisma db seed
-```
-
----
-
-## 📁 Project Structure
-
-```
-padel-krakow/
-├── src/
-│   ├── app/
-│   │   ├── page.tsx                    # Home page
-│   │   ├── layout.tsx                  # Root layout
-│   │   ├── blog/                       # Blog pages (public)
-│   │   │   ├── page.tsx                # Blog listing
-│   │   │   └── [slug]/page.tsx         # Individual post
-│   │   ├── courts/page.tsx             # Court locator with map
-│   │   ├── levels/page.tsx             # Skill levels
-│   │   ├── groups/page.tsx             # Community groups
-│   │   ├── admin/                      # Admin dashboard (protected)
-│   │   ├── auth/                       # Authentication pages
-│   │   ├── api/                        # API routes
-│   │   ├── robots.ts                   # Robots.txt generator
-│   │   └── sitemap.ts                  # Sitemap generator
-│   ├── auth.ts                         # NextAuth configuration
-│   ├── middleware.ts                   # Route protection
-│   └── lib/db.ts                       # Prisma client
-├── prisma/
-│   ├── schema.prisma                   # Database schema
-│   └── seed.ts                         # Database seeding
-├── public/                             # Static assets
-├── package.json                        # Dependencies
-└── README.md
-```
-
----
-
-## 🔒 Security Best Practices
-
-### For Development
-1. Use `.env.local` for local secrets (added to `.gitignore`)
-2. Never commit passwords or API keys
-3. Use strong `NEXTAUTH_SECRET` values
-4. Regularly update dependencies: `npm update`
-
-### For Production
-1. Use environment variables for all secrets (never hardcode)
-2. Enable HTTPS (automatic with Vercel)
-3. Set secure, random `NEXTAUTH_SECRET`
-4. Use PostgreSQL instead of SQLite
-5. Enable database backups
-6. Keep dependencies updated
-7. Review security settings regularly
-
----
-
-## 🐛 Troubleshooting
-
-### Database Issues
-```bash
-# View database with GUI
-npx prisma studio
-
-# Reset database (⚠️ deletes all data!)
-npx prisma migrate reset
-
-# Seed database
-npx prisma db seed
-```
-
-### Build Issues on Vercel
-- Ensure `prisma generate` runs before build
-- Clear Vercel cache: Deployments → Click menu → Redeploy
-- Check all environment variables are set correctly
-
-### Development Server Issues
-```bash
-# Clear Next.js cache
-rm -rf .next
-
-# Reinstall dependencies
-rm -rf node_modules
-npm install
-
-# Restart development server
-npm run dev
-```
-
----
-
-## 📚 Additional Resources
-
-- [Next.js Documentation](https://nextjs.org/docs)
-- [Prisma Documentation](https://www.prisma.io/docs)
-- [NextAuth.js Documentation](https://next-auth.js.org)
-- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
-- [Vercel Documentation](https://vercel.com/docs)
-
----
-
-**Last Updated**: March 2026
+Commands such as `prisma migrate reset`, database deletion, branch reset, and
+production seeding can destroy data. They require explicit approval, a verified
+target branch, and a recovery plan. They are never troubleshooting defaults.
