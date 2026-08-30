@@ -85,10 +85,14 @@ After a merge, verify:
 
 ## Database changes
 
-The repository does not yet have a Prisma migration baseline. Do not add
-`prisma migrate deploy` to the Vercel build or alter production schema as part
-of an unrelated feature. Establish the migration baseline in a dedicated,
-reversible task and test it on an isolated Neon branch first.
+The Prisma migration history begins at `prisma/migrations/0_init`. Production
+is recorded as already containing that baseline, so the initial migration must
+never be replayed manually or edited.
+
+Future schema changes require a new migration, an isolated Neon preview test,
+and explicit approval before production deployment. `prisma migrate deploy`
+is intentionally not part of the Vercel build command; migration deployment
+remains a separate, controlled operation.
 
 ## Recovery and destructive commands
 
