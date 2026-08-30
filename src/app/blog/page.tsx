@@ -10,7 +10,7 @@ function stripHtml(html: string): string {
 }
 
 export const metadata: Metadata = {
-  title: "Blog | Padel Kraków Community",
+  title: "Padel News & Guides",
   description: "Latest news and articles about Padel in Kraków and Małopolska",
   alternates: {
     canonical: "https://padel-krakow.vercel.app/blog",

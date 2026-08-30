@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Community Guidelines | Padel Kraków Community",
+  title: "Community Guidelines",
   description:
     "Ground rules for the Padel Kraków WhatsApp community. How we keep our groups welcoming, fair, and safe for everyone.",
   alternates: {

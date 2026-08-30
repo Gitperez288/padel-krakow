@@ -1,40 +1,54 @@
 import { db } from "@/lib/db";
+import { SITE_URL } from "@/lib/constants";
 import { MetadataRoute } from "next";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = "https://padel-krakow.vercel.app";
-
   // Static routes
   const staticRoutes = [
     {
-      url: baseUrl,
-      lastModified: new Date(),
+      url: SITE_URL,
       changeFrequency: "weekly" as const,
       priority: 1.0,
     },
     {
-      url: `${baseUrl}/levels`,
-      lastModified: new Date(),
+      url: `${SITE_URL}/levels`,
       changeFrequency: "monthly" as const,
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/courts`,
-      lastModified: new Date(),
+      url: `${SITE_URL}/courts`,
       changeFrequency: "weekly" as const,
+      priority: 0.9,
+    },
+    {
+      url: `${SITE_URL}/community`,
+      changeFrequency: "monthly" as const,
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/groups`,
-      lastModified: new Date(),
+      url: `${SITE_URL}/coaches`,
       changeFrequency: "monthly" as const,
       priority: 0.7,
     },
     {
-      url: `${baseUrl}/blog`,
-      lastModified: new Date(),
+      url: `${SITE_URL}/blog`,
       changeFrequency: "weekly" as const,
       priority: 0.8,
+    },
+    {
+      url: `${SITE_URL}/sponsors`,
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+    },
+    {
+      url: `${SITE_URL}/who-we-are`,
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+    },
+    {
+      url: `${SITE_URL}/guidelines`,
+      changeFrequency: "monthly" as const,
+      priority: 0.5,
     },
   ];
 
@@ -45,7 +59,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   });
 
   const blogRoutes = blogPosts.map((post) => ({
-    url: `${baseUrl}/blog/${post.slug}`,
+    url: `${SITE_URL}/blog/${post.slug}`,
     lastModified: post.updatedAt,
     changeFrequency: "monthly" as const,
     priority: 0.7,

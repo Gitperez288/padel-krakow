@@ -15,6 +15,7 @@ import {
 import { sponsors } from "@/lib/sponsors";
 import { formatDistanceToNow } from "date-fns";
 import type { Metadata } from "next";
+import { SITE_URL } from "@/lib/constants";
 
 export const revalidate = 60; // Revalidate at most every 60 seconds so new blog posts appear without a redeploy
 
@@ -41,12 +42,12 @@ export const metadata: Metadata = {
     description:
       "Join over 900 padel players in a people-first community growing padel in Kraków and Małopolska. Find courts, levels, and local groups.",
     type: "website",
-    url: "https://padel-krakow.vercel.app",
+    url: SITE_URL,
     locale: "pl_PL",
     siteName: "Padel Kraków Community",
     images: [
       {
-        url: "https://padel-krakow.vercel.app/og-image.jpg",
+        url: `${SITE_URL}/og-image.jpg`,
         width: 1200,
         height: 630,
         alt: "Padel Kraków Community – People-First Padel in Kraków",
@@ -58,10 +59,10 @@ export const metadata: Metadata = {
     title: "Padel Kraków Community – 900+ Players",
     description:
       "People-first padel community in Kraków and Małopolska. 900+ players, multiple courts, all levels welcome.",
-    images: ["https://padel-krakow.vercel.app/og-image.jpg"],
+    images: [`${SITE_URL}/og-image.jpg`],
   },
   alternates: {
-    canonical: "https://padel-krakow.vercel.app",
+    canonical: SITE_URL,
   },
 };
 
@@ -101,7 +102,7 @@ export default async function HomePage() {
       icon: Users,
       title: "Community Groups",
       description: "Join WhatsApp and Facebook player groups.",
-      href: "/groups",
+      href: "/community",
       color: "from-purple-500 to-purple-600",
     },
     {

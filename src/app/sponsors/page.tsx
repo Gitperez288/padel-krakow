@@ -5,7 +5,7 @@ import { ExternalLink, Instagram, Tag, Globe, Handshake } from "lucide-react";
 import { sponsors } from "@/lib/sponsors";
 
 export const metadata: Metadata = {
-  title: "Community Sponsors | Padel Kraków Community",
+  title: "Community Sponsors",
   description:
     "Meet the sponsors supporting the Padel Kraków Community. Access exclusive discount codes, links to their sites, and learn how they help keep padel in Kraków fair for all.",
   alternates: {

@@ -2,7 +2,7 @@
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | Padel Kraków Community",
+  title: "Privacy Policy",
   description:
     "Privacy policy for the Padel Kraków Community platform; how we collect and use your data.",
   alternates: {
