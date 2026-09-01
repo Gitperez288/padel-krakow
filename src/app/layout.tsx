@@ -36,6 +36,9 @@ export const metadata: Metadata = {
   authors: [{ name: "Padel Kraków Community" }],
   creator: "Padel Kraków Community",
   publisher: "Padel Kraków Community",
+  verification: {
+    google: "hmHsDPtI7_-8fWPH2BQJew1_vTqt6vHxZMs7AnjThw8",
+  },
   robots: {
     index: true,
     follow: true,
