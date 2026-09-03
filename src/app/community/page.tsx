@@ -1,6 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+
+import { revealWhatsAppCommunityLink } from "./actions";
 
 type ClubCommunity = {
   name: string;
@@ -9,15 +11,15 @@ type ClubCommunity = {
 
 type MainCommunity = {
   name: string;
-  encodedLink: string;
   desc: string;
 };
 
 const mainCommunity: MainCommunity = {
   name: "Padel Kraków & Małopolska Community",
-  encodedLink: "aHR0cHM6Ly9jaGF0LndoYXRzYXBwLmNvbS9MZWRjYTF3ZFN6UzgzbXhtbVlUUnBi",
   desc: "Our main regional community; connect with players across Małopolska, find matches, share news, and join events.",
 };
+
+const REVEAL_DELAY_MS = 1200;
 
 const clubCommunities: ClubCommunity[] = [
   {
@@ -43,20 +45,54 @@ const clubCommunities: ClubCommunity[] = [
 ];
 
 export default function CommunityPage() {
-  const [revealed, setRevealed] = useState(false);
+  const [revealStatus, setRevealStatus] = useState<
+    "idle" | "pending" | "revealed" | "error"
+  >("idle");
+  const [whatsAppUrl, setWhatsAppUrl] = useState<string | null>(null);
+  const revealInProgressRef = useRef(false);
+  const revealTimerRef = useRef<number | null>(null);
+  const mountedRef = useRef(true);
+
+  useEffect(() => {
+    mountedRef.current = true;
+
+    return () => {
+      mountedRef.current = false;
+
+      if (revealTimerRef.current !== null) {
+        window.clearTimeout(revealTimerRef.current);
+      }
+    };
+  }, []);
 
   const reveal = () => {
-    setTimeout(() => {
-      setRevealed(true);
-    }, 1200); // anti-bot delay
-  };
+    if (revealInProgressRef.current) return;
 
-  const decodeLink = (encoded: string) => {
-    try {
-      return atob(encoded);
-    } catch {
-      return "#";
-    }
+    revealInProgressRef.current = true;
+    setRevealStatus("pending");
+
+    revealTimerRef.current = window.setTimeout(async () => {
+      try {
+        const link = await revealWhatsAppCommunityLink();
+        const url = new URL(link);
+
+        if (url.protocol !== "https:" || url.hostname !== "chat.whatsapp.com") {
+          throw new Error("Unexpected community link.");
+        }
+
+        if (!mountedRef.current) return;
+
+        setWhatsAppUrl(url.toString());
+        setRevealStatus("revealed");
+      } catch {
+        if (!mountedRef.current) return;
+
+        revealInProgressRef.current = false;
+        setRevealStatus("error");
+      } finally {
+        revealTimerRef.current = null;
+      }
+    }, REVEAL_DELAY_MS);
   };
 
   return (
@@ -91,23 +127,37 @@ export default function CommunityPage() {
           <p className="text-gray-700 mb-6 leading-relaxed">
             {mainCommunity.desc}
           </p>
-          {revealed ? (
+          {revealStatus === "revealed" && whatsAppUrl ? (
             <a
-              href={decodeLink(mainCommunity.encodedLink)}
+              href={whatsAppUrl}
               target="_blank"
               rel="noopener noreferrer"
+              referrerPolicy="no-referrer"
               className="inline-block bg-amber-600 text-white font-semibold px-6 py-3 rounded-full shadow hover:bg-amber-700 transition"
             >
               🔗 Join WhatsApp Community
             </a>
           ) : (
             <button
+              type="button"
               onClick={reveal}
-              className="inline-block bg-white text-amber-700 font-semibold px-6 py-3 rounded-full border border-amber-400 hover:bg-amber-50 transition"
+              disabled={revealStatus === "pending"}
+              aria-busy={revealStatus === "pending"}
+              className="inline-block bg-white text-amber-700 font-semibold px-6 py-3 rounded-full border border-amber-400 hover:bg-amber-50 transition disabled:cursor-wait disabled:opacity-70"
             >
-              👀 Reveal Link
+              {revealStatus === "pending"
+                ? "⏳ Revealing…"
+                : revealStatus === "error"
+                  ? "⚠️ Try Again"
+                  : "👀 Reveal Link"}
             </button>
           )}
+          <p className="sr-only" aria-live="polite">
+            {revealStatus === "pending" && "Preparing the WhatsApp link."}
+            {revealStatus === "revealed" && "WhatsApp link revealed."}
+            {revealStatus === "error" &&
+              "The link could not be revealed. Please try again."}
+          </p>
         </div>
       </section>
 
