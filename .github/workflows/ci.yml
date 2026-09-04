@@ -29,6 +29,8 @@ jobs:
         working-directory: tests/preview
       - run: node --test route-browser.test.mjs
         working-directory: tests/preview
+      - run: npx playwright test --config browser-auth.config.mjs
+        working-directory: tests/preview
 
   preview-guards:
     name: Preview security guards (no secrets)
@@ -39,7 +41,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - run: node --test tests/preview/guard.test.mjs tests/preview/gate.test.mjs tests/preview/route-handler.test.mjs
+      - run: node --test tests/preview/guard.test.mjs tests/preview/gate.test.mjs tests/preview/route-handler.test.mjs tests/preview/browser-auth.test.mjs
 
   typecheck:
     name: Typecheck

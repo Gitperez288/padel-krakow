@@ -49,9 +49,13 @@ configuration described below.
 
 Tests and the small, separate dependency lockfile come from a pinned trusted
 `main` commit, not the PR. No application install scripts or database migrations
-run. Only the browser-test step receives the bypass secret. Each request scopes
-the header to the validated origin; redirects are intercepted again, external
-requests receive no bypass header, and no bypass cookie is requested. Do not add
+run. Only the browser-test step receives the bypass secret. Browser authorization
+uses one isolated API request to the validated origin with redirects disabled and
+Vercel's documented `x-vercel-set-bypass-cookie: true` header. Cookies returned
+outside the exact hostname are rejected; accepted cookies are narrowed to
+host-only, Secure, HttpOnly session cookies in the disposable browser context.
+Browser assets and navigation then load natively, without fetch/fulfill proxying.
+HTTP smoke requests still use exact-origin headers with redirects disabled. Do not add
 global `extraHTTPHeaders`, network traces, HARs, or unrestricted report uploads.
 
 Coverage: basic HTTP routes, core-page metadata, language switching when Polish
@@ -73,11 +77,18 @@ with pending requests and checks a cross-origin redirect using loopback servers
 and a dummy credential. This test must run before merging routing-helper changes;
 unit mocks alone cannot validate browser cancellation behavior.
 
-Route errors now report only fixed operation/category/resource/origin labels.
+CI also runs `npx playwright test --config browser-auth.config.mjs`: the actual
+Playwright runner exercises repeated EN/PL document navigation with script loads,
+HttpOnly cookies and cross-host redirects against a simulated gateway. Unit tests
+cover bootstrap failures, cookie scope, redaction and disposal. Neither simulation
+proves the deployed Vercel cookie exchange; record the protected live suite separately.
+
+The retained legacy route regression reports only fixed operation/category/resource/origin labels.
 Never log raw error text, causes, URLs, headers or response bodies to diagnose a
 secret-backed run. Unknown errors remain failures. The repeated PR #12 failures
-after PR #14 are not yet explained by the sanitized logs: use the new labels to
-establish the cause rather than treating every cancellation as harmless. Keep all
+after PR #15 report `fulfill/already-handled/script/preview`. The underlying
+Playwright race is not established; the deployed suite no longer uses that proxy.
+Do not treat every cancellation as harmless. Keep all
 17 deployed-page checks and the strict authentication status assertion enabled.
 
 Do not run the preview suite against production or download the repository secret
