@@ -1,6 +1,7 @@
 "use client";
 import { getTranslator } from "@/lib/translations";
 import { localizePath, type Locale } from "@/lib/i18n";
+import Image from "next/image";
 import NextSteps from "@/app/_components/NextSteps";
 
 
@@ -115,8 +116,13 @@ export default function CommunityPage({ locale }: { locale: Locale }) {
         className="relative max-w-6xl mx-auto mb-8"
       >
         <div className="surface relative p-6 sm:p-10 text-left">
-          <h2 className="text-2xl font-bold text-stone-900 mb-2">{mainCommunity.name}</h2>
-          <p className="text-sm text-gray-600 mb-4">{t("WhatsApp Community")}</p>
+          <div className="mb-6 flex flex-col items-start gap-5 sm:flex-row sm:items-center sm:gap-7">
+            <Image src="/dragon-logo.png" alt={t("Padel Kraków community dragon mascot")} width={160} height={160} sizes="160px" className="h-32 w-32 shrink-0 rounded-2xl object-contain sm:h-40 sm:w-40" priority/>
+            <div>
+              <h2 className="text-2xl font-bold text-stone-900 mb-2 sm:text-3xl">{mainCommunity.name}</h2>
+              <p className="text-sm text-gray-600">{t("WhatsApp Community")}</p>
+            </div>
+          </div>
           <p className="text-gray-700 mb-6 leading-relaxed">
             {t(mainCommunity.desc)}
           </p>

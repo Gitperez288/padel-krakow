@@ -73,7 +73,7 @@ export default function CoachesClient({ coaches }: Props) {
         selectedLocation === "All" || coach.location === selectedLocation;
 
       return matchesSearch && matchesLanguage && matchesLocation;
-    });
+    }).sort((a, b) => a.name.localeCompare(b.name, "en", { sensitivity: "base" }));
   }, [coaches, search, selectedLanguages, selectedLocation]);
 
   return (
@@ -161,6 +161,7 @@ export default function CoachesClient({ coaches }: Props) {
       {/* Coach Cards */}
       <section className="pb-12 px-4">
         <div className="max-w-6xl mx-auto">
+          <p className="mb-5 text-sm text-stone-600">Sorted alphabetically by name (A–Z).</p>
           {filtered.length === 0 ? (
             <div className="text-center py-24 text-gray-400">
               <p className="text-xl font-semibold mb-2">No coaches found</p>

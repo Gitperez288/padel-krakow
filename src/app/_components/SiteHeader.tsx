@@ -8,12 +8,12 @@ import { localizePath, localizedRoutes, type Locale } from "@/lib/i18n";
 import { getTranslator } from "@/lib/translations";
 
 const primaryLinks = [
+  { href: "/levels", label: "Levels" },
   { href: "/courts", label: "Courts" },
   { href: "/coaches", label: "Coaches" },
   { href: "/community", label: "Groups" },
 ];
 const secondaryLinks = [
-  { href: "/levels", label: "Levels" },
   { href: "/blog", label: "Blog" },
   { href: "/sponsors", label: "Sponsors" },
   { href: "/who-we-are", label: "Who We Are" },
@@ -66,7 +66,7 @@ export default function SiteHeader({ locale }: { locale: Locale }) {
           <span aria-hidden="true" className="flex h-9 w-9 items-center justify-center rounded-xl bg-orange-700 text-sm font-black text-white">PK</span>
           <span className="text-lg font-extrabold tracking-tight text-stone-900 sm:text-xl">Padel Kraków<span className="hidden text-[10px] font-semibold uppercase tracking-[0.2em] text-stone-500 sm:block">Community</span></span>
         </Link>
-        <div className="hidden items-center gap-8 lg:flex">
+        <div className="hidden items-center gap-5 xl:gap-8 lg:flex">
           {primaryLinks.map(link => navLink(link))}
           <details ref={aboutRef} className="group relative">
             <summary className="flex cursor-pointer list-none items-center gap-1 py-3 text-sm font-semibold text-stone-600 [&::-webkit-details-marker]:hidden">{locale === "pl" ? "O nas" : "About"}<ChevronDown size={14} className="group-open:rotate-180" /></summary>

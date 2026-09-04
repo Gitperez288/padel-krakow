@@ -50,7 +50,10 @@ export default async function HomePage({ locale }: { locale: Locale }) {
       <section id="hero" data-testid="hero-section" className="border-b border-stone-200 bg-stone-50">
         <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 py-10 sm:py-16 lg:grid-cols-2 lg:gap-16 lg:py-20">
           <div>
-            <p className="eyebrow mb-5">Kraków & Małopolska</p>
+            <div className="mb-6 flex items-center gap-5">
+              <Image src="/dragon-logo.png" alt={t("Padel Kraków community dragon mascot")} width={128} height={128} sizes="128px" className="h-28 w-28 shrink-0 rounded-2xl object-contain sm:h-32 sm:w-32" priority/>
+              <p className="eyebrow">Kraków & Małopolska</p>
+            </div>
             <h1 className="text-5xl font-extrabold leading-[1.08] tracking-tighter text-stone-900 sm:text-6xl lg:text-7xl">{t("Your people.")}<br/>{t("Your next game.")}</h1>
             <p className="mt-6 max-w-lg text-lg leading-relaxed text-stone-600">{t("Join over 900 padel players in Kraków and Małopolska. Find a court, meet your partners and get playing.")}</p>
             <div className="mt-8 flex flex-wrap gap-3">
