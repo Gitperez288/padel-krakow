@@ -24,8 +24,6 @@ export default function CourtsPage({ locale }: { locale: Locale }) {
   const getFacilityType = (indoor: boolean | "mixed") =>
     indoor === true ? t("Indoor") : indoor === false ? t("Outdoor") : t("Indoor / Outdoor");
 
-  const getBookingIcon = (method: string) =>
-    method.toLowerCase().includes("app") ? "📱" : method.toLowerCase().includes("phone") ? "☎️" : "🎾";
 
   // ---------- FILTERED RESULTS ----------
   const filteredCourts = useMemo(() => {
@@ -56,19 +54,19 @@ export default function CourtsPage({ locale }: { locale: Locale }) {
   return (
     <div className="px-4 py-10 mx-auto max-w-6xl">
       <section id="courts-header" data-testid="courts-header-section">
-        <h1 className="text-3xl font-extrabold text-amber-700 mb-4 text-center">{t("📁 Court Locations in Małopolska")}</h1>
-        <p className="max-w-2xl text-gray-700 mb-10 leading-relaxed text-center mx-auto">{t("Discover every active padel location in and around Kraków. Use the search and filters below to quickly find courts that suit your needs.")}</p>
+        <h1 className="page-heading mb-4">{t("Padel courts")}</h1>
+        <p className="text-stone-600 mb-8 leading-relaxed">{t("Find your next court in Kraków and Małopolska.")}</p>
       </section>
 
       {/* ---- FILTER BAR ---- */}
-      <section id="courts-filters" data-testid="courts-filters-section" className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-amber-50 border border-amber-200 rounded-2xl p-4 mb-8 shadow-sm">
+      <section id="courts-filters" data-testid="courts-filters-section" className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3 bg-white border border-stone-200 rounded-2xl p-4 mb-8 shadow-sm">
         <input
           type="text"
           aria-label={t("🔍 Search by name or address...")}
           placeholder={t("🔍 Search by name or address...")}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full sm:w-1/2 px-3 py-2 rounded-lg border border-gray-300 text-gray-700 focus:ring-2 focus:ring-amber-400 outline-none"
+          className="w-full lg:w-1/2 px-3 py-2 rounded-lg border border-gray-300 text-gray-700 focus:ring-2 focus:ring-orange-700 outline-none"
         />
 
         <div className="flex flex-wrap gap-3 items-center">
@@ -76,7 +74,7 @@ export default function CourtsPage({ locale }: { locale: Locale }) {
             aria-label={t("All Types")}
             value={filterIndoor}
             onChange={(e) => setFilterIndoor(e.target.value)}
-            className="px-3 py-2 rounded-lg border border-gray-300 text-gray-700 focus:ring-2 focus:ring-amber-400 outline-none"
+            className="max-w-full min-h-11 px-3 py-2 rounded-lg border border-gray-300 text-gray-700 focus:ring-2 focus:ring-orange-700 outline-none"
           >
             <option value="all">{t("All Types")}</option>
             <option value="indoor">{t("Indoor")}</option>
@@ -88,7 +86,7 @@ export default function CourtsPage({ locale }: { locale: Locale }) {
             aria-label={t("All Booking Methods")}
             value={filterBooking}
             onChange={(e) => setFilterBooking(e.target.value)}
-            className="px-3 py-2 rounded-lg border border-gray-300 text-gray-700 focus:ring-2 focus:ring-amber-400 outline-none"
+            className="max-w-full min-h-11 px-3 py-2 rounded-lg border border-gray-300 text-gray-700 focus:ring-2 focus:ring-orange-700 outline-none"
           >
             <option value="all">{t("All Booking Methods")}</option>
             <option value="tenis4u">Tenis4U</option>
@@ -110,30 +108,29 @@ export default function CourtsPage({ locale }: { locale: Locale }) {
             filteredCourts.map((c, index) => (
               <article
                 key={c.id}
-                className="group overflow-hidden rounded-2xl shadow-md transition-shadow border flex flex-col min-w-0 bg-white hover:shadow-lg border-gray-100"
+                className="group overflow-hidden rounded-2xl shadow-sm transition-colors border flex flex-col min-w-0 bg-white hover:border-stone-400 border-stone-200"
               >
                 <div className="relative aspect-[16/10] bg-gray-100">
                   <Image src={c.photo} alt={c.name} fill sizes="(min-width: 1024px) 360px, (min-width: 640px) 50vw, 100vw" className="object-cover" priority={index < 3} />
                 </div>
                 <div className="flex flex-col flex-1 gap-2 p-5 text-left">
                   <div className="flex justify-between items-start mb-1">
-                    <h2 className="text-lg font-bold text-amber-700">{c.name}</h2>
+                    <h2 className="text-lg font-bold text-stone-900">{c.name}</h2>
                   </div>
                   <p className="text-gray-600 text-sm mb-1">{c.address}</p>
                   <div className="text-sm text-gray-700 mb-2">
-                    🎾 {c.doubles}{" "}{t("Doubles")}{c.singles ? ` • ${c.singles} ${locale === "pl" ? "singlowe" : "Singles"}` : ""}
-                    <br />🏠 {getFacilityType(c.indoor)}
+                    {c.doubles}{" "}{t("Doubles")}{c.singles ? ` • ${c.singles} ${locale === "pl" ? "singlowe" : "Singles"}` : ""}
+                    <span className="ml-2 inline-block rounded-md bg-stone-100 px-2 py-1 text-xs">{getFacilityType(c.indoor)}</span>
                   </div>
                   <div className="mt-1 pt-2 border-t border-gray-100 text-sm">
                     <span className="font-semibold text-gray-800">{t("How to Book:")}</span>{" "}
                     <span className="text-gray-700">
-                      {getBookingIcon(c.booking)}{" "}
                       {c.bookingUrl ? (
                         <a
                           href={c.bookingUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="underline hover:text-amber-700"
+                          className="font-semibold text-orange-700 underline underline-offset-4 hover:text-orange-800"
                         >
                           {t(c.booking)}
                         </a>
@@ -141,27 +138,27 @@ export default function CourtsPage({ locale }: { locale: Locale }) {
                     </span>
                   </div>
                   {(c.instagram || c.website) && (
-                    <div className="mt-1 text-sm flex items-center gap-1.5">
+                    <div className="mt-1 text-sm flex items-center gap-1.5 break-all">
                       {c.instagram ? (
                         <>
-                          <Instagram className="w-4 h-4 text-pink-600 shrink-0" />
+                          <Instagram className="w-4 h-4 text-stone-600 shrink-0" />
                           <a
                             href={c.instagram}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-pink-600 hover:underline"
+                            className="text-stone-600 hover:underline"
                           >
                             {getInstagramHandle(c.instagram) ?? t("View on Instagram")}
                           </a>
                         </>
                       ) : (
                         <>
-                          <Globe className="w-4 h-4 text-blue-600 shrink-0" />
+                          <Globe className="w-4 h-4 text-stone-600 shrink-0" />
                           <a
                             href={c.website ?? ""}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-blue-600 hover:underline"
+                            className="text-stone-600 hover:underline"
                           >
                             squashpadel.pl
                           </a>
@@ -170,7 +167,7 @@ export default function CourtsPage({ locale }: { locale: Locale }) {
                     </div>
                   )}
                   <a href={c.link} target="_blank" rel="noopener noreferrer"
-                    className="mt-auto pt-3 text-sm font-semibold text-amber-700 hover:underline text-left focus-visible:outline-amber-600">
+                    className="mt-auto pt-3 text-sm font-semibold text-stone-900 hover:underline text-left focus-visible:outline-amber-600">
                     {locale === "pl" ? "Otwórz w Mapach Google" : "Open in Google Maps"}
                   </a>
                 </div>
@@ -185,36 +182,36 @@ export default function CourtsPage({ locale }: { locale: Locale }) {
       </div>
 
       {/* ---- CTA: Submit a Court / Club ---- */}
-      <section id="courts-cta" data-testid="courts-cta-section" className="mt-16 rounded-3xl overflow-hidden shadow-xl bg-gradient-to-r from-amber-600 to-orange-600 text-white">
+      <section id="courts-cta" data-testid="courts-cta-section" className="mt-12 rounded-2xl overflow-hidden border border-stone-200 bg-stone-100 text-stone-900">
         <div className="grid md:grid-cols-2">
           {/* Missing a court */}
-          <div className="flex flex-col justify-between p-10 border-b md:border-b-0 md:border-r border-white/20">
+          <div className="flex flex-col justify-between p-6 sm:p-8 border-b md:border-b-0 md:border-r border-stone-200">
             <div className="mb-6">
               <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-white/20 mb-4">
-                <MapPin className="w-6 h-6 text-white" />
+                <MapPin className="w-6 h-6 text-orange-700" />
               </div>
               <h3 className="text-2xl font-bold mb-2">{t("Missing a court?")}</h3>
-              <p className="text-amber-100 leading-relaxed">{t("Know a padel court in Kraków or Małopolska that isn&apos;t listed here yet? Let us know and we&apos;ll add it right away.")}</p>
+              <p className="text-stone-600 leading-relaxed">{t("Know a padel court in Kraków or Małopolska that isn&apos;t listed here yet? Let us know and we&apos;ll add it right away.")}</p>
             </div>
             <Link
               href={localizePath("/community", locale)}
-              className="inline-flex items-center gap-2 self-start bg-white text-amber-700 font-bold px-6 py-3 rounded-xl hover:bg-amber-50 transition transform hover:scale-105"
+              className="inline-flex items-center gap-2 self-start bg-white text-stone-900 font-bold px-6 py-3 rounded-xl hover:bg-stone-50 transition transform hover:scale-105"
             >{t("Tell us about it")}<ChevronRight size={18} />
             </Link>
           </div>
 
           {/* Club submission */}
-          <div className="flex flex-col justify-between p-10">
+          <div className="flex flex-col justify-between p-6 sm:p-8">
             <div className="mb-6">
               <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-white/20 mb-4">
-                <Building2 className="w-6 h-6 text-white" />
+                <Building2 className="w-6 h-6 text-orange-700" />
               </div>
               <h3 className="text-2xl font-bold mb-2">{t("Are you a padel club?")}</h3>
-              <p className="text-amber-100 leading-relaxed">{t("Want your club featured on this page and reach hundreds of active players in Kraków and Małopolska? Get in touch, we&apos;d love to feature you.")}</p>
+              <p className="text-stone-600 leading-relaxed">{t("Want your club featured on this page and reach hundreds of active players in Kraków and Małopolska? Get in touch, we&apos;d love to feature you.")}</p>
             </div>
             <Link
               href={localizePath("/community", locale)}
-              className="inline-flex items-center gap-2 self-start bg-white text-amber-700 font-bold px-6 py-3 rounded-xl hover:bg-amber-50 transition transform hover:scale-105"
+              className="inline-flex items-center gap-2 self-start bg-white text-stone-900 font-bold px-6 py-3 rounded-xl hover:bg-stone-50 transition transform hover:scale-105"
             >{t("Get your club listed")}<ChevronRight size={18} />
             </Link>
           </div>

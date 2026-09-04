@@ -85,7 +85,7 @@ export default function LevelsPage({ locale }: { locale: Locale }) {
   return (
     <div className="px-4 py-10 text-center">
       <section id="levels-header" data-testid="levels-header-section">
-        <h1 className="text-3xl font-extrabold text-amber-700 mb-6">
+        <h1 className="text-3xl font-extrabold text-stone-900 mb-6">
           <span aria-hidden="true">🎾</span>{t("Padel Level Scale")}</h1>
         <p className="max-w-2xl mx-auto text-gray-700 mb-10 leading-relaxed">{t("The community uses this scale to keep matches balanced and fair. Find your level, see the equivalency to the letter system, and understand what each stage of progress looks like.")}</p>
       </section>
@@ -106,13 +106,13 @@ export default function LevelsPage({ locale }: { locale: Locale }) {
               <div
                 className={`w-6 h-6 rounded-full border-2 transition-all duration-300 ${
                   activeIndex === i
-                    ? "bg-amber-600 border-amber-600 scale-110 shadow-lg"
-                    : "bg-amber-400 border-amber-500 hover:bg-amber-500"
+                    ? "bg-orange-700 border-amber-600 scale-110 shadow-lg"
+                    : "bg-amber-400 border-amber-500 hover:bg-stone-500"
                 }`}
               />
               <p
                 className={`text-xs mt-2 font-semibold whitespace-nowrap ${
-                  activeIndex === i ? "text-amber-700" : "text-gray-600"
+                  activeIndex === i ? "text-stone-900" : "text-gray-600"
                 }`}
               >
                 {l.title}
@@ -141,7 +141,7 @@ export default function LevelsPage({ locale }: { locale: Locale }) {
             onMouseLeave={() => setActiveIndex(null)}
             onClick={() => handleActivate(i)}
           >
-            <h3 className="text-xl font-bold text-amber-700">{title}</h3>
+            <h3 className="text-xl font-bold text-stone-900">{title}</h3>
             <p className="text-sm text-gray-500 mb-2">
               {level} • {letter}
             </p>
@@ -161,7 +161,7 @@ export default function LevelsPage({ locale }: { locale: Locale }) {
           href="https://padel-skill-calculator.rip21.me/"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-block bg-amber-600 text-white font-semibold px-6 py-3 rounded-full shadow hover:bg-amber-700 transition"
+          className="inline-block bg-orange-700 text-white font-semibold px-6 py-3 rounded-full shadow hover:bg-orange-700 transition"
         >{t("🧮 Try the Padel Skill Calculator (by Andrey Los)")}</a>
       </div>
     </div>

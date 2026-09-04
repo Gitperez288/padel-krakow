@@ -34,30 +34,30 @@ const config: Config = {
         "8xl": "6.25rem",
       },
       boxShadow: {
-        sm: "0 5px 10px rgba(0, 0, 0, 0.12)",
-        md: "0 8px 30px rgba(0, 0, 0, 0.12)",
+        sm: "0 2px 6px rgba(28, 25, 23, 0.04)",
+        md: "0 6px 18px rgba(28, 25, 23, 0.06)",
       },
       typography: {
         DEFAULT: {
           css: {
             color: '#1f2937',
             a: {
-              color: '#b45309',
+              color: '#1c1917',
               '&:hover': {
-                color: '#92400e',
+                color: '#c2410c',
               },
             },
             h1: {
-              color: '#b45309',
+              color: '#1c1917',
             },
             h2: {
-              color: '#b45309',
+              color: '#1c1917',
             },
             h3: {
-              color: '#b45309',
+              color: '#1c1917',
             },
             h4: {
-              color: '#b45309',
+              color: '#1c1917',
             },
             code: {
               color: '#d97706',

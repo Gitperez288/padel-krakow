@@ -11,8 +11,8 @@ const content = {
     pl: { title: "Wybierz kort i zaplanuj grę", text: "Sprawdź adres: zestawienie obejmuje Kraków, pobliskie miejscowości i pozostałą część Małopolski. Liczby oznaczają korty deblowe lub singlowe, nie graczy. Przed rezerwacją potwierdź w klubie aktualną cenę, możliwość wypożyczenia rakiety i dostępność. Ceny oraz informacje o parkingu i transporcie nie zostały jeszcze zweryfikowane w tym przewodniku. Obiekty bez potwierdzonych współrzędnych pozostają na liście. Dokładną lokalizację sprawdzisz przez link dojazdu.", links: [["community", "Masz już kort? Znajdź osoby do gry"], ["levels", "Sprawdź swój poziom gry"]] },
   },
   community: {
-    en: { title: "How to find a game", text: "Players of all levels are welcome, including beginners. Reveal the invitation below and open it in WhatsApp. Read the group description and rules, then introduce yourself with your approximate level, preferred courts, available times and whether you prefer Polish or English. Respond to a game invitation or propose your own; confirm the players, booking and costs together before travelling.", links: [["levels", "Not sure of your level? Read our guide"], ["courts", "Choose a court for your match"]] },
-    pl: { title: "Jak znaleźć osoby do gry?", text: "Zapraszamy graczy na każdym poziomie, również początkujących. Wyświetl zaproszenie poniżej i otwórz je w WhatsAppie. Przeczytaj opis i zasady grupy, a następnie przedstaw się: podaj orientacyjny poziom, preferowane korty, dostępne terminy oraz język rozmowy (polski lub angielski). Odpowiedz na zaproszenie do meczu albo zaproponuj własny termin. Przed wyjazdem wspólnie potwierdźcie skład, rezerwację i podział kosztów.", links: [["levels", "Nie znasz swojego poziomu? Sprawdź przewodnik"], ["courts", "Wybierz kort na wspólny mecz"]] },
+    en: { title: "How to find a game", text: "Open the invitation above, read the group rules and introduce yourself with your level, preferred courts and available times. Join a game or propose your own, then confirm the booking and share the costs.", links: [["levels", "Not sure of your level? Read our guide"], ["courts", "Choose a court for your match"]] },
+    pl: { title: "Jak znaleźć osoby do gry?", text: "Otwórz zaproszenie powyżej, przeczytaj zasady grupy i przedstaw się: podaj swój poziom, preferowane korty i dostępne terminy. Dołącz do meczu lub zaproponuj własny, a następnie ustalcie rezerwację i podział kosztów.", links: [["levels", "Nie znasz swojego poziomu? Sprawdź przewodnik"], ["courts", "Wybierz kort na wspólny mecz"]] },
   },
   levels: {
     en: { title: "Assess your typical game, not your best shot", text: "Think about several recent matches: can you maintain a rally, defend after the glass and move forward with your partner? If you are between levels, start with the lower group and adjust after playing. This is an approximate community guide, not an official rating or a universal conversion between club and app scales.", links: [["community", "Find players at a similar level"], ["courts", "Find a court for your next game"]] },
@@ -22,11 +22,11 @@ const content = {
 
 export default function NextSteps({ locale, page }: { locale: Locale; page: PageKey }) {
   const section = content[page][locale];
-  return <section className="max-w-6xl mx-auto my-8 rounded-2xl border border-amber-200 bg-white p-6 text-left">
-    <h2 className="text-xl font-bold text-amber-800 mb-3">{section.title}</h2>
+  return <section className="max-w-6xl mx-auto my-8 rounded-2xl border border-stone-200 bg-white p-6 text-left">
+    <h2 className="text-xl font-bold text-stone-900 mb-3">{section.title}</h2>
     <p className="text-gray-700 leading-relaxed">{section.text}</p>
     <ul className="mt-4 flex flex-wrap gap-x-8 gap-y-3">
-      {section.links.map(([key, label]) => <li key={key}><Link className="font-semibold text-amber-800 underline underline-offset-4" href={localizedRoutes[key][locale]}>{label}</Link></li>)}
+      {section.links.map(([key, label]) => <li key={key}><Link className="font-semibold text-stone-900 underline underline-offset-4" href={localizedRoutes[key][locale]}>{label}</Link></li>)}
     </ul>
   </section>;
 }

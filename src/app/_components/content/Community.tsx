@@ -1,6 +1,7 @@
 "use client";
 import { getTranslator } from "@/lib/translations";
 import { localizePath, type Locale } from "@/lib/i18n";
+import Image from "next/image";
 import NextSteps from "@/app/_components/NextSteps";
 
 
@@ -102,27 +103,26 @@ export default function CommunityPage({ locale }: { locale: Locale }) {
 
   return (
     <div className="px-4 py-10 text-center">
-      {/* --- Header --- */}
-      <section id="community-header" data-testid="community-header-section">
-        <h1 className="text-3xl font-extrabold text-amber-700 mb-6">{t("💬 Community")}</h1>
-        <p className="max-w-2xl mx-auto text-gray-700 mb-10 leading-relaxed">{t("Welcome to the hub of the")}{" "}
-          <span className="font-semibold">Padel Kraków & Małopolska</span>{" "}{t("community! Join our WhatsApp group to find partners, coordinate matches, and stay updated with events in your area. Each club also runs its own group; reach out to them directly via Instagram to get added.")}</p>
+      <section id="community-header" data-testid="community-header-section" className="mx-auto mb-8 max-w-6xl text-left">
+        <p className="eyebrow mb-3">Padel Kraków & Małopolska</p>
+        <h1 className="page-heading mb-4">{t("Find your people")}</h1>
+        <p className="text-stone-600">{t("Find partners, arrange matches and join local padel events.")}</p>
       </section>
-
-      <NextSteps locale={locale} page="community" />
 
       {/* --- Main Community Hero --- */}
       <section
         id="community-main"
         data-testid="community-main-section"
-        className="relative max-w-2xl mx-auto mb-16"
+        className="relative max-w-6xl mx-auto mb-8"
       >
-        <div className="absolute -inset-0.5 bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 rounded-3xl blur-lg opacity-60 animate-pulse"></div>
-        <div className="relative p-10 bg-gradient-to-br from-amber-50 to-white rounded-3xl border border-amber-200 shadow-xl hover:shadow-2xl transition text-left">
-          <h3 className="text-2xl font-bold text-amber-700 mb-2 flex items-center gap-2">
-            <span>🌟</span> {mainCommunity.name}
-          </h3>
-          <p className="text-sm text-gray-600 mb-4">{t("WhatsApp Community")}</p>
+        <div className="surface relative p-6 sm:p-10 text-left">
+          <div className="mb-6 flex flex-col items-start gap-5 sm:flex-row sm:items-center sm:gap-7">
+            <Image src="/dragon-logo.png" alt={t("Padel Kraków community dragon mascot")} width={160} height={160} sizes="160px" className="h-32 w-32 shrink-0 rounded-2xl object-contain sm:h-40 sm:w-40" priority/>
+            <div>
+              <h2 className="text-2xl font-bold text-stone-900 mb-2 sm:text-3xl">{mainCommunity.name}</h2>
+              <p className="text-sm text-gray-600">{t("WhatsApp Community")}</p>
+            </div>
+          </div>
           <p className="text-gray-700 mb-6 leading-relaxed">
             {t(mainCommunity.desc)}
           </p>
@@ -132,7 +132,7 @@ export default function CommunityPage({ locale }: { locale: Locale }) {
               target="_blank"
               rel="noopener noreferrer"
               referrerPolicy="no-referrer"
-              className="inline-block bg-amber-600 text-white font-semibold px-6 py-3 rounded-full shadow hover:bg-amber-700 transition"
+              className="button-primary"
             >{t("🔗 Join WhatsApp Community")}</a>
           ) : (
             <button
@@ -140,7 +140,7 @@ export default function CommunityPage({ locale }: { locale: Locale }) {
               onClick={reveal}
               disabled={revealStatus === "pending"}
               aria-busy={revealStatus === "pending"}
-              className="inline-block bg-white text-amber-700 font-semibold px-6 py-3 rounded-full border border-amber-400 hover:bg-amber-50 transition disabled:cursor-wait disabled:opacity-70"
+              className="button-primary"
             >
               {revealStatus === "pending"
                 ? t("⏳ Revealing…")
@@ -158,28 +158,29 @@ export default function CommunityPage({ locale }: { locale: Locale }) {
         </div>
       </section>
 
+      <NextSteps locale={locale} page="community" />
+
       {/* --- Club Communities Grid --- */}
       <section
         id="community-clubs"
         data-testid="community-clubs-section"
-        className="max-w-6xl mx-auto mb-16"
+        className="max-w-6xl mx-auto mb-12 text-left"
       >
-        <h3 className="text-2xl font-bold text-amber-700 mb-2">{t("🏟️ Club WhatsApp Groups")}</h3>
-        <p className="text-gray-600 mb-8 max-w-xl mx-auto text-sm leading-relaxed">{t("These clubs manage their own WhatsApp communities. To avoid spam, we don't publish their links directly; follow each club on Instagram and send them a DM to be added to their group.")}</p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <h2 className="text-2xl font-bold text-stone-900 mb-2">{t("Club WhatsApp groups")}</h2>
+        <p className="text-stone-600 mb-6 text-sm leading-relaxed">{t("Message a club on Instagram to join its player group.")}</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {clubCommunities.map(({ name, instagramUrl }) => (
             <div
               key={name}
-              className="p-6 rounded-2xl border border-gray-100 bg-white shadow hover:shadow-lg transition text-left flex flex-col"
+              className="surface p-6 text-left flex flex-col items-start"
             >
-              <h4 className="text-xl font-bold text-amber-700 mb-1">{name}</h4>
+              <h3 className="text-xl font-bold text-stone-900 mb-1">{name}</h3>
               <p className="text-sm text-gray-500 mb-3">{t("WhatsApp Group via Instagram")}</p>
-              <p className="text-gray-700 mb-5 text-sm leading-relaxed flex-1">{t("This club has its own WhatsApp community for players. Follow them on Instagram and send a DM, they&apos;ll be happy to add you!")}</p>
               <a
                 href={instagramUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold px-4 py-2 rounded-full shadow hover:opacity-90 transition text-sm"
+                className="button-secondary"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -199,16 +200,16 @@ export default function CommunityPage({ locale }: { locale: Locale }) {
       <section
         id="community-add-club"
         data-testid="community-add-club-section"
-        className="max-w-2xl mx-auto mb-16 bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200 rounded-3xl p-8 shadow"
+        className="surface max-w-6xl mx-auto p-6 sm:p-8 text-left"
       >
-        <h3 className="text-xl font-bold text-amber-700 mb-3">{t("🎾 Is your club missing?")}</h3>
+        <h3 className="text-xl font-bold text-stone-900 mb-3">{t("Is your club missing?")}</h3>
         <p className="text-gray-700 text-sm leading-relaxed mb-6">{t("If your club runs a WhatsApp community and you'd like to be featured here, get in touch with us! We'll add your club to the list so more players can find and join your group.")}</p>
-        <div className="flex flex-col sm:flex-row gap-3 justify-center">
+        <div className="flex flex-col sm:flex-row gap-3">
           <a
             href="https://www.instagram.com/padelkrkcommunity"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold px-5 py-2.5 rounded-full shadow hover:opacity-90 transition text-sm"
+            className="button-secondary"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -221,20 +222,11 @@ export default function CommunityPage({ locale }: { locale: Locale }) {
             </svg>{t("DM us on Instagram")}</a>
           <a
             href="mailto:padelkrkcommunity@gmail.com"
-            className="inline-flex items-center justify-center gap-2 bg-white text-amber-700 font-semibold px-5 py-2.5 rounded-full border border-amber-400 hover:bg-amber-50 transition text-sm"
+            className="inline-flex items-center justify-center gap-2 bg-white text-stone-900 font-semibold px-5 py-2.5 rounded-full border border-stone-300 hover:bg-stone-100 transition text-sm"
           >{t("✉️ Email us")}</a>
         </div>
       </section>
 
-      {/* --- Closing Message --- */}
-      <section
-        id="community-footer"
-        data-testid="community-footer-section"
-        className="max-w-3xl mx-auto text-gray-700 leading-relaxed text-lg"
-      >
-        <p>{t("Thanks to our")}{" "}
-          <span className="font-semibold text-amber-700">{t("Padel Kraków & Małopolska Community")}</span>{t(", players can connect and organise matches anywhere, from Kraków to Niepołomice, Skawina, and beyond. Use these communities to meet new partners, schedule games, and grow the sport together. 💪")}</p>
-      </section>
     </div>
   );
 }

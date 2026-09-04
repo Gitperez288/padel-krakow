@@ -99,38 +99,17 @@ const coaches: Coach[] = [
 
 export default function CoachesPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-amber-50 to-orange-100">
-      {/* Hero */}
-      <section className="bg-amber-700 text-white py-16 px-4">
-        <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">🎓 Coaches</h1>
-          <p className="text-lg md:text-xl text-amber-100 max-w-2xl mx-auto">
-            Whether you are picking up a racket for the first time or trying to take your game to the next level, 
-            our directory helps you find passionate coaches in our community. The coaches listed here operate independently 
-            or in partnership with local clubs, so please reach out to them directly to inquire about training sessions, 
-            availability, and pricing.
-          </p>
-        </div>
+    <div>
+      <section className="mx-auto max-w-6xl px-4 py-10">
+        <p className="eyebrow mb-3">Learn. Play. Improve.</p>
+        <h1 className="page-heading mb-4">Find your coach</h1>
+        <p className="max-w-2xl text-stone-600 leading-relaxed">Meet local padel coaches for every level. Contact them directly for lessons, availability and prices.</p>
       </section>
-
-      {/* Interactive coach list (client component) */}
       <CoachesClient coaches={coaches} />
-
-      {/* Self-submission CTA */}
-      <section className="py-14 px-4 bg-gradient-to-r from-amber-600 to-orange-600 text-white">
-        <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-4">Are you a padel coach?</h2>
-          <p className="text-amber-100 text-lg mb-8 max-w-xl mx-auto">
-            This directory of coaches is freely available to everyone in our community. Please let us know if you want to be featured on this page 
-            and reach hundreds of players in Małopolska. Get in touch with us and we will add you to
-            the list without any cost.
-          </p>
-          <Link
-            href="/community"
-            className="inline-flex items-center gap-2 bg-white text-amber-700 font-bold px-8 py-3 rounded-lg hover:bg-amber-50 transition transform hover:scale-105"
-          >
-            Contact us via Community Groups <ChevronRight size={18} />
-          </Link>
+      <section className="mx-auto max-w-6xl px-4 pb-12">
+        <div className="surface flex flex-col items-start justify-between gap-6 p-6 sm:flex-row sm:items-center sm:p-8">
+          <div><h2 className="text-xl font-bold text-stone-900">Are you a padel coach?</h2><p className="mt-2 text-sm text-stone-600">Join our directory for free and connect with local players.</p></div>
+          <Link href="/community" className="button-secondary">Get in touch <ChevronRight size={18}/></Link>
         </div>
       </section>
     </div>

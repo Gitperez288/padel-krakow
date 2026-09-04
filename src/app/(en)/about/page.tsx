@@ -2,7 +2,7 @@ export default function AboutPage() {
   return (
     <div className="px-4 py-10 max-w-3xl mx-auto">
       <section id="about-content" data-testid="about-content-section">
-        <h2 className="text-3xl font-extrabold text-amber-700 mb-6">About the Kraków Padel Community</h2>
+        <h2 className="text-3xl font-extrabold text-stone-900 mb-6">About the Kraków Padel Community</h2>
         <p className="text-gray-700 leading-relaxed">
           We're a community of Padel players from Kraków and Małopolska. Our mission is to make it easy
           to find partners, discover courts, and grow the sport locally through events, leagues, and shared resources.

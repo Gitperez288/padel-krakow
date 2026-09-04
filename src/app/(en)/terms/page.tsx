@@ -12,16 +12,16 @@ export const metadata: Metadata = {
 
 export default function TermsPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-amber-50 to-orange-100">
+    <div className="min-h-screen bg-stone-50">
       <div className="max-w-3xl mx-auto px-4 py-16">
         <Link
           href="/"
-          className="text-amber-600 hover:text-amber-700 font-semibold text-sm"
+          className="text-orange-700 hover:text-stone-900 font-semibold text-sm"
         >
           ← Back to Home
         </Link>
 
-        <h1 className="text-4xl font-bold text-amber-700 mt-6 mb-2">
+        <h1 className="text-4xl font-bold text-stone-900 mt-6 mb-2">
           Terms of Service
         </h1>
         <p className="text-sm text-gray-500 mb-10">Last updated: June 2026</p>
@@ -65,7 +65,7 @@ export default function TermsPage() {
               our{" "}
               <Link
                 href="/guidelines"
-                className="text-amber-700 underline hover:text-amber-900"
+                className="text-stone-900 underline hover:text-orange-800"
               >
                 Community Guidelines
               </Link>
@@ -119,7 +119,7 @@ export default function TermsPage() {
               Questions about these terms? Contact us at{" "}
               <a
                 href="mailto:padelkrkcommunity@gmail.com"
-                className="text-amber-700 underline hover:text-amber-900"
+                className="text-stone-900 underline hover:text-orange-800"
               >
                 padelkrkcommunity@gmail.com
               </a>
