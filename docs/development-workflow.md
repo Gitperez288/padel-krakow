@@ -67,6 +67,19 @@ npm ci --ignore-scripts --no-audit --no-fund
 npm run test:guards
 ```
 
+The ordinary CI job **Preview routing in Chromium (no secrets)** additionally
+runs `node --test route-browser.test.mjs` after installing Chromium. It navigates
+with pending requests and checks a cross-origin redirect using loopback servers
+and a dummy credential. This test must run before merging routing-helper changes;
+unit mocks alone cannot validate browser cancellation behavior.
+
+Route errors now report only fixed operation/category/resource/origin labels.
+Never log raw error text, causes, URLs, headers or response bodies to diagnose a
+secret-backed run. Unknown errors remain failures. The repeated PR #12 failures
+after PR #14 are not yet explained by the sanitized logs: use the new labels to
+establish the cause rather than treating every cancellation as harmless. Keep all
+17 deployed-page checks and the strict authentication status assertion enabled.
+
 Do not run the preview suite against production or download the repository secret
 into a development session. Keep protection enabled. Existing root CI already
 uses npm caching; its dependency install can still take time on a cache miss.

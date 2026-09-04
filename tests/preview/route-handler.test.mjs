@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { previewRouteHandler, drainPreviewRoutes } from './route-handler.mjs';
+import { previewRouteHandler, drainPreviewRoutes, routeErrorCategory } from './route-handler.mjs';
 
 const origin = 'https://padel-krakow-1qyrlgubo-gitperez288s-projects.vercel.app';
 const secret = 'dummy-regression-secret';
@@ -32,14 +32,14 @@ test('foreign origin continues without bypass header or authenticated fetch', as
 test('fetch failure aborts once without exposing request diagnostics', async () => {
   const f = fixture();
   f.route.fetch = async () => { throw new Error(secret); };
-  await f.run();
+  await assert.rejects(f.run(), { message: 'Preview route failure: operation=fetch; category=other; resource=other; origin=preview' });
   assert.deepEqual(f.calls, [['abort', 'failed']]);
 });
 
 test('fulfill rejection never attempts abort on an already-handled route', async () => {
   const f = fixture();
   f.route.fulfill = async () => { f.calls.push(['fulfill']); throw new Error(`Route is already handled! ${secret}`); };
-  await assert.rejects(f.run(), error => error.message === 'Preview route completion failed (sensitive diagnostics suppressed)' && !error.cause);
+  await assert.rejects(f.run(), error => error.message === 'Preview route failure: operation=fulfill; category=already-handled; resource=other; origin=preview' && !error.cause);
   assert.deepEqual(f.calls.map(c => c[0]), ['fetch', 'fulfill']);
 });
 
@@ -49,9 +49,27 @@ test('abort and continue errors remain failures but never expose raw diagnostics
     if (method === 'abort') f.route.fetch = async () => { throw new Error(secret); };
     let attempts = 0;
     f.route[method] = async () => { attempts++; throw new Error(secret); };
-    await assert.rejects(f.run(), { message: 'Preview route completion failed (sensitive diagnostics suppressed)' });
+    await assert.rejects(f.run(), { message: `Preview route failure: operation=${method}; category=other; resource=other; origin=${method === 'continue' ? 'external' : 'preview'}` });
     assert.equal(attempts, 1);
   }
+});
+
+test('diagnostic categories never return raw error text', () => {
+  for (const [message, expected] of [
+    ['Target page, context or browser has been closed', 'target-closed'],
+    ['Invalid InterceptionId', 'request-gone'],
+    ['Response has been disposed', 'response-disposed'],
+    ['net::ERR_ABORTED', 'cancelled'],
+    ['Timeout exceeded', 'timeout'],
+    [secret, 'other'],
+  ]) assert.equal(routeErrorCategory(new Error(message + ' ' + secret)), expected);
+});
+
+test('URLs, query tokens, resource names and raw error causes stay out of diagnostics', async () => {
+  const f = fixture(origin + '/private/' + secret + '?token=' + secret);
+  f.route.request = () => ({ url: () => origin + '/private/' + secret, headers: () => ({}), resourceType: () => secret });
+  f.route.fulfill = async () => { throw new Error(secret); };
+  await assert.rejects(f.run(), error => !error.message.includes(secret) && !error.cause && error.message.includes('resource=other'));
 });
 
 test('cleanup waits for page handlers before draining context handlers', async () => {
