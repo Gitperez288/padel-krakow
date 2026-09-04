@@ -46,7 +46,7 @@ export default function CourtMap({ courts, focusId, locale = "en" }: CourtMapPro
       mapInstance.current = L.map(mapContainer.current, {
         center: defaultCenter,
         zoom: 12,
-        scrollWheelZoom: true,
+        scrollWheelZoom: false,
       });
 
       // Add tile layer
@@ -94,6 +94,14 @@ export default function CourtMap({ courts, focusId, locale = "en" }: CourtMapPro
 
         markersRef.current[court.id] = marker;
       });
+
+      // Keep every filtered venue visible, including clubs outside Kraków.
+      if (courts.length > 0) {
+        mapInstance.current.fitBounds(courts.map((court) => [court.lat, court.lng] as [number, number]), {
+          padding: [32, 32],
+          maxZoom: 13,
+        });
+      }
     } catch (error) {
       console.error("Error adding markers:", error);
     }

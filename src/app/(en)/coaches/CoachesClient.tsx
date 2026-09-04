@@ -20,6 +20,7 @@ const ALL_LANGUAGES = [
   "Ukrainian",
   "Italian",
   "Portuguese",
+  "French",
 ] as const;
 
 type Language = (typeof ALL_LANGUAGES)[number];
