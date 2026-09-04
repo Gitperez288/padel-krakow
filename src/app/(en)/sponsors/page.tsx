@@ -21,18 +21,18 @@ export const metadata: Metadata = {
 
 export default function SponsorsPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-amber-50 to-orange-50">
+    <div className="min-h-screen bg-stone-50">
 
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
-      <section className="bg-amber-700 text-white py-16 px-4">
+      <section className="bg-orange-700 text-white py-16 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <div className="flex justify-center mb-4">
-            <Handshake className="w-14 h-14 text-amber-200" strokeWidth={1.4} />
+            <Handshake className="w-14 h-14 text-stone-200" strokeWidth={1.4} />
           </div>
           <h1 className="text-4xl md:text-5xl font-bold mb-6">
             Community Sponsors
           </h1>
-          <p className="text-lg md:text-xl text-amber-100 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-lg md:text-xl text-stone-200 max-w-3xl mx-auto leading-relaxed">
             Padel Kraków Community is a <strong className="text-white">non-profit, people-first</strong> community.
             We believe in using our collective voice to improve the experience of all the
             players who make this community great.
@@ -58,7 +58,7 @@ export default function SponsorsPage() {
               href="https://www.instagram.com/padelkrakowleague"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-amber-700 font-semibold underline hover:text-amber-900 inline-flex items-center gap-1"
+              className="text-stone-900 font-semibold underline hover:text-orange-800 inline-flex items-center gap-1"
             >
               <Instagram size={16} />
               @padelkrakowleague
@@ -76,7 +76,7 @@ export default function SponsorsPage() {
               href="https://www.instagram.com/padelkrkcommunity"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-amber-700 underline hover:text-amber-900"
+              className="text-stone-900 underline hover:text-orange-800"
             >
               Reach out to us on Instagram
             </a>
@@ -90,10 +90,10 @@ export default function SponsorsPage() {
         <div className="max-w-5xl mx-auto">
           {sponsors.length > 0 ? (
             <>
-              <h2 className="text-2xl font-bold text-amber-700 mb-8 text-center">
+              <h2 className="text-2xl font-bold text-stone-900 mb-8 text-center">
                 Our Current Sponsors
               </h2>
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid sm:grid-cols-2 gap-6">
                 {sponsors.map((sponsor) => (
                   <div
                     key={sponsor.id}
@@ -111,7 +111,7 @@ export default function SponsorsPage() {
                         />
                       ) : (
                         <Handshake
-                          className="w-16 h-16 text-amber-300"
+                          className="w-16 h-16 text-stone-400"
                           strokeWidth={1.2}
                         />
                       )}
@@ -119,13 +119,13 @@ export default function SponsorsPage() {
 
                     {/* Content */}
                     <div className="flex flex-col flex-grow p-6">
-                      <span className="text-xs font-semibold uppercase tracking-wider text-amber-600 mb-1">
+                      <span className="text-xs font-semibold uppercase tracking-wider text-orange-700 mb-1">
                         {sponsor.category}
                       </span>
                       <h3 className="text-xl font-bold text-gray-900 mb-1">
                         {sponsor.name}
                       </h3>
-                      <p className="text-sm text-amber-700 font-medium mb-3">
+                      <p className="text-sm text-stone-900 font-medium mb-3">
                         {sponsor.tagline}
                       </p>
                       <p className="text-sm text-gray-600 leading-relaxed flex-grow">
@@ -165,7 +165,7 @@ export default function SponsorsPage() {
                                   href={service.link}
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-white bg-amber-600 hover:bg-amber-700 px-3 py-1.5 rounded-lg transition"
+                                  className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-white bg-orange-700 hover:bg-orange-700 px-3 py-1.5 rounded-lg transition"
                                 >
                                   <ExternalLink size={12} />
                                   Register in App
@@ -178,14 +178,14 @@ export default function SponsorsPage() {
 
                       {/* Promo code */}
                       {sponsor.discountCode && (
-                        <div className="mt-4 bg-amber-50 border border-amber-200 rounded-xl p-3">
+                        <div className="mt-4 bg-stone-50 border border-stone-200 rounded-xl p-3">
                           <div className="flex items-center gap-2 mb-2">
-                            <Tag size={14} className="text-amber-600" />
-                            <span className="text-xs font-semibold text-amber-700 uppercase tracking-wide">
+                            <Tag size={14} className="text-orange-700" />
+                            <span className="text-xs font-semibold text-stone-900 uppercase tracking-wide">
                               Community code
                             </span>
                           </div>
-                          <span className="inline-block bg-amber-700 text-white text-sm font-bold px-3 py-1 rounded-lg tracking-widest">
+                          <span className="inline-block bg-orange-700 text-white text-sm font-bold px-3 py-1 rounded-lg tracking-widest">
                             {sponsor.discountCode}
                           </span>
                           {sponsor.discountNote && (
@@ -203,7 +203,7 @@ export default function SponsorsPage() {
                             href={sponsor.website}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1.5 text-sm font-medium text-gray-600 bg-gray-100 hover:bg-amber-100 hover:text-amber-700 px-3 py-1.5 rounded-lg transition"
+                            className="inline-flex items-center gap-1.5 text-sm font-medium text-gray-600 bg-gray-100 hover:bg-stone-100 hover:text-stone-900 px-3 py-1.5 rounded-lg transition"
                           >
                             <Globe size={14} />
                             Website
@@ -243,7 +243,7 @@ export default function SponsorsPage() {
             /* ── Coming soon placeholder ── */
             <div className="text-center py-16 bg-white rounded-2xl shadow-sm max-w-2xl mx-auto">
               <Handshake
-                className="w-16 h-16 text-amber-300 mx-auto mb-5"
+                className="w-16 h-16 text-stone-400 mx-auto mb-5"
                 strokeWidth={1.2}
               />
               <h2 className="text-2xl font-bold text-gray-800 mb-3">
@@ -257,7 +257,7 @@ export default function SponsorsPage() {
                 href="https://www.instagram.com/padelkrkcommunity"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-amber-700 text-white px-6 py-2.5 rounded-lg font-semibold hover:bg-amber-800 transition"
+                className="inline-flex items-center gap-2 bg-orange-700 text-white px-6 py-2.5 rounded-lg font-semibold hover:bg-orange-800 transition"
               >
                 <Instagram size={16} />
                 Follow us for updates
@@ -271,7 +271,7 @@ export default function SponsorsPage() {
       <div className="pb-10 flex justify-center">
         <Link
           href="/"
-          className="text-amber-700 font-semibold hover:underline hover:text-amber-900 transition text-sm"
+          className="text-stone-900 font-semibold hover:underline hover:text-orange-800 transition text-sm"
         >
           ← Back to home
         </Link>

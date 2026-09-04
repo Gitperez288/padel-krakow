@@ -59,7 +59,7 @@ export default function GroupsPage() {
   return (
     <div className="px-4 py-10 text-center">
       <section id="groups-header" data-testid="groups-header-section">
-        <h2 className="text-3xl font-extrabold text-amber-700 mb-6">
+        <h2 className="text-3xl font-extrabold text-stone-900 mb-6">
           💬 Community Groups
         </h2>
         <p className="max-w-2xl mx-auto text-gray-700 mb-10 leading-relaxed">
@@ -77,9 +77,9 @@ export default function GroupsPage() {
           .map(({ name, platform, encodedLink, desc }) => (
             <div
               key={name}
-              className="relative p-10 bg-gradient-to-br from-amber-50 to-white rounded-3xl border border-amber-200 shadow-xl hover:shadow-2xl transition text-left"
+              className="relative p-10 bg-gradient-to-br from-amber-50 to-white rounded-3xl border border-stone-200 shadow-xl hover:shadow-2xl transition text-left"
             >
-              <h3 className="text-2xl font-bold text-amber-700 mb-2 flex items-center gap-2">
+              <h3 className="text-2xl font-bold text-stone-900 mb-2 flex items-center gap-2">
                 <span>🌟</span> {name}
               </h3>
               <p className="text-sm text-gray-600 mb-4">{platform}</p>
@@ -90,14 +90,14 @@ export default function GroupsPage() {
                   href={decodeLink(encodedLink)}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-block bg-amber-600 text-white font-semibold px-6 py-3 rounded-full shadow hover:bg-amber-700 transition"
+                  className="inline-block bg-orange-700 text-white font-semibold px-6 py-3 rounded-full shadow hover:bg-orange-700 transition"
                 >
                   🔗 Join {platform} Group
                 </a>
               ) : (
                 <button
                   onClick={() => reveal(name)}
-                  className="inline-block bg-white text-amber-700 font-semibold px-6 py-3 rounded-full border border-amber-400 hover:bg-amber-50 transition"
+                  className="inline-block bg-white text-stone-900 font-semibold px-6 py-3 rounded-full border border-orange-700 hover:bg-stone-50 transition"
                 >
                   👀 Reveal Link
                 </button>
@@ -119,7 +119,7 @@ export default function GroupsPage() {
                   : "bg-gray-50 border-gray-200 opacity-80"
               }`}
             >
-              <h3 className="text-xl font-bold text-amber-700 mb-1">{name}</h3>
+              <h3 className="text-xl font-bold text-stone-900 mb-1">{name}</h3>
               <p className="text-sm text-gray-500 mb-3">{platform}</p>
               <p className="text-gray-700 mb-4 text-sm leading-relaxed">{desc}</p>
 
@@ -129,7 +129,7 @@ export default function GroupsPage() {
                     href={decodeLink(encodedLink)}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-block bg-amber-600 text-white font-semibold px-4 py-2 rounded-full shadow hover:bg-amber-700 transition text-center w-full"
+                    className="inline-block bg-orange-700 text-white font-semibold px-4 py-2 rounded-full shadow hover:bg-orange-700 transition text-center w-full"
                   >
                     🔗 Open {platform} Group
                   </a>
@@ -153,7 +153,7 @@ export default function GroupsPage() {
       {/* --- Closing Message --- */}
       <section id="groups-footer" data-testid="groups-footer-section" className="mt-16 max-w-3xl mx-auto text-gray-700 leading-relaxed text-lg">
         <p>
-          Thanks to our <span className="font-semibold text-amber-700">Padel Kraków & Małopolska Community</span>,
+          Thanks to our <span className="font-semibold text-stone-900">Padel Kraków & Małopolska Community</span>,
           players can connect and organize matches anywhere, from Kraków to Niepołomice, Skawina, and beyond.  
           Use these groups to meet new partners, schedule games, and grow the sport together. 💪
         </p>

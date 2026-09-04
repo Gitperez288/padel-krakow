@@ -137,16 +137,16 @@ const groups = [
 
 export default function GuidelinesPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-amber-50 to-orange-100">
+    <div className="min-h-screen bg-stone-50">
       <div className="max-w-3xl mx-auto px-4 py-16">
         <Link
           href="/"
-          className="text-amber-600 hover:text-amber-700 font-semibold text-sm"
+          className="text-orange-700 hover:text-stone-900 font-semibold text-sm"
         >
           ← Back to Home
         </Link>
 
-        <h1 className="text-4xl font-bold text-amber-700 mt-6 mb-2">
+        <h1 className="text-4xl font-bold text-stone-900 mt-6 mb-2">
           Community Guidelines
         </h1>
         <p className="text-sm text-gray-500 mb-10">Last updated: June 2026</p>
@@ -171,7 +171,7 @@ export default function GuidelinesPage() {
             our{" "}
             <Link
               href="/community"
-              className="text-amber-700 underline hover:text-amber-900 font-semibold"
+              className="text-stone-900 underline hover:text-orange-800 font-semibold"
             >
               Community page
             </Link>
@@ -180,8 +180,8 @@ export default function GuidelinesPage() {
         </div>
 
         {/* Language policy */}
-        <div className="bg-amber-50 border border-amber-200 rounded-2xl p-6 mb-6 flex gap-4">
-          <Globe className="w-6 h-6 text-amber-600 flex-shrink-0 mt-0.5" />
+        <div className="bg-stone-50 border border-stone-200 rounded-2xl p-6 mb-6 flex gap-4">
+          <Globe className="w-6 h-6 text-orange-700 flex-shrink-0 mt-0.5" />
           <div className="text-gray-700 leading-relaxed">
             <p className="font-semibold text-gray-900 mb-1">Language policy</p>
             <p>
@@ -196,7 +196,7 @@ export default function GuidelinesPage() {
         {/* General rules */}
         <div className="bg-white rounded-2xl shadow-sm p-8 mb-10 text-gray-700 leading-relaxed">
           <div className="flex items-center gap-3 mb-5">
-            <ShieldCheck className="w-6 h-6 text-amber-600 flex-shrink-0" />
+            <ShieldCheck className="w-6 h-6 text-orange-700 flex-shrink-0" />
             <h2 className="text-xl font-bold text-gray-900">Rules that apply to all groups</h2>
           </div>
           <ul className="space-y-3">
@@ -208,7 +208,7 @@ export default function GuidelinesPage() {
               "Admins reserve the right to remove content or members who repeatedly break these guidelines.",
             ].map((rule, i) => (
               <li key={i} className="flex gap-3">
-                <span className="flex-shrink-0 w-6 h-6 rounded-full bg-amber-100 text-amber-700 text-xs font-bold flex items-center justify-center mt-0.5">
+                <span className="flex-shrink-0 w-6 h-6 rounded-full bg-stone-100 text-stone-900 text-xs font-bold flex items-center justify-center mt-0.5">
                   {i + 1}
                 </span>
                 <span>{rule}</span>
@@ -244,7 +244,7 @@ export default function GuidelinesPage() {
                       {rule.link && (
                         <Link
                           href={rule.link.href}
-                          className="inline-block mt-1 text-sm text-amber-700 font-semibold hover:text-amber-900 underline underline-offset-2"
+                          className="inline-block mt-1 text-sm text-stone-900 font-semibold hover:text-orange-800 underline underline-offset-2"
                         >
                           {rule.link.label} →
                         </Link>
@@ -267,7 +267,7 @@ export default function GuidelinesPage() {
             Questions or suggestions?{" "}
             <a
               href="mailto:padelkrkcommunity@gmail.com"
-              className="text-amber-700 underline hover:text-amber-900"
+              className="text-stone-900 underline hover:text-orange-800"
             >
               padelkrkcommunity@gmail.com
             </a>

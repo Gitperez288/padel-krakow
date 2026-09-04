@@ -12,16 +12,16 @@ export const metadata: Metadata = {
 
 export default function PrivacyPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-amber-50 to-orange-100">
+    <div className="min-h-screen bg-stone-50">
       <div className="max-w-3xl mx-auto px-4 py-16">
         <Link
           href="/"
-          className="text-amber-600 hover:text-amber-700 font-semibold text-sm"
+          className="text-orange-700 hover:text-stone-900 font-semibold text-sm"
         >
           ← Back to Home
         </Link>
 
-        <h1 className="text-4xl font-bold text-amber-700 mt-6 mb-2">
+        <h1 className="text-4xl font-bold text-stone-900 mt-6 mb-2">
           Privacy Policy
         </h1>
         <p className="text-sm text-gray-500 mb-10">Last updated: June 2026</p>
@@ -35,7 +35,7 @@ export default function PrivacyPage() {
               Carlos Viso and Francisco Pérez. You can reach us at{" "}
               <a
                 href="mailto:padelkrkcommunity@gmail.com"
-                className="text-amber-700 underline hover:text-amber-900"
+                className="text-stone-900 underline hover:text-orange-800"
               >
                 padelkrkcommunity@gmail.com
               </a>
@@ -88,7 +88,7 @@ export default function PrivacyPage() {
                 href="https://vercel.com/legal/privacy-policy"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-amber-700 underline hover:text-amber-900"
+                className="text-stone-900 underline hover:text-orange-800"
               >
                 Vercel&apos;s Privacy Policy
               </a>{" "}
@@ -114,7 +114,7 @@ export default function PrivacyPage() {
               contact us at{" "}
               <a
                 href="mailto:padelkrkcommunity@gmail.com"
-                className="text-amber-700 underline hover:text-amber-900"
+                className="text-stone-900 underline hover:text-orange-800"
               >
                 padelkrkcommunity@gmail.com
               </a>
@@ -131,14 +131,14 @@ export default function PrivacyPage() {
                 href="https://www.whatsapp.com/legal/privacy-policy"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-amber-700 underline hover:text-amber-900"
+                className="text-stone-900 underline hover:text-orange-800"
               >
                 WhatsApp&apos;s Privacy Policy
               </a>
               , not ours. For conduct rules within those groups, please refer to our{" "}
               <Link
                 href="/guidelines"
-                className="text-amber-700 underline hover:text-amber-900"
+                className="text-stone-900 underline hover:text-orange-800"
               >
                 Community Guidelines
               </Link>
@@ -161,7 +161,7 @@ export default function PrivacyPage() {
               For any privacy-related questions, email us at{" "}
               <a
                 href="mailto:padelkrkcommunity@gmail.com"
-                className="text-amber-700 underline hover:text-amber-900"
+                className="text-stone-900 underline hover:text-orange-800"
               >
                 padelkrkcommunity@gmail.com
               </a>

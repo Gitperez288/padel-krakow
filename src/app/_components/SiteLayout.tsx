@@ -76,7 +76,7 @@ export default function SiteLayout({ children, locale }: { children: ReactNode; 
   return (
     <html lang={locale}>
       <head>
-        <meta name="theme-color" content="#b45309" />
+        <meta name="theme-color" content="#c2410c" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta
@@ -86,20 +86,21 @@ export default function SiteLayout({ children, locale }: { children: ReactNode; 
         <link rel="icon" href="/dragon-logo.png" />
         <link rel="apple-touch-icon" href="/dragon-logo.png" />
       </head>
-      <body className={`${inter.className} min-h-screen bg-gradient-to-b from-amber-50 to-orange-100 text-gray-900 flex flex-col`}>
+      <body className={`${inter.className} min-h-screen bg-stone-50 text-stone-900 flex flex-col`}>
         <Providers>
+          <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[60] button-secondary">{locale === "pl" ? "Przejdź do treści" : "Skip to content"}</a>
           <SiteHeader locale={locale} />
 
-        <main className="flex-1">{children}</main>
+        <main id="main-content" className="flex-1">{children}</main>
 
-        <footer className="mt-auto bg-gray-900 text-white/80 py-12">
+        <footer className="mt-auto bg-stone-900 text-white/80 py-12">
           <div className="max-w-6xl mx-auto px-4">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
               <div>
                 <h3 className="text-lg font-semibold text-white mb-4">
                   Padel Kraków
                 </h3>
-                <p className="text-sm text-white/60">{t("Connecting padel players across Kraków and Małopolska.")}</p>
+                <p className="text-sm text-white/75">{t("Connecting padel players across Kraków and Małopolska.")}</p>
               </div>
               <div>
                 <h4 className="text-sm font-semibold text-white mb-4">{t("Navigation")}</h4>
@@ -107,37 +108,37 @@ export default function SiteLayout({ children, locale }: { children: ReactNode; 
                   <li>
                     <Link
                       href={localizePath("/levels", locale)}
-                      className="text-white/60 hover:text-white transition"
+                      className="text-white/75 hover:text-white transition"
                     >{t("Levels")}</Link>
                   </li>
                   <li>
                     <Link
                       href={localizePath("/courts", locale)}
-                      className="text-white/60 hover:text-white transition"
+                      className="text-white/75 hover:text-white transition"
                     >{t("Courts")}</Link>
                   </li>
                   <li>
                     <Link
                       href={localizePath("/community", locale)}
-                      className="text-white/60 hover:text-white transition"
+                      className="text-white/75 hover:text-white transition"
                     >{t("Community")}</Link>
                   </li>
                   <li>
                     <Link
                       href="/blog"
-                      className="text-white/60 hover:text-white transition"
+                      className="text-white/75 hover:text-white transition"
                     >{t("Blog")}</Link>
                   </li>
                   <li>
                     <Link
                       href="/coaches"
-                      className="text-white/60 hover:text-white transition"
+                      className="text-white/75 hover:text-white transition"
                     >{t("Coaches")}</Link>
                   </li>
                   <li>
                     <Link
                       href="/who-we-are"
-                      className="text-white/60 hover:text-white transition"
+                      className="text-white/75 hover:text-white transition"
                     >{t("Who We Are")}</Link>
                   </li>
                 </ul>
@@ -148,19 +149,19 @@ export default function SiteLayout({ children, locale }: { children: ReactNode; 
                   <li>
                     <Link
                       href="/privacy"
-                      className="text-white/60 hover:text-white transition"
+                      className="text-white/75 hover:text-white transition"
                     >{t("Privacy Policy")}</Link>
                   </li>
                   <li>
                     <Link
                       href="/terms"
-                      className="text-white/60 hover:text-white transition"
+                      className="text-white/75 hover:text-white transition"
                     >{t("Terms of Service")}</Link>
                   </li>
                   <li>
                     <Link
                       href="/guidelines"
-                      className="text-white/60 hover:text-white transition"
+                      className="text-white/75 hover:text-white transition"
                     >{t("Community Guidelines")}</Link>
                   </li>
                 </ul>
@@ -171,7 +172,7 @@ export default function SiteLayout({ children, locale }: { children: ReactNode; 
                   <li>
                     <a
                       href="mailto:padelkrkcommunity@gmail.com"
-                      className="text-white/60 hover:text-white transition"
+                      className="text-white/75 hover:text-white transition"
                     >
                       padelkrkcommunity@gmail.com
                     </a>
@@ -181,17 +182,17 @@ export default function SiteLayout({ children, locale }: { children: ReactNode; 
                       href="https://www.instagram.com/padelkrkcommunity"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-white/60 hover:text-white transition"
+                      className="text-white/75 hover:text-white transition"
                     >
                       @padelkrkcommunity
                     </a>
                   </li>
-                  <li className="text-white/60">{t("Join our WhatsApp communities to find matches!")}</li>
+                  <li className="text-white/75">{t("Join our WhatsApp communities to find matches!")}</li>
                 </ul>
               </div>
             </div>
-            <div className="border-t border-white/10 pt-8 text-center text-sm text-white/60">
-              © {new Date().getFullYear()}{t("Padel Kraków Community. All rights reserved.")}</div>
+            <div className="border-t border-white/10 pt-8 text-center text-sm text-white/75">
+              © {new Date().getFullYear()}{" "}{t("Padel Kraków Community. All rights reserved.")}</div>
           </div>
         </footer>
 

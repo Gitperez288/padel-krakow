@@ -29,11 +29,11 @@ export default async function BlogPage() {
   });
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-amber-50 to-orange-100">
+    <div className="min-h-screen bg-stone-50">
       <div className="max-w-4xl mx-auto px-4 py-12">
         {/* Header */}
         <section id="blog-header" data-testid="blog-header-section" className="mb-12">
-          <h1 className="text-4xl font-bold text-amber-700 mb-4">📰 Blog</h1>
+          <h1 className="text-4xl font-bold text-stone-900 mb-4">📰 Blog</h1>
           <p className="text-lg text-gray-700">
             Latest updates and stories from the Padel Kraków community
           </p>
@@ -60,7 +60,7 @@ export default async function BlogPage() {
                       </div>
                     )}
                     <div className="flex-1 p-6">
-                      <h2 className="text-2xl font-bold text-amber-700 mb-2">
+                      <h2 className="text-2xl font-bold text-stone-900 mb-2">
                         {post.title}
                       </h2>
                       <p className="text-gray-600 mb-4">
@@ -91,7 +91,7 @@ export default async function BlogPage() {
 
         {/* Back to Home */}
         <section id="blog-footer" data-testid="blog-footer-section" className="mt-12 text-center\">
-          <Link href="/" className="text-amber-600 hover:text-amber-700 font-semibold">
+          <Link href="/" className="text-orange-700 hover:text-stone-900 font-semibold">
             ← Back to Home
           </Link>
         </section>

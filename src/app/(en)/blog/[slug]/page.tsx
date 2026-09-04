@@ -109,15 +109,15 @@ export default async function BlogPostPage({
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-amber-50 to-orange-100">
+    <div className="min-h-screen bg-stone-50">
       <div className="max-w-3xl mx-auto px-4 py-12">
         {/* Header */}
         <header className="mb-8">
-          <Link href="/blog" className="text-amber-600 hover:text-amber-700 font-semibold">
+          <Link href="/blog" className="text-orange-700 hover:text-stone-900 font-semibold">
             ← Back to Blog
           </Link>
 
-          <h1 className="text-4xl md:text-5xl font-bold text-amber-700 mt-4 mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold text-stone-900 mt-4 mb-4">
             {post.title}
           </h1>
 
@@ -159,7 +159,7 @@ export default async function BlogPostPage({
 
         {/* Footer */}
         <div className="mt-12 text-center">
-          <Link href="/blog" className="text-amber-600 hover:text-amber-700 font-semibold">
+          <Link href="/blog" className="text-orange-700 hover:text-stone-900 font-semibold">
             ← Back to Blog
           </Link>
         </div>

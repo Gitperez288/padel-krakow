@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Instagram, UserCircle2, MapPin, Languages, Search, X } from "lucide-react";
 
 export interface Coach {
@@ -78,8 +79,8 @@ export default function CoachesClient({ coaches }: Props) {
   return (
     <>
       {/* Filter Panel */}
-      <section className="bg-white border-b border-amber-100 py-6 px-4 sticky top-[64px] z-30 shadow-sm">
-        <div className="max-w-5xl mx-auto space-y-4">
+      <section className="px-4 pb-6">
+        <div className="surface max-w-6xl mx-auto space-y-4 p-4 sm:p-5">
           {/* Search + Location row */}
           <div className="flex flex-col sm:flex-row gap-3">
             {/* Search */}
@@ -90,10 +91,11 @@ export default function CoachesClient({ coaches }: Props) {
               />
               <input
                 type="text"
+                aria-label="Search coaches"
                 placeholder="Search coaches…"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full pl-9 pr-9 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400"
+                className="w-full pl-9 pr-9 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-orange-700"
               />
               {search && (
                 <button
@@ -108,11 +110,12 @@ export default function CoachesClient({ coaches }: Props) {
 
             {/* Location */}
             <div className="flex items-center gap-2">
-              <MapPin size={16} className="text-amber-600 shrink-0" />
+              <MapPin size={16} className="text-orange-700 shrink-0" />
               <select
+                aria-label="Coach location"
                 value={selectedLocation}
                 onChange={(e) => setSelectedLocation(e.target.value)}
-                className="py-2 pl-3 pr-8 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 bg-white"
+                className="py-2 pl-3 pr-8 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-orange-700 bg-white"
               >
                 {locations.map((loc) => (
                   <option key={loc} value={loc}>
@@ -125,17 +128,18 @@ export default function CoachesClient({ coaches }: Props) {
 
           {/* Language pills */}
           <div className="flex flex-wrap items-center gap-2">
-            <Languages size={16} className="text-amber-600 shrink-0" />
+            <Languages size={16} className="text-orange-700 shrink-0" />
             {ALL_LANGUAGES.map((lang) => {
               const active = selectedLanguages.includes(lang);
               return (
                 <button
                   key={lang}
+                  aria-pressed={active}
                   onClick={() => toggleLanguage(lang)}
-                  className={`px-3 py-1 rounded-full text-xs font-medium border transition ${
+                  className={`min-h-11 px-3 py-2 rounded-lg text-sm font-medium border transition ${
                     active
-                      ? "bg-amber-600 text-white border-amber-600"
-                      : "bg-white text-gray-600 border-gray-200 hover:border-amber-400"
+                      ? "bg-orange-700 text-white border-orange-700"
+                      : "bg-white text-gray-600 border-gray-200 hover:border-orange-700"
                   }`}
                 >
                   {lang}
@@ -155,31 +159,33 @@ export default function CoachesClient({ coaches }: Props) {
       </section>
 
       {/* Coach Cards */}
-      <section className="py-16 px-4">
-        <div className="max-w-5xl mx-auto">
+      <section className="pb-12 px-4">
+        <div className="max-w-6xl mx-auto">
           {filtered.length === 0 ? (
             <div className="text-center py-24 text-gray-400">
               <p className="text-xl font-semibold mb-2">No coaches found</p>
               <p className="text-sm">Try adjusting your filters.</p>
             </div>
           ) : (
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid items-start sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {filtered.map((coach) => (
                 <div
                   key={coach.name}
-                  className="bg-white rounded-2xl shadow-md hover:shadow-xl transition overflow-hidden flex flex-col"
+                  className="surface overflow-hidden flex flex-col"
                 >
                   {/* Photo */}
-                  <div className="aspect-square w-full bg-gradient-to-br from-amber-100 to-orange-200 flex items-center justify-center overflow-hidden">
+                  <div className="relative aspect-square w-full bg-stone-100 flex items-center justify-center overflow-hidden">
                     {coach.photo ? (
-                      <img
+                      <Image
+                        fill
+                        sizes="(min-width: 1024px) 360px, (min-width: 640px) 50vw, 100vw"
                         src={coach.photo}
                         alt={`${coach.name} – Padel Coach`}
                         className="w-full h-full object-cover"
                       />
                     ) : (
                       <UserCircle2
-                        className="w-24 h-24 text-amber-400"
+                        className="w-24 h-24 text-stone-500"
                         strokeWidth={1.2}
                       />
                     )}
@@ -191,13 +197,9 @@ export default function CoachesClient({ coaches }: Props) {
                       {coach.name}
                     </h2>
 
-                    <p className="text-sm text-gray-600 leading-relaxed flex-grow whitespace-pre-line">
-                      {coach.description}
-                    </p>
-
                     {/* Location */}
                     <div className="flex items-center gap-1.5 text-sm text-gray-500">
-                      <MapPin size={14} className="text-amber-500 shrink-0" />
+                      <MapPin size={14} className="text-stone-500 shrink-0" />
                       <span>{coach.location}</span>
                     </div>
 
@@ -206,7 +208,7 @@ export default function CoachesClient({ coaches }: Props) {
                       {coach.languages.map((lang) => (
                         <span
                           key={lang}
-                          className="px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 text-xs font-medium"
+                          className="px-2 py-0.5 rounded-full bg-stone-100 text-stone-700 text-xs font-medium"
                         >
                           {lang}
                         </span>
@@ -221,9 +223,9 @@ export default function CoachesClient({ coaches }: Props) {
                           href={coach.instagram}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2 text-pink-600 font-semibold hover:text-pink-800 transition text-sm"
+                          className="button-primary w-full break-all"
                         >
-                          <Instagram size={16} />@{coach.instagram.replace(/.*instagram\.com\//, "").replace(/\/$/, "")}
+                          <Instagram size={16} /> Contact on Instagram
                         </Link>
                       ) : (
                         <span className="inline-flex items-center gap-2 text-gray-400 text-sm">
@@ -231,6 +233,10 @@ export default function CoachesClient({ coaches }: Props) {
                         </span>
                       )}
                     </div>
+                    <details className="group border-t border-stone-200 pt-4">
+                      <summary className="cursor-pointer text-sm font-semibold text-stone-900">About {coach.name}</summary>
+                      <p className="mt-4 whitespace-pre-line text-sm leading-relaxed text-stone-600">{coach.description}</p>
+                    </details>
                   </div>
                 </div>
               ))}

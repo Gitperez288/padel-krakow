@@ -42,12 +42,12 @@ const collaborators = [
 
 export default function WhoWeArePage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-amber-50 to-orange-100">
+    <div className="min-h-screen bg-stone-50">
       {/* Hero */}
-      <section className="bg-amber-700 text-white py-16 px-4">
+      <section className="bg-orange-700 text-white py-16 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">👋 Who We Are</h1>
-          <p className="text-lg md:text-xl text-amber-100 max-w-2xl mx-auto">
+          <p className="text-lg md:text-xl text-stone-200 max-w-2xl mx-auto">
             We are a small, passionate team on a mission to build the most
             welcoming padel community in Kraków and Małopolska. People first,
             always.
@@ -59,7 +59,7 @@ export default function WhoWeArePage() {
       <section className="py-16 px-4">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-amber-700 mb-2">The Founders</h2>
+            <h2 className="text-3xl font-bold text-stone-900 mb-2">The Founders</h2>
             <p className="text-gray-600 max-w-xl mx-auto">
               Padel Kraków Community was started by two friends who fell in love
               with Padel and wanted to share it with the whole region. The group
@@ -83,7 +83,7 @@ export default function WhoWeArePage() {
                     />
                   ) : (
                     <UserCircle2
-                      className="w-32 h-32 text-amber-400"
+                      className="w-32 h-32 text-stone-500"
                       strokeWidth={1.2}
                     />
                   )}
@@ -91,7 +91,7 @@ export default function WhoWeArePage() {
 
                 <div className="p-6">
                   <h3 className="text-2xl font-bold text-gray-900">{person.name}</h3>
-                  <span className="inline-block mt-1 mb-4 text-sm font-medium text-amber-700 bg-amber-100 px-3 py-1 rounded-full">
+                  <span className="inline-block mt-1 mb-4 text-sm font-medium text-stone-900 bg-stone-100 px-3 py-1 rounded-full">
                     {person.role}
                   </span>
                   <p className="text-gray-500 text-sm leading-relaxed">{person.bio}</p>
@@ -105,8 +105,8 @@ export default function WhoWeArePage() {
       {/* Mission Statement */}
       <section className="py-12 px-4 bg-white">
         <div className="max-w-3xl mx-auto text-center">
-          <Star className="w-10 h-10 text-amber-500 mx-auto mb-4" />
-          <h2 className="text-2xl font-bold text-amber-700 mb-4">Our Mission</h2>
+          <Star className="w-10 h-10 text-orange-700 mx-auto mb-4" />
+          <h2 className="text-2xl font-bold text-stone-900 mb-4">Our Mission</h2>
           <p className="text-gray-600 text-lg leading-relaxed">
             We believe padel is more than a sport; it&apos;s about people,
             connections, and community. Our goal is to make padel accessible and
@@ -121,8 +121,8 @@ export default function WhoWeArePage() {
       <section className="py-16 px-4">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-10">
-            <Users2 className="w-10 h-10 text-amber-500 mx-auto mb-3" />
-            <h2 className="text-3xl font-bold text-amber-700 mb-2">Our Collaborators</h2>
+            <Users2 className="w-10 h-10 text-orange-700 mx-auto mb-3" />
+            <h2 className="text-3xl font-bold text-stone-900 mb-2">Our Collaborators</h2>
             <p className="text-gray-600 max-w-xl mx-auto">
               We have a growing team of amazing people contributing to the blog,
               community events, and everything in between.
@@ -143,12 +143,12 @@ export default function WhoWeArePage() {
                       className="w-full h-full object-cover"
                     />
                   ) : (
-                    <UserCircle2 className="w-32 h-32 text-amber-400" strokeWidth={1.2} />
+                    <UserCircle2 className="w-32 h-32 text-stone-500" strokeWidth={1.2} />
                   )}
                 </div>
                 <div className="p-6">
                   <h3 className="text-2xl font-bold text-gray-900">{collab.name}</h3>
-                  <span className="inline-block mt-1 mb-4 text-sm font-medium text-amber-700 bg-amber-100 px-3 py-1 rounded-full">
+                  <span className="inline-block mt-1 mb-4 text-sm font-medium text-stone-900 bg-stone-100 px-3 py-1 rounded-full">
                     {collab.role}
                   </span>
                   <p className="text-gray-500 text-sm leading-relaxed whitespace-pre-line">{collab.bio}</p>

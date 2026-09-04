@@ -1,21 +1,19 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { Menu, X, Instagram } from "lucide-react";
-
+import { Menu, X, ChevronDown } from "lucide-react";
 import { localizePath, localizedRoutes, type Locale } from "@/lib/i18n";
 import { getTranslator } from "@/lib/translations";
 
-const INSTAGRAM_URL = "https://www.instagram.com/padelkrkcommunity";
-
-const navLinks = [
-  { href: "/levels", label: "Levels" },
+const primaryLinks = [
   { href: "/courts", label: "Courts" },
-  { href: "/community", label: "Groups" },
   { href: "/coaches", label: "Coaches" },
+  { href: "/community", label: "Groups" },
+];
+const secondaryLinks = [
+  { href: "/levels", label: "Levels" },
   { href: "/blog", label: "Blog" },
   { href: "/sponsors", label: "Sponsors" },
   { href: "/who-we-are", label: "Who We Are" },
@@ -26,125 +24,70 @@ export default function SiteHeader({ locale }: { locale: Locale }) {
   const t = getTranslator(locale);
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
-
-  // Close menu on route change
+  const aboutRef = useRef<HTMLDetailsElement>(null);
+  const menuRef = useRef<HTMLButtonElement>(null);
   useEffect(() => {
     setOpen(false);
+    if (aboutRef.current) aboutRef.current.open = false;
   }, [pathname]);
-
-  // Prevent body scroll when menu is open
   useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : "";
+    const dismiss = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      if (open) { setOpen(false); menuRef.current?.focus(); }
+      if (aboutRef.current?.open) {
+        aboutRef.current.open = false;
+        aboutRef.current.querySelector("summary")?.focus();
+      }
+    };
+    const outside = (event: PointerEvent) => {
+      if (aboutRef.current && !aboutRef.current.contains(event.target as Node)) aboutRef.current.open = false;
+    };
+    document.addEventListener("keydown", dismiss);
+    document.addEventListener("pointerdown", outside);
     return () => {
-      document.body.style.overflow = "";
+      document.removeEventListener("keydown", dismiss);
+      document.removeEventListener("pointerdown", outside);
     };
   }, [open]);
+  const navLink = (link: {href: string; label: string}, mobile = false) => (
+    <Link key={link.href} href={localizePath(link.href, locale)}
+      aria-current={pathname === localizePath(link.href, locale) ? "page" : undefined}
+      onClick={() => setOpen(false)}
+      className={`${mobile ? "block rounded-lg px-4 py-3" : "py-3"} text-sm font-semibold transition-colors ${pathname === localizePath(link.href, locale) ? "text-orange-700" : "text-stone-600 hover:text-stone-900"}`}>
+      {t(link.label)}
+    </Link>
+  );
+  const translated = Object.values(localizedRoutes).some(pair => pair.en === pathname || pair.pl === pathname);
 
   return (
-    <header className="bg-white shadow-md sticky top-0 z-50">
-      <nav className="max-w-7xl mx-auto px-4 lg:px-8 py-3 flex justify-between items-center">
-        <Link
-          href={localizePath("/", locale)}
-          className="flex items-center gap-2 hover:opacity-90 transition"
-        >
-          <Image
-            src="/dragon-logo.png"
-            alt=""
-            width={36}
-            height={36}
-            className="h-9 w-auto"
-            priority
-          />
-          <span className="text-2xl font-extrabold text-orange-600">
-            Padel Kraków
-          </span>
+    <header className="sticky top-0 z-50 border-b border-stone-200 bg-white">
+      <nav aria-label={locale === "pl" ? "Nawigacja główna" : "Main navigation"} className="mx-auto flex h-20 max-w-6xl items-center justify-between gap-3 px-4">
+        <Link href={localizePath("/", locale)} className="flex items-center gap-2.5" aria-label="Padel Kraków">
+          <span aria-hidden="true" className="flex h-9 w-9 items-center justify-center rounded-xl bg-orange-700 text-sm font-black text-white">PK</span>
+          <span className="text-lg font-extrabold tracking-tight text-stone-900 sm:text-xl">Padel Kraków<span className="hidden text-[10px] font-semibold uppercase tracking-[0.2em] text-stone-500 sm:block">Community</span></span>
         </Link>
-
-        {/* Desktop nav */}
-        <div className="hidden xl:flex space-x-4 items-center">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={localizePath(link.href, locale)}
-              className={`font-medium transition ${
-                pathname === localizePath(link.href, locale)
-                  ? "text-orange-600"
-                  : "text-gray-700 hover:text-orange-600"
-              }`}
-            >
-              {t(link.label)}
-            </Link>
-          ))}
-          <a
-            href={INSTAGRAM_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={t("Padel Kraków on Instagram")}
-            className="text-gray-400 hover:text-pink-600 transition ml-1"
-          >
-            <Instagram size={20} />
-          </a>
+        <div className="hidden items-center gap-8 lg:flex">
+          {primaryLinks.map(link => navLink(link))}
+          <details ref={aboutRef} className="group relative">
+            <summary className="flex cursor-pointer list-none items-center gap-1 py-3 text-sm font-semibold text-stone-600 [&::-webkit-details-marker]:hidden">{locale === "pl" ? "O nas" : "About"}<ChevronDown size={14} className="group-open:rotate-180" /></summary>
+            <div className="surface absolute right-0 top-full w-56 p-2">{secondaryLinks.map(link => navLink(link, true))}</div>
+          </details>
         </div>
-
-        <div className="flex items-center gap-2">
-          <div aria-label={locale === "pl" ? "Język strony" : "Page language"} className="flex gap-2 text-sm font-semibold">
-            {(["pl", "en"] as const).map((language) => {
-              const translated = Object.values(localizedRoutes).some(pair => pair.en === pathname || pair.pl === pathname);
-              // Do not imply an English-only page has an equivalent Polish translation.
-              if (!translated && language !== locale) return null;
-              return <a key={language} href={localizePath(pathname, language)} hrefLang={language} lang={language} aria-current={locale === language ? "page" : undefined} className={locale === language ? "text-orange-700 underline underline-offset-4" : "text-gray-700 hover:text-orange-600"}>{language.toUpperCase()}</a>;
-            })}
+        <div className="flex items-center gap-3 sm:gap-5">
+          <div aria-label={locale === "pl" ? "Język strony" : "Page language"} className="flex gap-2 text-xs font-semibold">
+            {(["pl", "en"] as const).map(language => (!translated && language !== locale) ? null : (
+              <a key={language} href={localizePath(pathname, language)} hrefLang={language} lang={language} aria-current={locale === language ? "page" : undefined} className={locale === language ? "text-orange-700 underline underline-offset-4" : "text-stone-500 hover:text-stone-900"}>{language.toUpperCase()}</a>
+            ))}
           </div>
-        {/* Mobile hamburger */}
-        <button
-          className="xl:hidden text-orange-600 hover:text-orange-700 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-300"
-          onClick={() => setOpen((prev) => !prev)}
-          aria-label={open ? t("Close menu") : t("Open menu")}
-          aria-expanded={open}
-          aria-controls="mobile-menu"
-        >
-          {open ? <X size={28} /> : <Menu size={28} />}
-        </button>
+          <Link href={localizePath("/community", locale)} className="button-primary hidden lg:inline-flex">{t("Join the Community")}</Link>
+          <button ref={menuRef} className="p-2 text-stone-900 lg:hidden" onClick={() => setOpen(prev => !prev)} aria-label={open ? t("Close menu") : t("Open menu")} aria-expanded={open} aria-controls="mobile-menu">{open ? <X size={24}/> : <Menu size={24}/>}</button>
         </div>
       </nav>
-
-      {/* Mobile menu drawer */}
-      {open && (
-        <div
-          id="mobile-menu"
-          className="xl:hidden bg-white border-t border-gray-100 shadow-lg"
-        >
-          <ul className="flex flex-col px-4 py-4 gap-1">
-            {navLinks.map((link) => (
-              <li key={link.href}>
-                <Link
-                  href={localizePath(link.href, locale)}
-                  className={`block px-4 py-3 rounded-xl font-medium transition ${
-                    pathname === localizePath(link.href, locale)
-                      ? "bg-orange-50 text-orange-600"
-                      : "text-gray-700 hover:bg-orange-50 hover:text-orange-600"
-                  }`}
-                  onClick={() => setOpen(false)}
-                >
-                  {t(link.label)}
-                </Link>
-              </li>
-            ))}
-          </ul>
-          <div className="px-4 pb-4 pt-1 border-t border-gray-100">
-            <a
-              href={INSTAGRAM_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 px-4 py-3 rounded-xl text-gray-600 hover:bg-pink-50 hover:text-pink-600 transition font-medium"
-              onClick={() => setOpen(false)}
-            >
-              <Instagram size={18} />
-              @padelkrkcommunity
-            </a>
-          </div>
-        </div>
-      )}
+      {open && <div id="mobile-menu" className="max-h-[calc(100dvh-5rem)] overflow-y-auto border-t border-stone-200 bg-white p-4 lg:hidden">
+        {primaryLinks.map(link => navLink(link, true))}
+        <div className="my-2 border-t border-stone-100 pt-2">{secondaryLinks.map(link => navLink(link, true))}</div>
+        <Link href={localizePath("/community", locale)} onClick={() => setOpen(false)} className="button-primary w-full">{t("Join the Community")}</Link>
+      </div>}
     </header>
   );
 }
