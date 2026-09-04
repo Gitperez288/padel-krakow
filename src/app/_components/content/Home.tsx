@@ -78,7 +78,7 @@ export default async function HomePage({ locale }: { locale: Locale }) {
     {
       icon: Instagram,
       title: t("Follow on Instagram"),
-      description: t("@padelkrkcommunity — join the conversation."),
+      description: t("@padelkrkcommunity: join the conversation."),
       href: "https://www.instagram.com/padelkrkcommunity",
       color: "from-pink-500 to-rose-500",
       external: true,

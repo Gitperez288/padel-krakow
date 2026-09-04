@@ -37,7 +37,7 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  // ── Protect admin routes — require authenticated admin role ───────────────
+  // ── Protect admin routes: require authenticated admin role ───────────────
   const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
 
   if (request.nextUrl.pathname.startsWith("/admin")) {

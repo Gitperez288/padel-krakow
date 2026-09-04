@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   },
 };
 
-// Draft coaches — not yet shown publicly
+// Draft coaches: not yet shown publicly
 const _draftCoaches: Coach[] = [
   {
     name: "Mariano",

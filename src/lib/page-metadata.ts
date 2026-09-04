@@ -4,20 +4,20 @@ import { localizedRoutes, type Locale, type PageKey } from "./i18n";
 
 const copy = {
   home: {
-    en: ["Padel Kraków Community — Courts & Players", "Find padel courts in Kraków and Małopolska, assess your playing level and meet local players in our WhatsApp community."],
-    pl: ["Padel Kraków — korty i społeczność graczy", "Znajdź korty do padla w Krakowie i Małopolsce, sprawdź swój poziom i poznaj osoby do gry. Dołącz do społeczności na WhatsAppie."],
+    en: ["Padel Kraków Community: Courts & Players", "Find padel courts in Kraków and Małopolska, assess your playing level and meet local players in our WhatsApp community."],
+    pl: ["Padel Kraków: korty i społeczność graczy", "Znajdź korty do padla w Krakowie i Małopolsce, sprawdź swój poziom i poznaj osoby do gry. Dołącz do społeczności na WhatsAppie."],
   },
   courts: {
     en: ["Padel Courts in Kraków & Małopolska", "Compare padel courts in Kraków and Małopolska. Check addresses, indoor and outdoor facilities, court counts and booking options."],
     pl: ["Korty do padla w Krakowie i Małopolsce", "Gdzie grać w padla w Krakowie? Porównaj korty, adresy, hale i obiekty na zewnątrz. Sprawdź sposoby rezerwacji w Krakowie i Małopolsce."],
   },
   community: {
-    en: ["Find Padel Players in Kraków — Community", "Find partners for padel in Kraków and Małopolska. Join our WhatsApp community, arrange matches and connect with local club groups."],
-    pl: ["Znajdź osoby do padla w Krakowie — społeczność", "Szukasz osób do gry w padla w Krakowie? Dołącz do społeczności na WhatsAppie, umawiaj mecze i poznaj lokalne grupy klubowe."],
+    en: ["Find Padel Players in Kraków: Community", "Find partners for padel in Kraków and Małopolska. Join our WhatsApp community, arrange matches and connect with local club groups."],
+    pl: ["Znajdź osoby do padla w Krakowie: społeczność", "Szukasz osób do gry w padla w Krakowie? Dołącz do społeczności na WhatsAppie, umawiaj mecze i poznaj lokalne grupy klubowe."],
   },
   levels: {
-    en: ["Padel Playing Levels — Find Your Level", "Assess your padel level with practical descriptions of skills, positioning and teamwork. Find compatible players in Kraków."],
-    pl: ["Poziomy gry w padla — sprawdź swój poziom", "Jak określić swój poziom w padlu? Porównaj umiejętności, ustawienie i współpracę w parze, aby łatwiej znaleźć osoby do wspólnej gry."],
+    en: ["Padel Playing Levels: Find Your Level", "Assess your padel level with practical descriptions of skills, positioning and teamwork. Find compatible players in Kraków."],
+    pl: ["Poziomy gry w padla: sprawdź swój poziom", "Jak określić swój poziom w padlu? Porównaj umiejętności, ustawienie i współpracę w parze, aby łatwiej znaleźć osoby do wspólnej gry."],
   },
 } as const;
 
