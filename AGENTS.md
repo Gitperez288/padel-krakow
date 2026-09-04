@@ -12,6 +12,11 @@ isolated Neon database branches.
 4. Verify the affected routes on the preview before merging.
 5. Confirm production after the merge.
 
+Read [the development runbook](docs/development-workflow.md) before publishing
+changes or diagnosing preview/CI failures. Keep verified project-specific lessons
+there; update this agreement only for durable rules. Do not store secrets or raw
+chat transcripts in either file.
+
 ## Database safety
 
 - Production data lives on the Neon `production` branch.
@@ -38,6 +43,12 @@ isolated Neon database branches.
 - Smoke-test `/`, `/blog`, `/sitemap.xml`, and `/api/auth/session` when shared
   application behavior changes.
 - Inspect Vercel build and runtime errors before merging.
+- A READY deployment is not a browser-test pass. Record build, typecheck, and
+  browser results separately; protected/blocked or skipped checks are not passes.
+- Secret-backed preview checks must use trusted test code from `main`, an
+  explicitly approved exact PR revision, and its immutable preview deployment.
+- Do not check out PR code in a privileged workflow, forward a bypass header to
+  third-party origins, or disable preview protection to make tests pass.
 
 ## Secrets
 
@@ -45,3 +56,6 @@ isolated Neon database branches.
   tokens.
 - Keep `.env.local.example` limited to placeholders and variable names.
 - Vercel manages deployed secrets; the Neon integration manages database URLs.
+- The GitHub Actions repository secret `VERCEL_AUTOMATION_BYPASS_SECRET` is used
+  only by the preview-test step. Never ask for its value in chat or upload network
+  traces containing it.

@@ -1,0 +1,10 @@
+{
+  "name": "padel-krakow-preview-tests",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "playwright test",
+    "test:guards": "node --test guard.test.mjs gate.test.mjs"
+  },
+  "devDependencies": { "@playwright/test": "1.62.0" }
+}
