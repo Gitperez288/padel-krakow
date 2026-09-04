@@ -1,73 +1,72 @@
 "use client";
+import { getTranslator } from "@/lib/translations";
+import { localizePath, type Locale } from "@/lib/i18n";
+import NextSteps from "@/app/_components/NextSteps";
+
 
 import { useRef, useState } from "react";
 
-export default function LevelsPage() {
+export default function LevelsPage({ locale }: { locale: Locale }) {
+  const t = getTranslator(locale);
   const levels = [
     {
       level: "1.0 – 2.0",
-      title: "Beginner",
+      title: t("Beginner"),
       letter: "C4 – C3",
-      desc: `Learning the rules, scoring, and basic positioning. Still adapting to the walls 
-      and developing control when returning the ball. Rallies are short and consistency 
-      is the main challenge.`,
+      desc: t("Learning the rules, scoring, and basic positioning. Still adapting to the walls \n      and developing control when returning the ball. Rallies are short and consistency \n      is the main challenge."),
       skills: [
-        "Basic knowledge of scoring and rules",
-        "Learning to hit forehand and backhand with control",
-        "Positioning and teamwork developing",
-        "Serves and returns inconsistent",
+        t("Basic knowledge of scoring and rules"),
+        t("Learning to hit forehand and backhand with control"),
+        t("Positioning and teamwork developing"),
+        t("Serves and returns inconsistent"),
       ],
     },
     {
       level: "2.5 – 3.0",
-      title: "Improver",
+      title: t("Improver"),
       letter: "C2 – C1",
-      desc: `Can rally with control and understands positioning. Starts using walls intentionally 
-      and can maintain longer points, but still makes unforced errors under pressure.`,
+      desc: t("Can rally with control and understands positioning. Starts using walls intentionally \n      and can maintain longer points, but still makes unforced errors under pressure."),
       skills: [
-        "Consistent forehand and improving backhand",
-        "Can serve reliably with control",
-        "Starting to defend and use lob effectively",
-        "Understands net positioning and teamwork",
+        t("Consistent forehand and improving backhand"),
+        t("Can serve reliably with control"),
+        t("Starting to defend and use lob effectively"),
+        t("Understands net positioning and teamwork"),
       ],
     },
     {
       level: "3.5 – 4.0",
-      title: "Intermediate",
+      title: t("Intermediate"),
       letter: "B4 – B3",
-      desc: `Plays regularly, can build points tactically, and has control over pace and direction. 
-      Reliable teamwork and positioning, smooth transitions between defense and attack.`,
+      desc: t("Plays regularly, can build points tactically, and has control over pace and direction. \n      Reliable teamwork and positioning, smooth transitions between defense and attack."),
       skills: [
-        "Solid rally consistency and control on most shots",
-        "Can vary shot height and speed strategically",
-        "Good understanding of transitions (lob → attack)",
-        "Knows when to play safe vs aggressive shots",
+        t("Solid rally consistency and control on most shots"),
+        t("Can vary shot height and speed strategically"),
+        t("Good understanding of transitions (lob → attack)"),
+        t("Knows when to play safe vs aggressive shots"),
       ],
     },
     {
       level: "4.5 – 5.0",
-      title: "Advanced",
+      title: t("Advanced"),
       letter: "B2 – B1",
-      desc: `Strong consistency, tactical understanding, and pressure control. Can exploit 
-      opponents’ weaknesses, anticipate shots, and maintain high intensity.`,
+      desc: t("Strong consistency, tactical understanding, and pressure control. Can exploit \n      opponents’ weaknesses, anticipate shots, and maintain high intensity."),
       skills: [
-        "Excellent control and shot placement under pressure",
-        "Natural team coordination and communication",
-        "Reliable bandeja, vibora, and counter-lob execution",
-        "Effective transition from defense to attack",
+        t("Excellent control and shot placement under pressure"),
+        t("Natural team coordination and communication"),
+        t("Reliable bandeja, vibora, and counter-lob execution"),
+        t("Effective transition from defense to attack"),
       ],
     },
     {
       level: "5.5 – 6.0+",
-      title: "Competitive / Elite",
+      title: t("Competitive / Elite"),
       letter: "A4 – A1",
-      desc: `Plays at tournament or semi-professional level. Demonstrates mastery of court positioning, 
-      shot selection, and match strategy. Mentally strong and technically precise.`,
+      desc: t("Plays at tournament or semi-professional level. Demonstrates mastery of court positioning, \n      shot selection, and match strategy. Mentally strong and technically precise."),
       skills: [
-        "Predicts and adapts to opponents’ tactics instantly",
-        "Technically sound on all shots, including x3/x4 smashes",
-        "Controls match tempo and rhythm effectively",
-        "Competes in advanced leagues or tournaments",
+        t("Predicts and adapts to opponents’ tactics instantly"),
+        t("Technically sound on all shots, including x3/x4 smashes"),
+        t("Controls match tempo and rhythm effectively"),
+        t("Competes in advanced leagues or tournaments"),
       ],
     },
   ];
@@ -86,15 +85,12 @@ export default function LevelsPage() {
   return (
     <div className="px-4 py-10 text-center">
       <section id="levels-header" data-testid="levels-header-section">
-        <h2 className="text-3xl font-extrabold text-amber-700 mb-6">
-          <span aria-hidden="true">🎾</span> Padel Level Scale
-        </h2>
-        <p className="max-w-2xl mx-auto text-gray-700 mb-10 leading-relaxed">
-          The community uses this scale to keep matches balanced and fair.  
-          Find your level, see the equivalency to the letter system, and
-          understand what each stage of progress looks like.
-        </p>
+        <h1 className="text-3xl font-extrabold text-amber-700 mb-6">
+          <span aria-hidden="true">🎾</span>{t("Padel Level Scale")}</h1>
+        <p className="max-w-2xl mx-auto text-gray-700 mb-10 leading-relaxed">{t("The community uses this scale to keep matches balanced and fair. Find your level, see the equivalency to the letter system, and understand what each stage of progress looks like.")}</p>
       </section>
+
+      <NextSteps locale={locale} page="levels" />
 
       {/* --- Responsive Interactive Level Ladder --- */}
       <section id="levels-ladder" data-testid="levels-ladder-section" className="relative max-w-5xl mx-auto mb-12 overflow-x-auto scrollbar-thin scrollbar-thumb-amber-300 scrollbar-track-transparent">
@@ -166,9 +162,7 @@ export default function LevelsPage() {
           target="_blank"
           rel="noopener noreferrer"
           className="inline-block bg-amber-600 text-white font-semibold px-6 py-3 rounded-full shadow hover:bg-amber-700 transition"
-        >
-          🧮 Try the Padel Skill Calculator (by Andrey Los)
-        </a>
+        >{t("🧮 Try the Padel Skill Calculator (by Andrey Los)")}</a>
       </div>
     </div>
   );
