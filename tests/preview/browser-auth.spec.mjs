@@ -1,9 +1,17 @@
 import { test, expect } from '@playwright/test';
 import { authorizePreviewBrowser } from './browser-auth.mjs';
+import { createServer } from 'node:http';
 
 const origin = 'https://padel-krakow-123456789-gitperez288s-projects.vercel.app';
 const host = new URL(origin).hostname;
-const external = 'https://external.example';
+let server;
+test.afterEach(async () => {
+  if (server) {
+    server.closeAllConnections();
+    await new Promise(resolve => server.close(resolve));
+    server = undefined;
+  }
+});
 // Simulated gateway issues a dummy cookie. Real Chromium handles cookie scope,
 // scripts, full document navigation and fixture teardown in Playwright Test.
 test('native browser auth survives script navigation and isolates external requests', async ({ context, page }) => {
@@ -21,6 +29,16 @@ test('native browser auth survives script navigation and isolates external reque
   const violations = [];
   let scripts = 0;
   let externalRequests = 0;
+  server = createServer((request, response) => {
+    externalRequests++;
+    if (request.headers.cookie) violations.push('external cookie');
+    if (request.headers['x-vercel-protection-bypass']) violations.push('external header');
+    response.end('<h1>External</h1>');
+  });
+  await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
+  const external = `http://127.0.0.1:${server.address().port}`;
+  // Also check HTTPS foreign/sibling scopes, independent of Secure filtering.
+  expect(await context.cookies(['https://external.example', `https://child.${host}`])).toEqual([]);
   await context.route('**/*', async route => {
     const request = route.request();
     const url = new URL(request.url());
