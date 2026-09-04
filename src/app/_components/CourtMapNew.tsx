@@ -15,6 +15,7 @@ export type Court = {
 
 interface CourtMapProps {
   courts: Court[];
+  locale?: "en" | "pl";
   focusId?: string | null;
 }
 
@@ -29,7 +30,7 @@ const defaultIcon = new L.Icon({
   shadowAnchor: [14, 41],
 });
 
-export default function CourtMap({ courts, focusId }: CourtMapProps) {
+export default function CourtMap({ courts, focusId, locale = "en" }: CourtMapProps) {
   const mapContainer = useRef<HTMLDivElement>(null);
   const mapInstance = useRef<L.Map | null>(null);
   const markersRef = useRef<{ [key: string]: L.Marker }>({});
@@ -58,8 +59,9 @@ export default function CourtMap({ courts, focusId }: CourtMapProps) {
     }
 
     return () => {
-      // Don't destroy map on unmount - just clean up markers
-      // This prevents re-initialization issues
+      mapInstance.current?.remove();
+      mapInstance.current = null;
+      markersRef.current = {};
     };
   }, []);
 
@@ -84,7 +86,7 @@ export default function CourtMap({ courts, focusId }: CourtMapProps) {
               <div class="font-semibold text-gray-900">${court.name}</div>
               <div class="text-sm text-gray-600">${court.address}</div>
               <a href="${court.link}" target="_blank" rel="noopener noreferrer" class="text-amber-700 underline text-sm inline-block">
-                Open in Google Maps →
+                ${locale === "pl" ? "Otwórz w Mapach Google →" : "Open in Google Maps →"}
               </a>
             </div>
           `
@@ -95,7 +97,7 @@ export default function CourtMap({ courts, focusId }: CourtMapProps) {
     } catch (error) {
       console.error("Error adding markers:", error);
     }
-  }, [courts]);
+  }, [courts, locale]);
 
   // Handle focus (fly to court)
   useEffect(() => {

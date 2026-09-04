@@ -10,7 +10,7 @@ export async function GET(
   try {
     const { id } = await params;
 
-    // Require authentication — this endpoint is used by the admin UI only
+    // Require authentication: this endpoint is used by the admin UI only
     const session = await auth();
     if (!session?.user?.email) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

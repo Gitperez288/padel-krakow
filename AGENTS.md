@@ -1,5 +1,14 @@
 # Repository Working Agreement
 
+## Website writing style
+
+- Do not use em dashes (Unicode U+2014) anywhere in English or Polish website
+  copy, including page titles, metadata, image descriptions, errors and blog posts.
+- Use commas, colons, parentheses or separate sentences as appropriate. Preserve
+  meaning and natural grammar. Keep translation keys and their callers in sync.
+- Do not encode em dashes as HTML entities or JavaScript escapes to bypass this
+  rule. The source-copy check runs as part of `npm run typecheck`.
+
 This repository is developed through GitHub pull requests, Vercel previews, and
 isolated Neon database branches.
 

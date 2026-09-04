@@ -9,7 +9,7 @@
  *   UPSTASH_REDIS_REST_TOKEN
  *
  * If either variable is absent the limiter is disabled and all requests
- * pass through — this prevents the app from breaking during local dev
+ * pass through: this prevents the app from breaking during local dev
  * before Redis is configured.
  */
 

@@ -187,7 +187,7 @@ export default function BlogEditorPage() {
 
       setPost((prev) => ({ ...prev, coverImage: data.url }));
     } catch {
-      setUploadError("Network error — could not upload the image.");
+      setUploadError("Network error: could not upload the image.");
     } finally {
       setUploading(false);
     }

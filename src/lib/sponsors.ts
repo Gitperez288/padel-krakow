@@ -23,7 +23,7 @@ export type Sponsor = {
 
 /**
  * Community sponsors for Padel Kraków.
- * Add or update sponsors here — changes will reflect automatically on the
+ * Add or update sponsors here: changes will reflect automatically on the
  * /sponsors page and the home-page preview section.
  */
 export const sponsors: Sponsor[] = [

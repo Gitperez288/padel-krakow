@@ -37,7 +37,7 @@ const MAX_DIMENSION = 800;
 // ── Route handler ─────────────────────────────────────────────────────────────
 
 export async function POST(req: NextRequest) {
-  // Auth check — require admin role to upload
+  // Auth check: require admin role to upload
   const session = await auth();
   if (!session?.user?.email) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
-import CoachesClient, { type Coach } from "./CoachesClient";
+import CoachesClient, { type Coach } from "@/app/(en)/coaches/CoachesClient";
 
 export const metadata: Metadata = {
   title: "Padel Coaches in Kraków",
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   },
 };
 
-// Draft coaches — not yet shown publicly
+// Draft coaches: not yet shown publicly
 const _draftCoaches: Coach[] = [
   {
     name: "Mariano",

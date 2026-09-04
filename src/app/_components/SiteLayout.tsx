@@ -1,15 +1,17 @@
+import { getTranslator } from "@/lib/translations";
+import { localizePath, type Locale } from "@/lib/i18n";
 // app/layout.tsx
-import "./globals.css";
+import "@/app/globals.css";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { Providers } from "./providers";
-import SiteHeader from "./_components/SiteHeader";
+import { Providers } from "@/app/providers";
+import SiteHeader from "./SiteHeader";
 import { SITE_URL } from "@/lib/constants";
 
 const inter = Inter({
-  subsets: ["latin"],
+  subsets: ["latin", "latin-ext"],
   display: "swap",
 });
 
@@ -45,7 +47,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    locale: "pl_PL",
+    locale: "en_GB",
     url: SITE_URL,
     siteName: "Padel Kraków Community",
     title: "Padel Kraków Community",
@@ -69,9 +71,10 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default function SiteLayout({ children, locale }: { children: ReactNode; locale: Locale }) {
+  const t = getTranslator(locale);
   return (
-    <html lang="en">
+    <html lang={locale}>
       <head>
         <meta name="theme-color" content="#b45309" />
         <meta name="mobile-web-app-capable" content="yes" />
@@ -85,7 +88,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       </head>
       <body className={`${inter.className} min-h-screen bg-gradient-to-b from-amber-50 to-orange-100 text-gray-900 flex flex-col`}>
         <Providers>
-          <SiteHeader />
+          <SiteHeader locale={locale} />
 
         <main className="flex-1">{children}</main>
 
@@ -96,100 +99,74 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                 <h3 className="text-lg font-semibold text-white mb-4">
                   Padel Kraków
                 </h3>
-                <p className="text-sm text-white/60">
-                  Connecting padel players across Kraków and Małopolska.
-                </p>
+                <p className="text-sm text-white/60">{t("Connecting padel players across Kraków and Małopolska.")}</p>
               </div>
               <div>
-                <h4 className="text-sm font-semibold text-white mb-4">
-                  Navigation
-                </h4>
+                <h4 className="text-sm font-semibold text-white mb-4">{t("Navigation")}</h4>
                 <ul className="space-y-2 text-sm">
                   <li>
                     <Link
-                      href="/levels"
+                      href={localizePath("/levels", locale)}
                       className="text-white/60 hover:text-white transition"
-                    >
-                      Levels
-                    </Link>
+                    >{t("Levels")}</Link>
                   </li>
                   <li>
                     <Link
-                      href="/courts"
+                      href={localizePath("/courts", locale)}
                       className="text-white/60 hover:text-white transition"
-                    >
-                      Courts
-                    </Link>
+                    >{t("Courts")}</Link>
                   </li>
                   <li>
                     <Link
-                      href="/community"
+                      href={localizePath("/community", locale)}
                       className="text-white/60 hover:text-white transition"
-                    >
-                      Community
-                    </Link>
+                    >{t("Community")}</Link>
                   </li>
                   <li>
                     <Link
                       href="/blog"
                       className="text-white/60 hover:text-white transition"
-                    >
-                      Blog
-                    </Link>
+                    >{t("Blog")}</Link>
                   </li>
                   <li>
                     <Link
                       href="/coaches"
                       className="text-white/60 hover:text-white transition"
-                    >
-                      Coaches
-                    </Link>
+                    >{t("Coaches")}</Link>
                   </li>
                   <li>
                     <Link
                       href="/who-we-are"
                       className="text-white/60 hover:text-white transition"
-                    >
-                      Who We Are
-                    </Link>
+                    >{t("Who We Are")}</Link>
                   </li>
                 </ul>
               </div>
               <div>
-                <h4 className="text-sm font-semibold text-white mb-4">
-                  Legal
-                </h4>
+                <h4 className="text-sm font-semibold text-white mb-4">{t("Legal")}</h4>
                 <ul className="space-y-2 text-sm">
                   <li>
                     <Link
                       href="/privacy"
                       className="text-white/60 hover:text-white transition"
-                    >
-                      Privacy Policy
-                    </Link>
+                    >{t("Privacy Policy")}</Link>
                   </li>
                   <li>
                     <Link
                       href="/terms"
                       className="text-white/60 hover:text-white transition"
-                    >
-                      Terms of Service
-                    </Link>
+                    >{t("Terms of Service")}</Link>
                   </li>
                   <li>
                     <Link
                       href="/guidelines"
                       className="text-white/60 hover:text-white transition"
-                    >
-                      Community Guidelines
-                    </Link>
+                    >{t("Community Guidelines")}</Link>
                   </li>
                 </ul>
               </div>
               <div>
-                <h4 className="text-sm font-semibold text-white mb-4">
-                  Contact
-                </h4>
+                <h4 className="text-sm font-semibold text-white mb-4">{t("Contact")}</h4>
                 <ul className="space-y-2 text-sm">
                   <li>
                     <a
@@ -209,16 +186,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                       @padelkrkcommunity
                     </a>
                   </li>
-                  <li className="text-white/60">
-                    Join our WhatsApp communities to find matches!
-                  </li>
+                  <li className="text-white/60">{t("Join our WhatsApp communities to find matches!")}</li>
                 </ul>
               </div>
             </div>
             <div className="border-t border-white/10 pt-8 text-center text-sm text-white/60">
-              © {new Date().getFullYear()} Padel Kraków Community. All rights
-              reserved.
-            </div>
+              © {new Date().getFullYear()}{t("Padel Kraków Community. All rights reserved.")}</div>
           </div>
         </footer>
 
