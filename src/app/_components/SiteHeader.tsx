@@ -6,6 +6,9 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Menu, X, Instagram } from "lucide-react";
 
+import { localizePath, localizedRoutes, type Locale } from "@/lib/i18n";
+import { getTranslator } from "@/lib/translations";
+
 const INSTAGRAM_URL = "https://www.instagram.com/padelkrkcommunity";
 
 const navLinks = [
@@ -19,7 +22,8 @@ const navLinks = [
   { href: "/guidelines", label: "Guidelines" },
 ];
 
-export default function SiteHeader() {
+export default function SiteHeader({ locale }: { locale: Locale }) {
+  const t = getTranslator(locale);
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
@@ -40,7 +44,7 @@ export default function SiteHeader() {
     <header className="bg-white shadow-md sticky top-0 z-50">
       <nav className="max-w-7xl mx-auto px-4 lg:px-8 py-3 flex justify-between items-center">
         <Link
-          href="/"
+          href={localizePath("/", locale)}
           className="flex items-center gap-2 hover:opacity-90 transition"
         >
           <Image
@@ -57,62 +61,72 @@ export default function SiteHeader() {
         </Link>
 
         {/* Desktop nav */}
-        <div className="hidden md:flex space-x-6 items-center">
+        <div className="hidden xl:flex space-x-4 items-center">
           {navLinks.map((link) => (
             <Link
               key={link.href}
-              href={link.href}
+              href={localizePath(link.href, locale)}
               className={`font-medium transition ${
-                pathname === link.href
+                pathname === localizePath(link.href, locale)
                   ? "text-orange-600"
                   : "text-gray-700 hover:text-orange-600"
               }`}
             >
-              {link.label}
+              {t(link.label)}
             </Link>
           ))}
           <a
             href={INSTAGRAM_URL}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Padel Kraków on Instagram"
+            aria-label={t("Padel Kraków on Instagram")}
             className="text-gray-400 hover:text-pink-600 transition ml-1"
           >
             <Instagram size={20} />
           </a>
         </div>
 
+        <div className="flex items-center gap-2">
+          <div aria-label={locale === "pl" ? "Język strony" : "Page language"} className="flex gap-2 text-sm font-semibold">
+            {(["pl", "en"] as const).map((language) => {
+              const translated = Object.values(localizedRoutes).some(pair => pair.en === pathname || pair.pl === pathname);
+              // Do not imply an English-only page has an equivalent Polish translation.
+              if (!translated && language !== locale) return null;
+              return <a key={language} href={localizePath(pathname, language)} hrefLang={language} lang={language} aria-current={locale === language ? "page" : undefined} className={locale === language ? "text-orange-700 underline underline-offset-4" : "text-gray-700 hover:text-orange-600"}>{language.toUpperCase()}</a>;
+            })}
+          </div>
         {/* Mobile hamburger */}
         <button
-          className="md:hidden text-orange-600 hover:text-orange-700 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-300"
+          className="xl:hidden text-orange-600 hover:text-orange-700 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-300"
           onClick={() => setOpen((prev) => !prev)}
-          aria-label={open ? "Close menu" : "Open menu"}
+          aria-label={open ? t("Close menu") : t("Open menu")}
           aria-expanded={open}
           aria-controls="mobile-menu"
         >
           {open ? <X size={28} /> : <Menu size={28} />}
         </button>
+        </div>
       </nav>
 
       {/* Mobile menu drawer */}
       {open && (
         <div
           id="mobile-menu"
-          className="md:hidden bg-white border-t border-gray-100 shadow-lg"
+          className="xl:hidden bg-white border-t border-gray-100 shadow-lg"
         >
           <ul className="flex flex-col px-4 py-4 gap-1">
             {navLinks.map((link) => (
               <li key={link.href}>
                 <Link
-                  href={link.href}
+                  href={localizePath(link.href, locale)}
                   className={`block px-4 py-3 rounded-xl font-medium transition ${
-                    pathname === link.href
+                    pathname === localizePath(link.href, locale)
                       ? "bg-orange-50 text-orange-600"
                       : "text-gray-700 hover:bg-orange-50 hover:text-orange-600"
                   }`}
                   onClick={() => setOpen(false)}
                 >
-                  {link.label}
+                  {t(link.label)}
                 </Link>
               </li>
             ))}
