@@ -37,14 +37,12 @@ test('native browser auth survives script navigation and isolates external reque
   });
   await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
   const external = `http://127.0.0.1:${server.address().port}`;
-  // Also check HTTPS foreign/sibling scopes, independent of Secure filtering.
-  expect(await context.cookies(['https://external.example', `https://child.${host}`])).toEqual([]);
   await context.route('**/*', async route => {
     const request = route.request();
     const url = new URL(request.url());
     const headers = await request.allHeaders();
     if (headers['x-vercel-protection-bypass']) violations.push('global bypass header');
-    if (url.origin === external) {
+    if (url.origin !== origin) {
       externalRequests++;
       if (headers.cookie) violations.push('external cookie');
       return route.fulfill({ contentType: 'text/html', body: '<h1>External</h1>' });
@@ -67,6 +65,10 @@ test('native browser auth survives script navigation and isolates external reque
     await page.getByRole('link', { name: 'EN', exact: true }).click();
     await expect(page).toHaveURL(`${origin}/`);
   }
+  // Inspect actual HTTPS request headers: Playwright's cookies(URL) filtering
+  // uses suffix matching and is not proof of Chromium's host-only behavior.
+  await page.goto('https://external.example');
+  await page.goto(`https://child.${host}`);
   await page.goto(`${origin}/redirect`);
   await expect(page).toHaveURL(`${external}/`);
   expect(scripts).toBeGreaterThanOrEqual(16);
