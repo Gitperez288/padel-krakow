@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { previewOrigin, requestHeaders } from './guard.mjs';
+import { previewRouteHandler, drainPreviewRoutes } from './route-handler.mjs';
 
 const origin = previewOrigin(process.env.PREVIEW_URL);
 const secret = process.env.VERCEL_AUTOMATION_BYPASS_SECRET;
@@ -7,20 +8,12 @@ const polish = process.env.EXPECT_POLISH === 'true';
 const production = 'https://padel-krakow.vercel.app';
 
 test.beforeEach(async ({ context }) => {
-  await context.route('**/*', async route => {
-    const request = route.request();
-    const headers = requestHeaders(request.url(), origin, request.headers(), secret);
-    if (new URL(request.url()).origin !== origin) return route.continue({ headers });
-    // Do not forward the credential through HTTP redirects. The browser follows
-    // the fulfilled redirect as a fresh, intercepted request with a fresh guard.
-    try {
-      const response = await route.fetch({ headers, maxRedirects: 0 });
-      await route.fulfill({ response });
-    } catch {
-      // API request errors can include headers; never forward those diagnostics.
-      await route.abort('failed');
-    }
-  });
+  await context.route('**/*', previewRouteHandler(origin, secret));
+});
+
+test.afterEach(async ({ context }) => {
+  // Finish active handlers before Playwright tears down pages and the context.
+  await drainPreviewRoutes(context);
 });
 
 for (const path of ['/', '/blog', '/sitemap.xml', '/api/auth/session']) {

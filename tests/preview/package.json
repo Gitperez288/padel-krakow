@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "test": "playwright test",
-    "test:guards": "node --test guard.test.mjs gate.test.mjs"
+    "test:guards": "node --test guard.test.mjs gate.test.mjs route-handler.test.mjs"
   },
   "devDependencies": { "@playwright/test": "1.62.0" }
 }

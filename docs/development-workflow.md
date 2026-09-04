@@ -43,7 +43,9 @@ The gate resolves the URL from successful GitHub deployment records made by
 and forks, and permits only this project's immutable Vercel hostnames. If Vercel
 changes its deployment-record format, inspect that record and update the guard
 through review; do not bypass it. The connector cannot read deployment records
-in this workspace; this integration still needs its first live Actions check.
+in this workspace; the first live Actions run successfully reached all 17 tests.
+The full suite still needs a green run after the routing fix and preview secret
+configuration described below.
 
 Tests and the small, separate dependency lockfile come from a pinned trusted
 `main` commit, not the PR. No application install scripts or database migrations
@@ -73,6 +75,9 @@ uses npm caching; its dependency install can still take time on a cache miss.
 
 | Symptom | Cause / evidence | Reliable approach |
 | --- | --- | --- |
+| `route.abort: Route is already handled!` in preview tests | The helper caught a rejected fulfill and attempted a second terminal operation | Catch fetch errors separately; never abort after fulfill/continue starts. Drain page and context handlers with `unrouteAll({ behavior: 'wait' })` before teardown. Regression tests cover rejection and cleanup ordering; confirm with the live suite after merge. |
+| Preview `/api/auth/session` returns 500 | Runtime logs reported NextAuth `NO_SECRET`; production-only variables do not reach preview | Configure a separate Preview `NEXTAUTH_SECRET`, leave production unchanged, and redeploy. Never remove the HTTP 200 assertion to hide a configuration failure. |
+| Redeployment repeats missing/truncated-file build errors | The redeployment rebuilt old commit `72547f0`, not corrected PR #12 head `48781e4` | Confirm the deployment's full Git SHA matches the current reviewed PR head before redeploying; a branch label alone is insufficient. |
 | Local Git push fails despite a connected GitHub app | Local Git has no credentials; the connector is separately authenticated | Use authorized connector writes; never extract tokens or repeatedly retry an unauthenticated push. Stop if workflow-write permission is denied. |
 | Uploaded code differs from local code | Large tool output was truncated during source transfer | Read files individually, reject truncation, compare the resulting Git tree SHA with the local tree **before** updating the remote branch. |
 | A route move leaves old files behind | A prior multi-file operation did not produce the intended deletions | Inspect the actual tree and duplicate routes after editing; do not treat a success message as proof of the intended contents. |
