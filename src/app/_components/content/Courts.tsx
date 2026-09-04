@@ -59,14 +59,14 @@ export default function CourtsPage({ locale }: { locale: Locale }) {
       </section>
 
       {/* ---- FILTER BAR ---- */}
-      <section id="courts-filters" data-testid="courts-filters-section" className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-white border border-stone-200 rounded-2xl p-4 mb-8 shadow-sm">
+      <section id="courts-filters" data-testid="courts-filters-section" className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3 bg-white border border-stone-200 rounded-2xl p-4 mb-8 shadow-sm">
         <input
           type="text"
           aria-label={t("🔍 Search by name or address...")}
           placeholder={t("🔍 Search by name or address...")}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full sm:w-1/2 px-3 py-2 rounded-lg border border-gray-300 text-gray-700 focus:ring-2 focus:ring-orange-700 outline-none"
+          className="w-full lg:w-1/2 px-3 py-2 rounded-lg border border-gray-300 text-gray-700 focus:ring-2 focus:ring-orange-700 outline-none"
         />
 
         <div className="flex flex-wrap gap-3 items-center">
@@ -74,7 +74,7 @@ export default function CourtsPage({ locale }: { locale: Locale }) {
             aria-label={t("All Types")}
             value={filterIndoor}
             onChange={(e) => setFilterIndoor(e.target.value)}
-            className="px-3 py-2 rounded-lg border border-gray-300 text-gray-700 focus:ring-2 focus:ring-orange-700 outline-none"
+            className="max-w-full min-h-11 px-3 py-2 rounded-lg border border-gray-300 text-gray-700 focus:ring-2 focus:ring-orange-700 outline-none"
           >
             <option value="all">{t("All Types")}</option>
             <option value="indoor">{t("Indoor")}</option>
@@ -86,7 +86,7 @@ export default function CourtsPage({ locale }: { locale: Locale }) {
             aria-label={t("All Booking Methods")}
             value={filterBooking}
             onChange={(e) => setFilterBooking(e.target.value)}
-            className="px-3 py-2 rounded-lg border border-gray-300 text-gray-700 focus:ring-2 focus:ring-orange-700 outline-none"
+            className="max-w-full min-h-11 px-3 py-2 rounded-lg border border-gray-300 text-gray-700 focus:ring-2 focus:ring-orange-700 outline-none"
           >
             <option value="all">{t("All Booking Methods")}</option>
             <option value="tenis4u">Tenis4U</option>
