@@ -53,7 +53,7 @@ const coaches: Coach[] = [
   {
     name: "Victor Guedes",
     description:
-      "Originally from Brazil, Victor started tennis at six and discovered padel at twelve in Portugal. He developed his game with João Barros and coaches from Spain and Argentina. At Padel House, he welcomes beginners through advanced players for private lessons, match practice and group sessions.",
+      "My name is Victor Guedes, I'm 25 years old and originally from Brazil. I've had a racket in my hands almost my entire life; I started playing tennis at the age of 6 and discovered padel when I was 12 while living in Portugal.\n\nDuring my time there, I developed my game under the guidance of coach João Barros, as well as other top coaches from Spain and Argentina.\n\nWhether you're just getting started with padel or looking to take your game to the next level, I'd be happy to help. Feel free to join me for private lessons, match play sessions, or group games. See you on court! 🎾",
     languages: ["Polish", "English", "Portuguese", "Spanish", "French"],
     location: "Kraków",
     instagram: "https://www.instagram.com/padelhouse_krakow/",

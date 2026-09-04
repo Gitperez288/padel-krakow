@@ -60,7 +60,7 @@ const polish: Record<string, string> = {
   "Join WhatsApp and Facebook player groups.": "Dołącz do społeczności graczy na WhatsAppie.",
   "Join our WhatsApp communities to find matches!": "Dołącz do społeczności na WhatsAppie i znajdź osoby do gry!",
   "Join the Community": "Dołącz do społeczności",
-  "Know a padel court in Kraków or Małopolska that isn&apos;t on our map yet? Let us know and we&apos;ll add it right away.": "Znasz kort do padla w Krakowie lub Małopolsce, którego jeszcze tu nie ma? Napisz do nas, abyśmy mogli uzupełnić zestawienie.",
+  "Know a padel court in Kraków or Małopolska that isn&apos;t listed here yet? Let us know and we&apos;ll add it right away.": "Znasz kort do padla w Krakowie lub Małopolsce, którego jeszcze tu nie ma? Napisz do nas, abyśmy mogli uzupełnić zestawienie.",
   "Knows when to play safe vs aggressive shots": "Wiesz, kiedy grać bezpiecznie, a kiedy zaatakować",
   "Latest from the Blog": "Najnowsze wpisy na blogu",
   "Learn about sponsorships": "Dowiedz się więcej o współpracy (EN)",

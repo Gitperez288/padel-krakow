@@ -3,23 +3,10 @@ import { getTranslator } from "@/lib/translations";
 import { localizePath, type Locale } from "@/lib/i18n";
 import Image from "next/image";
 
-
-import dynamic from "next/dynamic";
 import Link from "next/link";
-import { useEffect, useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { ChevronRight, MapPin, Building2, Instagram, Globe } from "lucide-react";
-import type { Court } from "@/app/_components/CourtMapNew";
-
-const CourtMap = dynamic(() => import("@/app/_components/CourtMapNew"), {
-  ssr: false,
-  loading: () => (
-    <div className="h-[520px] w-full rounded-2xl shadow bg-gray-100 flex items-center justify-center">
-      <span aria-hidden="true">🌍</span>
-    </div>
-  )
-});
-
-import { baseCourts, type CourtExtended } from "@/lib/courts";
+import { baseCourts } from "@/lib/courts";
 
 // ---------- Helpers ----------
 const getInstagramHandle = (url: string): string | null => {
@@ -28,54 +15,11 @@ const getInstagramHandle = (url: string): string | null => {
   return match ? `@${match[1]}` : null;
 };
 
-// ---------- Optional fallback geocoder ----------
-async function geocodeAddress(address: string) {
-  try {
-    const cacheKey = `geocode:${address}`;
-    const cached = typeof window !== "undefined" ? localStorage.getItem(cacheKey) : null;
-    if (cached) return JSON.parse(cached);
-    const res = await fetch(
-      `https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encodeURIComponent(address)}`,
-      { headers: { "Accept-Language": "en", Referer: "https://padel-krakow.vercel.app/" } }
-    );
-    const data = (await res.json()) as Array<{ lat: string; lon: string }>;
-    if (data?.length) {
-      const coords = { lat: +data[0].lat, lng: +data[0].lon };
-      if (typeof window !== "undefined") localStorage.setItem(cacheKey, JSON.stringify(coords));
-      return coords;
-    }
-    return null;
-  } catch {
-    return null;
-  }
-}
-
 export default function CourtsPage({ locale }: { locale: Locale }) {
   const t = getTranslator(locale);
-  const [focusId, setFocusId] = useState<string | null>(null);
-  const [courts, setCourts] = useState<CourtExtended[]>(baseCourts);
   const [search, setSearch] = useState("");
   const [filterIndoor, setFilterIndoor] = useState("all");
   const [filterBooking, setFilterBooking] = useState("all");
-
-  useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      const filled: CourtExtended[] = [];
-      for (const c of baseCourts) {
-        let { lat, lng } = c;
-        if (lat == null || lng == null) {
-          const geo = await geocodeAddress(c.address);
-          if (geo) ({ lat, lng } = geo);
-        }
-        filled.push({ ...c, lat, lng });
-      }
-      if (!cancelled) setCourts(filled);
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, []);
 
   const getFacilityType = (indoor: boolean | "mixed") =>
     indoor === true ? t("Indoor") : indoor === false ? t("Outdoor") : t("Indoor / Outdoor");
@@ -85,7 +29,7 @@ export default function CourtsPage({ locale }: { locale: Locale }) {
 
   // ---------- FILTERED RESULTS ----------
   const filteredCourts = useMemo(() => {
-    return courts.filter((c) => {
+    return baseCourts.filter((c) => {
       const matchesSearch =
         c.name.toLowerCase().includes(search.toLowerCase()) ||
         c.address.toLowerCase().includes(search.toLowerCase());
@@ -101,11 +45,7 @@ export default function CourtsPage({ locale }: { locale: Locale }) {
         filterBooking === "all" ? true : c.booking.toLowerCase().includes(filterBooking.toLowerCase());
       return matchesSearch && matchesIndoor && matchesBooking;
     });
-  }, [courts, search, filterIndoor, filterBooking]);
-
-  const mappedCourts = useMemo(() => filteredCourts.filter(
-    (court): court is CourtExtended & Court => Number.isFinite(court.lat) && Number.isFinite(court.lng)
-  ), [filteredCourts]);
+  }, [search, filterIndoor, filterBooking]);
 
   const clearFilters = () => {
     setSearch("");
@@ -170,8 +110,7 @@ export default function CourtsPage({ locale }: { locale: Locale }) {
             filteredCourts.map((c, index) => (
               <article
                 key={c.id}
-                className={`group overflow-hidden rounded-2xl shadow-md transition-shadow border flex flex-col min-w-0
-                ${focusId === c.id ? "ring-2 ring-amber-500 bg-amber-50" : "bg-white hover:shadow-lg border-gray-100"}`}
+                className="group overflow-hidden rounded-2xl shadow-md transition-shadow border flex flex-col min-w-0 bg-white hover:shadow-lg border-gray-100"
               >
                 <div className="relative aspect-[16/10] bg-gray-100">
                   <Image src={c.photo} alt={c.name} fill sizes="(min-width: 1024px) 360px, (min-width: 640px) 50vw, 100vw" className="object-cover" priority={index < 3} />
@@ -179,13 +118,6 @@ export default function CourtsPage({ locale }: { locale: Locale }) {
                 <div className="flex flex-col flex-1 gap-2 p-5 text-left">
                   <div className="flex justify-between items-start mb-1">
                     <h2 className="text-lg font-bold text-amber-700">{c.name}</h2>
-                    <a
-                      href={c.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-amber-700 underline text-sm ml-2 shrink-0 hover:text-amber-600"
-                      onClick={(e) => e.stopPropagation()}
-                    >{t("Maps →")}</a>
                   </div>
                   <p className="text-gray-600 text-sm mb-1">{c.address}</p>
                   <div className="text-sm text-gray-700 mb-2">
@@ -202,7 +134,6 @@ export default function CourtsPage({ locale }: { locale: Locale }) {
                           target="_blank"
                           rel="noopener noreferrer"
                           className="underline hover:text-amber-700"
-                          onClick={(e) => e.stopPropagation()}
                         >
                           {t(c.booking)}
                         </a>
@@ -219,7 +150,6 @@ export default function CourtsPage({ locale }: { locale: Locale }) {
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-pink-600 hover:underline"
-                            onClick={(e) => e.stopPropagation()}
                           >
                             {getInstagramHandle(c.instagram) ?? t("View on Instagram")}
                           </a>
@@ -232,7 +162,6 @@ export default function CourtsPage({ locale }: { locale: Locale }) {
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-blue-600 hover:underline"
-                            onClick={(e) => e.stopPropagation()}
                           >
                             squashpadel.pl
                           </a>
@@ -240,14 +169,10 @@ export default function CourtsPage({ locale }: { locale: Locale }) {
                       )}
                     </div>
                   )}
-                  {typeof c.lat === "number" && typeof c.lng === "number" && (
-                    <button type="button" onClick={() => {
-                      setFocusId(c.id);
-                      document.getElementById("courts-map")?.scrollIntoView({ behavior: "smooth", block: "center" });
-                    }} className="mt-auto pt-3 text-sm font-semibold text-amber-700 hover:underline text-left focus-visible:outline-amber-600">
-                      {locale === "pl" ? "Pokaż na mapie" : "Show on map"}
-                    </button>
-                  )}
+                  <a href={c.link} target="_blank" rel="noopener noreferrer"
+                    className="mt-auto pt-3 text-sm font-semibold text-amber-700 hover:underline text-left focus-visible:outline-amber-600">
+                    {locale === "pl" ? "Otwórz w Mapach Google" : "Open in Google Maps"}
+                  </a>
                 </div>
               </article>
             ))
@@ -257,10 +182,6 @@ export default function CourtsPage({ locale }: { locale: Locale }) {
 
         </section>
 
-        {/* ---- MAP ---- */}
-        <section id="courts-map" data-testid="courts-map-section" aria-label={locale === "pl" ? "Mapa kortów" : "Court map"} className="overflow-hidden rounded-2xl shadow-md border border-gray-100 scroll-mt-24">
-          <CourtMap courts={mappedCourts} focusId={focusId} locale={locale} />
-        </section>
       </div>
 
       {/* ---- CTA: Submit a Court / Club ---- */}
@@ -273,7 +194,7 @@ export default function CourtsPage({ locale }: { locale: Locale }) {
                 <MapPin className="w-6 h-6 text-white" />
               </div>
               <h3 className="text-2xl font-bold mb-2">{t("Missing a court?")}</h3>
-              <p className="text-amber-100 leading-relaxed">{t("Know a padel court in Kraków or Małopolska that isn&apos;t on our map yet? Let us know and we&apos;ll add it right away.")}</p>
+              <p className="text-amber-100 leading-relaxed">{t("Know a padel court in Kraków or Małopolska that isn&apos;t listed here yet? Let us know and we&apos;ll add it right away.")}</p>
             </div>
             <Link
               href={localizePath("/community", locale)}

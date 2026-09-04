@@ -191,7 +191,7 @@ export default function CoachesClient({ coaches }: Props) {
                       {coach.name}
                     </h2>
 
-                    <p className="text-sm text-gray-600 leading-relaxed flex-grow">
+                    <p className="text-sm text-gray-600 leading-relaxed flex-grow whitespace-pre-line">
                       {coach.description}
                     </p>
 
