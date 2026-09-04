@@ -1,6 +1,6 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, request as requestFactory } from '@playwright/test';
 import { previewOrigin, requestHeaders } from './guard.mjs';
-import { previewRouteHandler, drainPreviewRoutes } from './route-handler.mjs';
+import { authorizePreviewBrowser } from './browser-auth.mjs';
 
 const origin = previewOrigin(process.env.PREVIEW_URL);
 const secret = process.env.VERCEL_AUTOMATION_BYPASS_SECRET;
@@ -8,12 +8,7 @@ const polish = process.env.EXPECT_POLISH === 'true';
 const production = 'https://padel-krakow.vercel.app';
 
 test.beforeEach(async ({ context }) => {
-  await context.route('**/*', previewRouteHandler(origin, secret));
-});
-
-test.afterEach(async ({ context }) => {
-  // Finish active handlers before Playwright tears down pages and the context.
-  await drainPreviewRoutes(context);
+  await authorizePreviewBrowser(context, requestFactory, origin, secret);
 });
 
 for (const path of ['/', '/blog', '/sitemap.xml', '/api/auth/session']) {
