@@ -10,6 +10,39 @@ permissions:
   contents: read
 
 jobs:
+  preview-browser-regression:
+    name: Preview routing in Chromium (no secrets)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: tests/preview/package-lock.json
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+        working-directory: tests/preview
+      - run: npx playwright install --with-deps chromium
+        working-directory: tests/preview
+      - run: node --test route-browser.test.mjs
+        working-directory: tests/preview
+      - run: npx playwright test --config browser-auth.config.mjs
+        working-directory: tests/preview
+
+  preview-guards:
+    name: Preview security guards (no secrets)
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node --test tests/preview/guard.test.mjs tests/preview/gate.test.mjs tests/preview/route-handler.test.mjs tests/preview/browser-auth.test.mjs
+
   typecheck:
     name: Typecheck
     runs-on: ubuntu-latest
