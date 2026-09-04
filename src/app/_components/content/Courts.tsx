@@ -1,25 +1,12 @@
 "use client";
 import { getTranslator } from "@/lib/translations";
 import { localizePath, type Locale } from "@/lib/i18n";
-import NextSteps from "@/app/_components/NextSteps";
+import Image from "next/image";
 
-
-import dynamic from "next/dynamic";
 import Link from "next/link";
-import { useEffect, useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { ChevronRight, MapPin, Building2, Instagram, Globe } from "lucide-react";
-import type { Court } from "@/app/_components/CourtMapNew";
-
-const CourtMap = dynamic(() => import("@/app/_components/CourtMapNew"), {
-  ssr: false,
-  loading: () => (
-    <div className="h-[520px] w-full rounded-2xl shadow bg-gray-100 flex items-center justify-center">
-      <span aria-hidden="true">🌍</span>
-    </div>
-  )
-});
-
-import { baseCourts, type CourtExtended } from "@/lib/courts";
+import { baseCourts } from "@/lib/courts";
 
 // ---------- Helpers ----------
 const getInstagramHandle = (url: string): string | null => {
@@ -28,55 +15,11 @@ const getInstagramHandle = (url: string): string | null => {
   return match ? `@${match[1]}` : null;
 };
 
-// ---------- Optional fallback geocoder ----------
-async function geocodeAddress(address: string) {
-  try {
-    const cacheKey = `geocode:${address}`;
-    const cached = typeof window !== "undefined" ? localStorage.getItem(cacheKey) : null;
-    if (cached) return JSON.parse(cached);
-    const res = await fetch(
-      `https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encodeURIComponent(address)}`,
-      { headers: { "Accept-Language": "en", Referer: "https://padel-krakow.vercel.app/" } }
-    );
-    const data = (await res.json()) as Array<{ lat: string; lon: string }>;
-    if (data?.length) {
-      const coords = { lat: +data[0].lat, lng: +data[0].lon };
-      if (typeof window !== "undefined") localStorage.setItem(cacheKey, JSON.stringify(coords));
-      return coords;
-    }
-    return null;
-  } catch {
-    return null;
-  }
-}
-
 export default function CourtsPage({ locale }: { locale: Locale }) {
   const t = getTranslator(locale);
-  const [focusId, setFocusId] = useState<string | null>(null);
-  const [courts, setCourts] = useState<CourtExtended[]>(baseCourts);
   const [search, setSearch] = useState("");
   const [filterIndoor, setFilterIndoor] = useState("all");
   const [filterBooking, setFilterBooking] = useState("all");
-  const [mobileTab, setMobileTab] = useState<"list" | "map">("list");
-
-  useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      const filled: CourtExtended[] = [];
-      for (const c of baseCourts) {
-        let { lat, lng } = c;
-        if (lat == null || lng == null) {
-          const geo = await geocodeAddress(c.address);
-          if (geo) ({ lat, lng } = geo);
-        }
-        filled.push({ ...c, lat, lng });
-      }
-      if (!cancelled) setCourts(filled);
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, []);
 
   const getFacilityType = (indoor: boolean | "mixed") =>
     indoor === true ? t("Indoor") : indoor === false ? t("Outdoor") : t("Indoor / Outdoor");
@@ -86,7 +29,7 @@ export default function CourtsPage({ locale }: { locale: Locale }) {
 
   // ---------- FILTERED RESULTS ----------
   const filteredCourts = useMemo(() => {
-    return courts.filter((c) => {
+    return baseCourts.filter((c) => {
       const matchesSearch =
         c.name.toLowerCase().includes(search.toLowerCase()) ||
         c.address.toLowerCase().includes(search.toLowerCase());
@@ -102,7 +45,7 @@ export default function CourtsPage({ locale }: { locale: Locale }) {
         filterBooking === "all" ? true : c.booking.toLowerCase().includes(filterBooking.toLowerCase());
       return matchesSearch && matchesIndoor && matchesBooking;
     });
-  }, [courts, search, filterIndoor, filterBooking]);
+  }, [search, filterIndoor, filterBooking]);
 
   const clearFilters = () => {
     setSearch("");
@@ -116,8 +59,6 @@ export default function CourtsPage({ locale }: { locale: Locale }) {
         <h1 className="text-3xl font-extrabold text-amber-700 mb-4 text-center">{t("📁 Court Locations in Małopolska")}</h1>
         <p className="max-w-2xl text-gray-700 mb-10 leading-relaxed text-center mx-auto">{t("Discover every active padel location in and around Kraków. Use the search and filters below to quickly find courts that suit your needs.")}</p>
       </section>
-
-      <NextSteps locale={locale} page="courts" />
 
       {/* ---- FILTER BAR ---- */}
       <section id="courts-filters" data-testid="courts-filters-section" className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-amber-50 border border-amber-200 rounded-2xl p-4 mb-8 shadow-sm">
@@ -163,49 +104,20 @@ export default function CourtsPage({ locale }: { locale: Locale }) {
         </div>
       </section>
 
-      {/* Mobile-only List / Map tab toggle */}
-      <div className="flex lg:hidden mb-6 rounded-xl overflow-hidden border border-amber-200 shadow-sm">
-        <button
-          onClick={() => setMobileTab("list")}
-          aria-pressed={mobileTab === "list"}
-          className={`flex-1 py-3 text-sm font-semibold transition ${
-            mobileTab === "list"
-              ? "bg-amber-600 text-white"
-              : "bg-white text-amber-700 hover:bg-amber-50"
-          }`}
-        >{t("📋 List View")}</button>
-        <button
-          onClick={() => setMobileTab("map")}
-          aria-pressed={mobileTab === "map"}
-          className={`flex-1 py-3 text-sm font-semibold transition ${
-            mobileTab === "map"
-              ? "bg-amber-600 text-white"
-              : "bg-white text-amber-700 hover:bg-amber-50"
-          }`}
-        >{t("🗺️ Map View")}</button>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* ---- SIDEBAR LIST ---- */}
-        <aside id="courts-sidebar" data-testid="courts-sidebar-section" className={`space-y-4 lg:col-span-1${mobileTab === "map" ? " hidden lg:block" : ""}`}>
+      <div className="space-y-10">
+        <section id="courts-catalogue" aria-label={locale === "pl" ? "Kluby padla" : "Padel clubs"} data-testid="courts-sidebar-section" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredCourts.length > 0 ? (
-            filteredCourts.map((c) => (
-              <div
+            filteredCourts.map((c, index) => (
+              <article
                 key={c.id}
-                className={`group p-5 rounded-2xl shadow-md transition-all duration-300 border cursor-pointer
-                ${focusId === c.id ? "ring-2 ring-amber-500 bg-amber-50" : "bg-white hover:shadow-lg border-gray-100"}`}
-                onClick={() => setFocusId(c.id)}
+                className="group overflow-hidden rounded-2xl shadow-md transition-shadow border flex flex-col min-w-0 bg-white hover:shadow-lg border-gray-100"
               >
-                <div className="flex flex-col gap-1 text-left">
+                <div className="relative aspect-[16/10] bg-gray-100">
+                  <Image src={c.photo} alt={c.name} fill sizes="(min-width: 1024px) 360px, (min-width: 640px) 50vw, 100vw" className="object-cover" priority={index < 3} />
+                </div>
+                <div className="flex flex-col flex-1 gap-2 p-5 text-left">
                   <div className="flex justify-between items-start mb-1">
-                    <h3 className="text-lg font-bold text-amber-700">{c.name}</h3>
-                    <a
-                      href={c.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-amber-700 underline text-sm ml-2 shrink-0 hover:text-amber-600"
-                      onClick={(e) => e.stopPropagation()}
-                    >{t("Maps →")}</a>
+                    <h2 className="text-lg font-bold text-amber-700">{c.name}</h2>
                   </div>
                   <p className="text-gray-600 text-sm mb-1">{c.address}</p>
                   <div className="text-sm text-gray-700 mb-2">
@@ -222,7 +134,6 @@ export default function CourtsPage({ locale }: { locale: Locale }) {
                           target="_blank"
                           rel="noopener noreferrer"
                           className="underline hover:text-amber-700"
-                          onClick={(e) => e.stopPropagation()}
                         >
                           {t(c.booking)}
                         </a>
@@ -239,7 +150,6 @@ export default function CourtsPage({ locale }: { locale: Locale }) {
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-pink-600 hover:underline"
-                            onClick={(e) => e.stopPropagation()}
                           >
                             {getInstagramHandle(c.instagram) ?? t("View on Instagram")}
                           </a>
@@ -252,7 +162,6 @@ export default function CourtsPage({ locale }: { locale: Locale }) {
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-blue-600 hover:underline"
-                            onClick={(e) => e.stopPropagation()}
                           >
                             squashpadel.pl
                           </a>
@@ -260,20 +169,19 @@ export default function CourtsPage({ locale }: { locale: Locale }) {
                       )}
                     </div>
                   )}
+                  <a href={c.link} target="_blank" rel="noopener noreferrer"
+                    className="mt-auto pt-3 text-sm font-semibold text-amber-700 hover:underline text-left focus-visible:outline-amber-600">
+                    {locale === "pl" ? "Otwórz w Mapach Google" : "Open in Google Maps"}
+                  </a>
                 </div>
-              </div>
+              </article>
             ))
           ) : (
-            <div className="p-6 bg-white rounded-2xl border text-center text-gray-500 shadow-sm">{t("No results found. Try adjusting filters.")}</div>
+            <div className="col-span-full p-6 bg-white rounded-2xl border text-center text-gray-500 shadow-sm">{t("No results found. Try adjusting filters.")}</div>
           )}
 
-          <div className="p-4 bg-amber-50 rounded-2xl border border-amber-200 text-sm text-gray-700">{t("Missing a court? Scroll down and let us know!")}</div>
-        </aside>
-
-        {/* ---- MAP ---- */}
-        <section id="courts-map" data-testid="courts-map-section" className={`lg:col-span-2 overflow-hidden rounded-2xl shadow-md border border-gray-100${mobileTab === "list" ? " hidden lg:block" : ""}`}>
-          <CourtMap courts={filteredCourts.filter((court): court is CourtExtended & Court => typeof court.lat === "number" && typeof court.lng === "number")} focusId={focusId} locale={locale} />
         </section>
+
       </div>
 
       {/* ---- CTA: Submit a Court / Club ---- */}
@@ -286,7 +194,7 @@ export default function CourtsPage({ locale }: { locale: Locale }) {
                 <MapPin className="w-6 h-6 text-white" />
               </div>
               <h3 className="text-2xl font-bold mb-2">{t("Missing a court?")}</h3>
-              <p className="text-amber-100 leading-relaxed">{t("Know a padel court in Kraków or Małopolska that isn&apos;t on our map yet? Let us know and we&apos;ll add it right away.")}</p>
+              <p className="text-amber-100 leading-relaxed">{t("Know a padel court in Kraków or Małopolska that isn&apos;t listed here yet? Let us know and we&apos;ll add it right away.")}</p>
             </div>
             <Link
               href={localizePath("/community", locale)}

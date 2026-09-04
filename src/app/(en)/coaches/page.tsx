@@ -30,15 +30,6 @@ const _draftCoaches: Coach[] = [
     photo: null,
   },
   {
-    name: "Victor",
-    description:
-      "Dynamic coach specialising in footwork, court coverage, and offensive play. Victor loves working with beginners and intermediates, making each training session engaging, practical, and results-driven.",
-    languages: ["Spanish", "English"],
-    location: "Kraków",
-    instagram: null,
-    photo: null,
-  },
-  {
     name: "Maciek",
     description:
       "Local padel enthusiast turned certified coach. Maciek brings high energy and a player-first mindset to every session. Focused on building a solid foundation and accelerating the progression of new players.",
@@ -59,6 +50,15 @@ const _draftCoaches: Coach[] = [
 ];
 
 const coaches: Coach[] = [
+  {
+    name: "Victor Guedes",
+    description:
+      "My name is Victor Guedes, I'm 25 years old and originally from Brazil. I've had a racket in my hands almost my entire life; I started playing tennis at the age of 6 and discovered padel when I was 12 while living in Portugal.\n\nDuring my time there, I developed my game under the guidance of coach João Barros, as well as other top coaches from Spain and Argentina.\n\nWhether you're just getting started with padel or looking to take your game to the next level, I'd be happy to help. Feel free to join me for private lessons, match play sessions, or group games. See you on court! 🎾",
+    languages: ["Polish", "English", "Portuguese", "Spanish", "French"],
+    location: "Kraków",
+    instagram: "https://www.instagram.com/padelhouse_krakow/",
+    photo: "/media/victor-guedes.webp",
+  },
   {
     name: "Carlos",
     description:
