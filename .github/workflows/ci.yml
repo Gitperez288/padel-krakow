@@ -19,7 +19,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - run: node --test tests/preview/guard.test.mjs tests/preview/gate.test.mjs
+      - run: node --test tests/preview/guard.test.mjs tests/preview/gate.test.mjs tests/preview/route-handler.test.mjs
 
   typecheck:
     name: Typecheck
