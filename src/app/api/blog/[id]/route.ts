@@ -1,3 +1,4 @@
+import { plainText } from "@/lib/blog-content";
 // Route for individual post operations (GET, PUT, DELETE)
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
@@ -84,14 +85,14 @@ export async function PUT(
       data: {
         title: title || post.title,
         content: content || post.content,
-        excerpt: excerpt !== undefined ? excerpt : post.excerpt,
+        excerpt: excerpt !== undefined ? plainText(excerpt || content || post.content) : post.excerpt,
         coverImage: coverImage !== undefined ? coverImage : post.coverImage,
         published: published !== undefined ? published : post.published,
         metaTitle: metaTitle || post.metaTitle,
-        metaDescription: metaDescription || post.metaDescription,
+        metaDescription: metaDescription !== undefined ? plainText(metaDescription || excerpt || content || post.content) : post.metaDescription,
         metaKeywords: metaKeywords !== undefined ? metaKeywords : post.metaKeywords,
         ogImage: ogImage !== undefined ? ogImage : post.ogImage,
-        publishedAt: published ? new Date() : null,
+        publishedAt: (published ?? post.published) ? (post.publishedAt || new Date()) : null,
       },
     });
 

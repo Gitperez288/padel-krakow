@@ -4,7 +4,7 @@
     "dev": "next dev --turbopack",
     "build": "prisma generate && next build",
     "start": "next start",
-    "typecheck": "node --test tests/copy-style.test.mjs && tsc --noEmit",
+    "typecheck": "node --test tests/copy-style.test.mjs tests/community-seo.test.mjs && tsc --noEmit",
     "db:push": "prisma db push",
     "db:seed": "node prisma/seed.js",
     "db:migrate:status": "prisma migrate status",

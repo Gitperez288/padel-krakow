@@ -46,3 +46,14 @@ model Post {
   @@index([authorId])
   @@index([slug])
 }
+
+// Anonymous daily action counts. No visitor identifiers or invitation URLs.
+model UsageDaily {
+  day    DateTime @db.Date
+  event  String
+  page   String
+  locale String
+  count  Int      @default(0)
+
+  @@id([day, event, page, locale])
+}
