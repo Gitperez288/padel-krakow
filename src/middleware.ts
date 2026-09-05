@@ -17,22 +17,26 @@ export async function middleware(request: NextRequest) {
         request.headers.get("x-real-ip") ??
         "anonymous";
 
-      const { success, reset } = await loginRatelimit.limit(ip);
-
-      if (!success) {
-        const retryAfterSeconds = Math.ceil((reset - Date.now()) / 1000);
-        return new NextResponse(
-          JSON.stringify({
-            error: "Too many login attempts. Please try again later.",
-          }),
-          {
-            status: 429,
-            headers: {
-              "Content-Type": "application/json",
-              "Retry-After": String(retryAfterSeconds),
-            },
-          }
+      const reject = (error: string, status: number, retryAfter: number) =>
+        NextResponse.json(
+          { url: new URL(`/auth/login?error=${error}`, request.url).toString() },
+          { status, headers: { "Retry-After": String(retryAfter), "Cache-Control": "no-store" } }
         );
+      try {
+        const result = await loginRatelimit.limit(ip);
+        // Consume optional analytics failures without logging request data.
+        void result.pending.catch(() => console.error("LOGIN_RATE_LIMIT_ANALYTICS_UNAVAILABLE"));
+        // Upstash's default timeout returns success=true. Do not bypass the limit.
+        if (result.reason === "timeout") {
+          console.error("LOGIN_RATE_LIMIT_UNAVAILABLE");
+          return reject("ServiceUnavailable", 503, 60);
+        }
+        if (!result.success) {
+          return reject("RateLimit", 429, Math.max(1, Math.ceil((result.reset - Date.now()) / 1000)));
+        }
+      } catch {
+        console.error("LOGIN_RATE_LIMIT_UNAVAILABLE");
+        return reject("ServiceUnavailable", 503, 60);
       }
     }
   }

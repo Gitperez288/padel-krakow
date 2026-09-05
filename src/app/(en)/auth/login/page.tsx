@@ -17,17 +17,27 @@ export default function LoginPage() {
     setError("");
     setIsLoading(true);
 
-    const result = await signIn("credentials", {
-      email,
-      password,
-      redirect: false,
-    });
-
-    if (result?.error) {
-      setError("Invalid email or password");
+    try {
+      const result = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+        callbackUrl: "/admin/blog",
+      });
+      if (result?.status === 429 || result?.error === "RateLimit") {
+        setError("Too many sign-in attempts. Please wait 15 minutes before trying again.");
+      } else if (result?.status === 401 && result.error === "CredentialsSignin") {
+        setError("Invalid email or password");
+      } else if (!result?.ok || result.error) {
+        setError("Sign-in is temporarily unavailable. Please try again in a few minutes.");
+      } else {
+        router.push("/admin/blog");
+        router.refresh();
+      }
+    } catch {
+      setError("Sign-in is temporarily unavailable. Please try again in a few minutes.");
+    } finally {
       setIsLoading(false);
-    } else {
-      router.push("/admin/blog");
     }
   };
 
@@ -42,7 +52,7 @@ export default function LoginPage() {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             {error && (
-              <div className="p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+              <div role="alert" className="p-3 bg-red-100 border border-red-400 text-red-700 rounded">
                 {error}
               </div>
             )}
