@@ -14,7 +14,7 @@ Production: https://padel-krakow.vercel.app
 - NextAuth.js 4 credentials authentication
 - Vercel hosting and preview deployments
 - Vercel Blob for blog image uploads
-- Optional Upstash Redis login rate limiting
+- Shared Neon-backed login rate limiting
 
 ## Development environments
 

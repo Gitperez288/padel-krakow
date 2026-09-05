@@ -15,7 +15,7 @@ credentials authentication, blog administration, and image uploads.
 | Authentication | NextAuth.js 4 with bcrypt |
 | Hosting | Vercel |
 | Object storage | Vercel Blob |
-| Rate limiting | Upstash Redis, optional |
+| Rate limiting | Neon Postgres, required for credentials login |
 
 ## Commands
 
@@ -59,8 +59,6 @@ Optional integrations:
 | Variable | Purpose |
 | --- | --- |
 | `BLOB_READ_WRITE_TOKEN` | Blog image uploads |
-| `UPSTASH_REDIS_REST_URL` | Shared login rate limiting |
-| `UPSTASH_REDIS_REST_TOKEN` | Shared login rate limiting |
 
 The old `AUTH_ADMIN_*` and `AUTH_USER_*` variables are not used. Application
 users and bcrypt password hashes are stored in the `User` table.
@@ -124,7 +122,8 @@ Confirm `NEXTAUTH_SECRET` is set and `NEXTAUTH_URL` is
 
 Confirm `BLOB_READ_WRITE_TOKEN` is present in the current Vercel environment.
 
-### Login rate limiting is inactive
+### Login protection reports unavailable
 
-The application deliberately disables distributed rate limiting when either
-Upstash variable is absent.
+Apply `20260905_neon_login_rate_limit` to the correct isolated branch before preview testing. Production requires the approval and recovery steps in AGENTS.md. Check DATABASE_URL and NEXTAUTH_SECRET. Missing storage or secret returns 503; protection is never silently disabled.
+
+The Node.js credentials POST handler atomically allows five attempts per IP in a 15-minute fixed window beginning with the first attempt. Shared IPs share the limit. Failed attempts do not extend expiry. Unlike the previous sliding-window Redis policy, bursts can straddle adjacent windows. Keys are HMAC-SHA256 digests using NEXTAUTH_SECRET; raw IPs and credentials are not stored. Expired rows older than one day are removed when login traffic resumes. No scheduled keepalive is needed. Upstash variables are no longer read and can be removed after successful production rollout.

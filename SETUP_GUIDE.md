@@ -79,8 +79,7 @@ After a merge, verify:
 
 - Neon integration: `DATABASE_URL`, `DATABASE_URL_UNPOOLED`, and PostgreSQL
   compatibility variables.
-- Vercel project settings: `NEXTAUTH_SECRET`, `NEXTAUTH_URL`, Blob, and Upstash
-  credentials.
+- Vercel project settings: `NEXTAUTH_SECRET`, `NEXTAUTH_URL`, and Blob credentials.
 - Repository: placeholder names only; never secret values.
 
 ## Database changes

@@ -12,31 +12,46 @@ function load(file, mocks) {
   vm.runInNewContext(`(function(require,module,exports){${code}\n})`, { console: { error() {} }, URL, Date, process: { env: {} } })(name => name in mocks ? mocks[name] : require(name), mod, mod.exports);
   return mod.exports;
 }
-async function middlewareResult(limit) {
-  const { middleware } = load('src/middleware.ts', {
-    '@/lib/ratelimit': { loginRatelimit: { limit } },
-    'next-auth/jwt': { getToken: async () => null },
+async function routeResult(limit, segments = ['callback', 'credentials']) {
+  let calls = 0;
+  const { POST } = load('src/app/api/auth/[...nextauth]/route.ts', {
+    '@/lib/ratelimit': { checkLoginRateLimit: limit },
+    '@/auth': { authOptions: {} },
+    'next-auth': { __esModule: true, default: () => async () => { calls++; return new Response('handled'); } },
   });
-  return middleware(new NextRequest('https://example.com/api/auth/callback/credentials', { method: 'POST' }));
+  const response = await POST(new NextRequest('https://example.com/api/auth/' + segments.join('/'), { method: 'POST' }), { params: Promise.resolve({ nextauth: segments }) });
+  return { response, calls };
 }
-test('rate-limit network failure returns a NextAuth-compatible 503', async () => {
-  const res = await middlewareResult(async () => { throw Error('offline'); });
-  assert.equal(res.status, 503);
-  assert.equal(new URL((await res.json()).url).searchParams.get('error'), 'ServiceUnavailable');
-  assert.equal(res.headers.get('retry-after'), '60');
+test('database failure returns a NextAuth-compatible 503 before credential verification', async () => {
+  const { response, calls } = await routeResult(async () => { throw Error('offline'); });
+  assert.equal(response.status, 503);
+  assert.equal(new URL((await response.json()).url).searchParams.get('error'), 'ServiceUnavailable');
+  assert.equal(calls, 0);
 });
-test('timeout cannot silently bypass login protection', async () => {
-  const res = await middlewareResult(async () => ({ success: true, reason: 'timeout', pending: Promise.resolve() }));
-  assert.equal(res.status, 503);
+test('exhausted attempts return a parseable 429 and do not verify credentials', async () => {
+  const { response, calls } = await routeResult(async () => ({ allowed: false, retryAfter: 123 }));
+  assert.equal(response.status, 429);
+  assert.equal(response.headers.get('retry-after'), '123');
+  assert.equal(new URL((await response.json()).url).searchParams.get('error'), 'RateLimit');
+  assert.equal(calls, 0);
 });
-test('exhausted attempts return a parseable 429', async () => {
-  const res = await middlewareResult(async () => ({ success: false, reset: Date.now() + 900000, pending: Promise.resolve() }));
-  assert.equal(res.status, 429);
-  assert.equal(new URL((await res.json()).url).searchParams.get('error'), 'RateLimit');
+test('allowed attempts reach NextAuth and signout is not login-limited', async () => {
+  assert.equal((await routeResult(async () => ({ allowed: true }))).calls, 1);
+  assert.equal((await routeResult(async () => { throw Error('must not run'); }, ['signout'])).calls, 1);
 });
-test('allowed attempts proceed even if optional analytics fails', async () => {
-  const res = await middlewareResult(async () => ({ success: true, pending: Promise.reject(Error('analytics offline')) }));
-  assert.equal(res.headers.get('x-middleware-next'), '1');
+test('limiter binds a keyed digest instead of IP and fails closed without secret', async () => {
+  const bound = [];
+  const db = { $transaction: async fn => fn({ $executeRaw: async () => 0, $queryRaw: async (...args) => { bound.push(args[1]); return [{ count: 6, retryAfter: 30 }]; } }) };
+  // Override only this VM's environment; never read real credentials.
+  const code = ts.transpileModule(readFileSync(new URL('../src/lib/ratelimit.ts', import.meta.url), 'utf8'), { compilerOptions: { module: ts.ModuleKind.CommonJS } }).outputText;
+  const mod = { exports: {} }; const env = { NEXTAUTH_SECRET: 'test-only-secret' };
+  vm.runInNewContext(`(function(require,module,exports){${code}\n})`, { process: { env } })(name => name === '@/lib/db' ? { db } : require(name), mod, mod.exports);
+  assert.equal((await mod.exports.checkLoginRateLimit('192.0.2.1')).allowed, false);
+  await mod.exports.checkLoginRateLimit('192.0.2.1');
+  assert.match(bound[0], /^[a-f0-9]{64}$/);
+  assert.equal(bound[0], bound[1]);
+  delete env.NEXTAUTH_SECRET;
+  await assert.rejects(mod.exports.checkLoginRateLimit('192.0.2.1'));
 });
 async function submit(signIn) {
   const values = []; let index = 0; const pushes = [];
