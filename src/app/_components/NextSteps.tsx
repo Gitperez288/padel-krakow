@@ -7,8 +7,8 @@ const content = {
     pl: { title: "Zaplanuj swoją następną grę", text: "Wybierz kort, sprawdź swój poziom i poznaj osoby do wspólnej gry. Nie musisz mieć własnej grupy graczy.", links: [["courts", "Porównaj korty w Krakowie i Małopolsce"], ["community", "Znajdź osoby do gry"]] },
   },
   courts: {
-    en: { title: "Choose a court and plan your game", text: "Check the address: this guide includes Kraków, nearby towns and venues elsewhere in Małopolska. Court counts refer to doubles or singles courts, not players. Before booking, confirm the current price, racket rental and availability directly with the club. Prices, parking and transport details are not yet verified in this guide. Venues without confirmed coordinates remain in the list; use their directions link for the exact location.", links: [["community", "Found a court? Find players at your level"], ["levels", "Check your playing level"]] },
-    pl: { title: "Wybierz kort i zaplanuj grę", text: "Sprawdź adres: zestawienie obejmuje Kraków, pobliskie miejscowości i pozostałą część Małopolski. Liczby oznaczają korty deblowe lub singlowe, nie graczy. Przed rezerwacją potwierdź w klubie aktualną cenę, możliwość wypożyczenia rakiety i dostępność. Ceny oraz informacje o parkingu i transporcie nie zostały jeszcze zweryfikowane w tym przewodniku. Obiekty bez potwierdzonych współrzędnych pozostają na liście. Dokładną lokalizację sprawdzisz przez link dojazdu.", links: [["community", "Masz już kort? Znajdź osoby do gry"], ["levels", "Sprawdź swój poziom gry"]] },
+    en: { title: "Choose a court and plan your game", text: "Check the address: this guide includes Kraków, nearby towns and venues elsewhere in Małopolska. Court counts refer to doubles or singles courts, not players. Before booking, confirm the current price, racket rental and availability directly with the club. Use the directions link to plan your journey. Practical notes include their source and check date.", links: [["community", "Found a court? Find players at your level"], ["levels", "Check your playing level"]] },
+    pl: { title: "Wybierz kort i zaplanuj grę", text: "Sprawdź adres: zestawienie obejmuje Kraków, pobliskie miejscowości i pozostałą część Małopolski. Liczby oznaczają korty deblowe lub singlowe, nie graczy. Przed rezerwacją potwierdź w klubie aktualną cenę, możliwość wypożyczenia rakiety i dostępność. Trasę zaplanujesz przez link dojazdu. Praktyczne informacje zawierają źródło i datę sprawdzenia.", links: [["community", "Masz już kort? Znajdź osoby do gry"], ["levels", "Sprawdź swój poziom gry"]] },
   },
   community: {
     en: { title: "How to find a game", text: "Open the invitation above, read the group rules and introduce yourself with your level, preferred courts and available times. Join a game or propose your own, then confirm the booking and share the costs.", links: [["levels", "Not sure of your level? Read our guide"], ["courts", "Choose a court for your match"]] },
@@ -20,7 +20,7 @@ const content = {
   },
 } as const;
 
-export default function NextSteps({ locale, page }: { locale: Locale; page: PageKey }) {
+export default function NextSteps({ locale, page }: { locale: Locale; page: keyof typeof content }) {
   const section = content[page][locale];
   return <section className="max-w-6xl mx-auto my-8 rounded-2xl border border-stone-200 bg-white p-6 text-left">
     <h2 className="text-xl font-bold text-stone-900 mb-3">{section.title}</h2>

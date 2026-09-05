@@ -1,5 +1,4 @@
 "use client";
-
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -75,6 +74,7 @@ export default function AdminBlogPage() {
             <p className="text-sm text-gray-600">Welcome, {session?.user?.name}</p>
           </div>
           <div className="flex items-center gap-4">
+            <Link href="/admin/analytics" className="underline">Analytics</Link>
             <Link
               href="/admin/blog/new"
               className="flex items-center gap-2 bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded-lg transition"

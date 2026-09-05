@@ -1,3 +1,4 @@
+import { plainText } from "@/lib/blog-content";
 // This route handles POST requests to create/update blog posts
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
@@ -42,12 +43,12 @@ export async function POST(req: NextRequest) {
         title,
         slug,
         content,
-        excerpt: excerpt || content.substring(0, 160),
+        excerpt: plainText(excerpt || content),
         coverImage,
         published,
         authorId: user.id,
         metaTitle: metaTitle || title,
-        metaDescription: metaDescription || excerpt || content.substring(0, 160),
+        metaDescription: plainText(metaDescription || excerpt || content),
         metaKeywords,
         ogImage: ogImage || coverImage,
         publishedAt: published ? new Date() : null,

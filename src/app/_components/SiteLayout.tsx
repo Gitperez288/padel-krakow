@@ -1,3 +1,4 @@
+import UsageTracker from "./UsageTracker";
 import { getTranslator } from "@/lib/translations";
 import { localizePath, type Locale } from "@/lib/i18n";
 // app/layout.tsx
@@ -22,7 +23,7 @@ export const metadata: Metadata = {
     template: "%s | Padel Kraków",
   },
   description:
-    "Join over 900 padel players in Kraków and Małopolska. A people-first community on a mission to grow the sport. Discover court locations, skill levels, community groups, and the latest padel news.",
+    "Join a community with 975+ members in Kraków and Małopolska. A people-first community on a mission to grow the sport. Discover court locations, skill levels, community groups, and the latest padel news.",
   keywords: [
     "padel Kraków",
     "padel Krakow",
@@ -52,7 +53,7 @@ export const metadata: Metadata = {
     siteName: "Padel Kraków Community",
     title: "Padel Kraków Community",
     description:
-      "Join over 900 padel players in a people-first community growing padel in Kraków and Małopolska. Find courts, levels, and local groups.",
+      "Join a community with 975+ members in a people-first community growing padel in Kraków and Małopolska. Find courts, levels, and local groups.",
     images: [
       {
         url: "/og-image.jpg",
@@ -64,9 +65,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Padel Kraków Community – 900+ Players",
+    title: "Padel Kraków Community – 975+ Members",
     description:
-      "People-first padel community in Kraków and Małopolska. 900+ players, multiple courts, all levels welcome.",
+      "People-first padel community in Kraków and Małopolska. 975+ members, multiple courts, all levels welcome.",
     images: ["/og-image.jpg"],
   },
 };
@@ -90,6 +91,7 @@ export default function SiteLayout({ children, locale }: { children: ReactNode; 
         <Providers>
           <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[60] button-secondary">{locale === "pl" ? "Przejdź do treści" : "Skip to content"}</a>
           <SiteHeader locale={locale} />
+          {process.env.COMMUNITY_ANALYTICS_ENABLED === "true" && <UsageTracker />}
 
         <main id="main-content" className="flex-1">{children}</main>
 
@@ -125,19 +127,19 @@ export default function SiteLayout({ children, locale }: { children: ReactNode; 
                   </li>
                   <li>
                     <Link
-                      href="/blog"
+                      href={localizePath("/blog", locale)}
                       className="text-white/75 hover:text-white transition"
                     >{t("Blog")}</Link>
                   </li>
                   <li>
                     <Link
-                      href="/coaches"
+                      href={localizePath("/coaches", locale)}
                       className="text-white/75 hover:text-white transition"
                     >{t("Coaches")}</Link>
                   </li>
                   <li>
                     <Link
-                      href="/who-we-are"
+                      href={localizePath("/who-we-are", locale)}
                       className="text-white/75 hover:text-white transition"
                     >{t("Who We Are")}</Link>
                   </li>
@@ -148,19 +150,19 @@ export default function SiteLayout({ children, locale }: { children: ReactNode; 
                 <ul className="space-y-2 text-sm">
                   <li>
                     <Link
-                      href="/privacy"
+                      href={localizePath("/privacy", locale)}
                       className="text-white/75 hover:text-white transition"
                     >{t("Privacy Policy")}</Link>
                   </li>
                   <li>
                     <Link
-                      href="/terms"
+                      href={localizePath("/terms", locale)}
                       className="text-white/75 hover:text-white transition"
                     >{t("Terms of Service")}</Link>
                   </li>
                   <li>
                     <Link
-                      href="/guidelines"
+                      href={localizePath("/guidelines", locale)}
                       className="text-white/75 hover:text-white transition"
                     >{t("Community Guidelines")}</Link>
                   </li>
@@ -203,17 +205,21 @@ export default function SiteLayout({ children, locale }: { children: ReactNode; 
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "SportsOrganization",
+              "@id": SITE_URL + "/#organization",
               name: "Padel Kraków Community",
               url: SITE_URL,
               description:
-                "People-first padel community in Kraków and Małopolska with over 900 players.",
+                "Local padel community in Kraków and Małopolska with 975+ members.",
               sport: "Padel",
+              logo: SITE_URL + "/dragon-logo.png",
+              areaServed: [{ "@type": "City", name: "Kraków" }, { "@type": "AdministrativeArea", name: "Małopolska" }],
               email: "padelkrkcommunity@gmail.com",
               sameAs: ["https://www.instagram.com/padelkrkcommunity"],
               address: {
                 "@type": "PostalAddress",
                 addressCountry: "PL",
                 addressRegion: "Małopolska",
+                addressLocality: "Kraków",
               },
             }),
           }}

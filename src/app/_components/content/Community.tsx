@@ -1,4 +1,7 @@
 "use client";
+import { trackUsage } from "@/lib/usage";
+import CommunitySteps from "../CommunitySteps";
+
 import { getTranslator } from "@/lib/translations";
 import { localizePath, type Locale } from "@/lib/i18n";
 import Image from "next/image";
@@ -21,7 +24,7 @@ type MainCommunity = {
 
 const mainCommunity: MainCommunity = {
   name: "Padel Kraków & Małopolska Community",
-  desc: "Our main regional community; connect with players across Małopolska, find matches, share news, and join events.",
+  desc: "Our regional community connects players across Kraków and Małopolska. Join for free, find matches and share your love of padel.",
 };
 
 const REVEAL_DELAY_MS = 1200;
@@ -90,6 +93,7 @@ export default function CommunityPage({ locale }: { locale: Locale }) {
 
         setWhatsAppUrl(url.toString());
         setRevealStatus("revealed");
+        trackUsage("invite_reveal");
       } catch {
         if (!mountedRef.current) return;
 
@@ -105,8 +109,8 @@ export default function CommunityPage({ locale }: { locale: Locale }) {
     <div className="px-4 py-10 text-center">
       <section id="community-header" data-testid="community-header-section" className="mx-auto mb-8 max-w-6xl text-left">
         <p className="eyebrow mb-3">Padel Kraków & Małopolska</p>
-        <h1 className="page-heading mb-4">{t("Find your people")}</h1>
-        <p className="text-stone-600">{t("Find partners, arrange matches and join local padel events.")}</p>
+        <h1 className="page-heading mb-4">{locale === "pl" ? "Znajdź osoby do gry w padla w Krakowie" : "Find padel players in Kraków"}</h1>
+        <p className="text-stone-600">{t("Find partners and arrange padel matches in Kraków and Małopolska.")}</p>
       </section>
 
       {/* --- Main Community Hero --- */}
@@ -120,7 +124,7 @@ export default function CommunityPage({ locale }: { locale: Locale }) {
             <Image src="/dragon-logo.png" alt={t("Padel Kraków community dragon mascot")} width={160} height={160} sizes="160px" className="h-32 w-32 shrink-0 rounded-2xl object-contain sm:h-40 sm:w-40" priority/>
             <div>
               <h2 className="text-2xl font-bold text-stone-900 mb-2 sm:text-3xl">{mainCommunity.name}</h2>
-              <p className="text-sm text-gray-600">{t("WhatsApp Community")}</p>
+              <p className="text-sm text-gray-600">{t("WhatsApp Community")} · {locale === "pl" ? "Ponad 975 członków" : "975+ members"}</p>
             </div>
           </div>
           <p className="text-gray-700 mb-6 leading-relaxed">
@@ -129,6 +133,7 @@ export default function CommunityPage({ locale }: { locale: Locale }) {
           {revealStatus === "revealed" && whatsAppUrl ? (
             <a
               href={whatsAppUrl}
+              data-analytics-event="whatsapp_click"
               target="_blank"
               rel="noopener noreferrer"
               referrerPolicy="no-referrer"
@@ -158,6 +163,7 @@ export default function CommunityPage({ locale }: { locale: Locale }) {
         </div>
       </section>
 
+      <CommunitySteps locale={locale} />
       <NextSteps locale={locale} page="community" />
 
       {/* --- Club Communities Grid --- */}

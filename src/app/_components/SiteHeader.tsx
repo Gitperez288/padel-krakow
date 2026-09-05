@@ -1,5 +1,4 @@
 "use client";
-
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -23,7 +22,8 @@ const secondaryLinks = [
 export default function SiteHeader({ locale }: { locale: Locale }) {
   const t = getTranslator(locale);
   const [open, setOpen] = useState(false);
-  const pathname = usePathname();
+  const rawPathname = usePathname();
+  const pathname = rawPathname === "/index" ? "/" : rawPathname;
   const aboutRef = useRef<HTMLDetailsElement>(null);
   const menuRef = useRef<HTMLButtonElement>(null);
   useEffect(() => {
@@ -57,7 +57,7 @@ export default function SiteHeader({ locale }: { locale: Locale }) {
       {t(link.label)}
     </Link>
   );
-  const translated = Object.values(localizedRoutes).some(pair => pair.en === pathname || pair.pl === pathname);
+  const translated = Object.values(localizedRoutes).some(pair => pair.en === pathname || pair.pl === pathname) || localizePath(pathname, "pl") !== localizePath(pathname, "en");
 
   return (
     <header className="sticky top-0 z-50 border-b border-stone-200 bg-white">

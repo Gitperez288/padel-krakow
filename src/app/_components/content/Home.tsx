@@ -1,4 +1,6 @@
-import { getTranslator } from "@/lib/translations";
+import { hasPolishPost } from "@/lib/blog-locales";
+import { localizedPost, publicAuthor } from "@/lib/blog-content";
+import { getServerTranslator as getTranslator } from "@/lib/translations-server";
 import { localizePath, type Locale } from "@/lib/i18n";
 
 import Link from "next/link";
@@ -29,14 +31,16 @@ function stripHtml(html: string): string {
 
 export default async function HomePage({ locale }: { locale: Locale }) {
   const t = getTranslator(locale);
-  const latestPosts = await db.post.findMany({
+  const sourcePosts = await db.post.findMany({
     where: { published: true },
     include: {
       author: { select: { name: true } },
     },
     orderBy: { publishedAt: "desc" },
-    take: 3,
+
   });
+
+  const latestPosts = sourcePosts.filter(post => locale === "en" || hasPolishPost(post.slug)).slice(0, 3).map(post => localizedPost(post, locale));
 
   const features = [
     { icon: MapPin, title: t("Find Padel Courts"), description: t("Compare clubs, find your court and book a game."), href: "/courts" },
@@ -54,14 +58,14 @@ export default async function HomePage({ locale }: { locale: Locale }) {
               <Image src="/dragon-logo.png" alt={t("Padel Kraków community dragon mascot")} width={128} height={128} sizes="128px" className="h-28 w-28 shrink-0 rounded-2xl object-contain sm:h-32 sm:w-32" priority/>
               <p className="eyebrow">Kraków & Małopolska</p>
             </div>
-            <h1 className="text-5xl font-extrabold leading-[1.08] tracking-tighter text-stone-900 sm:text-6xl lg:text-7xl">{t("Your people.")}<br/>{t("Your next game.")}</h1>
-            <p className="mt-6 max-w-lg text-lg leading-relaxed text-stone-600">{t("Join over 900 padel players in Kraków and Małopolska. Find a court, meet your partners and get playing.")}</p>
+            <h1 className="text-5xl font-extrabold leading-[1.08] tracking-tighter text-stone-900 sm:text-6xl lg:text-7xl"><span className="block text-2xl mb-3 sm:text-3xl">{locale === "pl" ? "Padel w Krakowie" : "Padel in Kraków"}</span>{t("Your people.")}<br/>{t("Your next game.")}</h1>
+            <p className="mt-6 max-w-lg text-lg leading-relaxed text-stone-600">{t("975+ community members. Free to join. Polish and English welcome. Find a court, meet your partners and get playing.")}</p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link href={localizePath("/community", locale)} className="button-primary">{t("Join the Community")}<ArrowRight size={17}/></Link>
               <Link href={localizePath("/courts", locale)} className="button-secondary">{t("Find Padel Courts")}</Link>
             </div>
             <div className="mt-8 flex items-center gap-4 border-t border-stone-200 pt-6 text-sm text-stone-600">
-              <span className="text-2xl font-bold text-stone-900">900+</span><span>{t("Active players")}</span><span aria-hidden="true" className="h-5 border-l border-stone-300"/><span>{t("All levels welcome")}</span>
+              <span className="text-2xl font-bold text-stone-900">975+</span><span>{locale === "pl" ? "Członków społeczności" : "Community members"}</span><span aria-hidden="true" className="h-5 border-l border-stone-300"/><span>{t("All levels welcome")}</span>
             </div>
           </div>
           <figure className="relative overflow-hidden rounded-2xl bg-stone-200">
@@ -69,7 +73,7 @@ export default async function HomePage({ locale }: { locale: Locale }) {
               <Image src="/media/alex.webp" alt={t("Alex Cabezas playing padel")} fill sizes="(min-width: 1024px) 550px, 100vw" className="object-cover object-top" priority/>
             </div>
             <figcaption className="flex items-center justify-between gap-3 bg-stone-900 px-5 py-4 text-xs text-white">
-              <span>{t("On court with Alex Cabezas")}</span><Link href="/coaches" className="inline-flex items-center gap-2 font-semibold hover:underline">{t("Meet our coaches")}<ArrowRight size={14}/></Link>
+              <span>{t("On court with Alex Cabezas")}</span><Link href={localizePath("/coaches", locale)} className="inline-flex items-center gap-2 font-semibold hover:underline">{t("Meet our coaches")}<ArrowRight size={14}/></Link>
             </figcaption>
           </figure>
         </div>
@@ -100,7 +104,7 @@ export default async function HomePage({ locale }: { locale: Locale }) {
               <p className="text-gray-600">{t("News, stories and updates from our community")}</p>
             </div>
             <Link
-              href="/blog"
+              href={localizePath("/blog", locale)}
               className="inline-flex items-center gap-2 text-stone-900 font-semibold hover:text-orange-700 transition shrink-0"
             >{t("View all posts")}<ArrowRight size={16} />
             </Link>
@@ -111,7 +115,7 @@ export default async function HomePage({ locale }: { locale: Locale }) {
               {latestPosts.map((post) => (
                 <Link
                   key={post.id}
-                  href={`/blog/${post.slug}`}
+                  href={localizePath(`/blog/${post.slug}`, locale)}
                   className="surface group overflow-hidden flex flex-col transition-colors hover:border-stone-400"
                 >
                   {post.coverImage ? (
@@ -138,7 +142,7 @@ export default async function HomePage({ locale }: { locale: Locale }) {
                     )}
                     <div className="flex items-center gap-3 text-xs text-stone-500 mt-auto pt-3 border-t border-gray-100">
                       <span className="flex items-center gap-1">
-                        <Users size={12} /> {post.author.name}
+                        <Users size={12} /> {publicAuthor(post.slug, post.author.name)}
                       </span>
                       {post.publishedAt && (
                         <span className="flex items-center gap-1">
@@ -155,7 +159,7 @@ export default async function HomePage({ locale }: { locale: Locale }) {
             <div className="text-center py-12 bg-white rounded-2xl shadow-sm">
               <Newspaper className="w-12 h-12 text-stone-400 mx-auto mb-4" />
               <p className="text-gray-500 text-lg">{t("No posts yet, check back soon!")}</p>
-              <Link href="/blog" className="mt-4 inline-block text-stone-900 font-semibold hover:underline">{t("Go to Blog")}</Link>
+              <Link href={localizePath("/blog", locale)} className="mt-4 inline-block text-stone-900 font-semibold hover:underline">{t("Go to Blog")}</Link>
             </div>
           )}
         </div>
@@ -167,10 +171,10 @@ export default async function HomePage({ locale }: { locale: Locale }) {
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
             <div>
               <h2 className="text-3xl font-bold text-stone-900 mb-2">{t("Community Sponsors")}</h2>
-              <p className="text-gray-600 max-w-xl">{t("Local partners who support our community events and keep padel in Kraków accessible for everyone.")}</p>
+              <p className="text-gray-600 max-w-xl">{t("Local partners who support our players and offer community benefits.")}</p>
             </div>
             <Link
-              href="/sponsors"
+              href={localizePath("/sponsors", locale)}
               className="inline-flex items-center gap-2 text-stone-900 font-semibold hover:text-orange-700 transition shrink-0"
             >{t("View all sponsors")}<ArrowRight size={16} />
             </Link>
@@ -181,7 +185,7 @@ export default async function HomePage({ locale }: { locale: Locale }) {
               {sponsors.map((sponsor) => (
                 <Link
                   key={sponsor.id}
-                  href="/sponsors"
+                  href={localizePath("/sponsors", locale)}
                   className="surface group flex flex-col items-center justify-center gap-3 p-6 text-center"
                 >
                   {sponsor.logo ? (
@@ -217,7 +221,7 @@ export default async function HomePage({ locale }: { locale: Locale }) {
                 .
               </p>
               <Link
-                href="/sponsors"
+                href={localizePath("/sponsors", locale)}
                 className="mt-2 inline-flex items-center gap-2 bg-orange-700 text-white px-5 py-2 rounded-lg font-semibold hover:bg-orange-800 transition text-sm"
               >
                 <Handshake size={15} />{t("Learn about sponsorships")}</Link>

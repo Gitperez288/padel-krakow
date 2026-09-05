@@ -1,6 +1,8 @@
 "use client";
 import { getTranslator } from "@/lib/translations";
 import { localizePath, type Locale } from "@/lib/i18n";
+import CommunityCTA from "@/app/_components/CommunityCTA";
+import NextSteps from "@/app/_components/NextSteps";
 import Image from "next/image";
 
 import Link from "next/link";
@@ -19,6 +21,7 @@ export default function CourtsPage({ locale }: { locale: Locale }) {
   const t = getTranslator(locale);
   const [search, setSearch] = useState("");
   const [filterIndoor, setFilterIndoor] = useState("all");
+  const [area, setArea] = useState("all");
   const [filterBooking, setFilterBooking] = useState("all");
 
   const getFacilityType = (indoor: boolean | "mixed") =>
@@ -35,18 +38,19 @@ export default function CourtsPage({ locale }: { locale: Locale }) {
         filterIndoor === "all"
           ? true
           : filterIndoor === "indoor"
-          ? c.indoor === true
+          ? c.indoor !== false
           : filterIndoor === "outdoor"
-          ? c.indoor === false
+          ? c.indoor !== true
           : c.indoor === "mixed";
       const matchesBooking =
         filterBooking === "all" ? true : c.booking.toLowerCase().includes(filterBooking.toLowerCase());
-      return matchesSearch && matchesIndoor && matchesBooking;
+      return matchesSearch && matchesIndoor && matchesBooking && (area === "all" || (c.area || "krakow") === area);
     });
-  }, [search, filterIndoor, filterBooking]);
+  }, [search, filterIndoor, filterBooking, area]);
 
   const clearFilters = () => {
     setSearch("");
+    setArea("all");
     setFilterIndoor("all");
     setFilterBooking("all");
   };
@@ -54,10 +58,15 @@ export default function CourtsPage({ locale }: { locale: Locale }) {
   return (
     <div className="px-4 py-10 mx-auto max-w-6xl">
       <section id="courts-header" data-testid="courts-header-section">
-        <h1 className="page-heading mb-4">{t("Padel courts")}</h1>
+        <h1 className="page-heading mb-4">{locale === "pl" ? "Korty do padla w Krakowie i Małopolsce" : "Padel courts in Kraków and Małopolska"}</h1>
         <p className="text-stone-600 mb-8 leading-relaxed">{t("Find your next court in Kraków and Małopolska.")}</p>
       </section>
 
+      <p className="mb-5 max-w-3xl text-stone-600">{locale === "pl" ? "Porównaj korty w mieście, najbliższej okolicy i pozostałej części Małopolski. Wybierz obiekt z kortami w hali, jeśli zależy Ci na grze niezależnie od pogody. Ceny i dostępne godziny sprawdzisz bezpośrednio w systemie rezerwacji klubu." : "Compare clubs in the city, nearby towns and the wider Małopolska region. Choose a club with indoor courts for play in any weather. Check current prices and available times directly with each club's booking service."}</p>
+      <CommunityCTA locale={locale} />
+      <label className="mb-4 flex flex-wrap items-center gap-3 font-semibold">{locale === "pl" ? "Okolica" : "Area"}<select value={area} onChange={e => setArea(e.target.value)} className="rounded-lg border p-3 font-normal">
+        <option value="all">{locale === "pl" ? "Wszystkie okolice" : "All areas"}</option><option value="krakow">Kraków</option><option value="nearby">{locale === "pl" ? "Okolice Krakowa" : "Near Kraków"}</option><option value="region">{locale === "pl" ? "Dalej w Małopolsce" : "Wider Małopolska"}</option>
+      </select></label>
       {/* ---- FILTER BAR ---- */}
       <section id="courts-filters" data-testid="courts-filters-section" className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3 bg-white border border-stone-200 rounded-2xl p-4 mb-8 shadow-sm">
         <input
@@ -77,8 +86,8 @@ export default function CourtsPage({ locale }: { locale: Locale }) {
             className="max-w-full min-h-11 px-3 py-2 rounded-lg border border-gray-300 text-gray-700 focus:ring-2 focus:ring-orange-700 outline-none"
           >
             <option value="all">{t("All Types")}</option>
-            <option value="indoor">{t("Indoor")}</option>
-            <option value="outdoor">{t("Outdoor")}</option>
+            <option value="indoor">{locale === "pl" ? "Z kortami w hali" : "Has indoor courts"}</option>
+            <option value="outdoor">{locale === "pl" ? "Z kortami na zewnątrz" : "Has outdoor courts"}</option>
             <option value="mixed">{t("Indoor / Outdoor")}</option>
           </select>
 
@@ -92,7 +101,8 @@ export default function CourtsPage({ locale }: { locale: Locale }) {
             <option value="tenis4u">Tenis4U</option>
             <option value="twojtenis">TwojTenis</option>
             <option value="padel mates">Padel Mates</option>
-            <option value="phone">{t("Phone Call")}</option>
+            <option value="playpadel">PlayPadel</option>
+            <option value="online booking">{locale === "pl" ? "Pozostałe rezerwacje online" : "Other online booking"}</option>
           </select>
 
           <button
@@ -102,12 +112,13 @@ export default function CourtsPage({ locale }: { locale: Locale }) {
         </div>
       </section>
 
+      <p aria-live="polite" className="mb-5 text-sm text-stone-600">{locale === "pl" ? "Znalezione kluby:" : "Clubs found:"} {filteredCourts.length}</p>
       <div className="space-y-10">
         <section id="courts-catalogue" aria-label={locale === "pl" ? "Kluby padla" : "Padel clubs"} data-testid="courts-sidebar-section" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredCourts.length > 0 ? (
             filteredCourts.map((c, index) => (
               <article
-                key={c.id}
+                key={c.id} id={c.id}
                 className="group overflow-hidden rounded-2xl shadow-sm transition-colors border flex flex-col min-w-0 bg-white hover:border-stone-400 border-stone-200"
               >
                 <div className="relative aspect-[16/10] bg-gray-100">
@@ -117,9 +128,9 @@ export default function CourtsPage({ locale }: { locale: Locale }) {
                   <div className="flex justify-between items-start mb-1">
                     <h2 className="text-lg font-bold text-stone-900">{c.name}</h2>
                   </div>
-                  <p className="text-gray-600 text-sm mb-1">{c.address}</p>
+                  <p className="text-gray-600 text-sm mb-1">{c.address}</p><p className="text-xs text-orange-800">{c.area === "nearby" ? (locale === "pl" ? "Okolice Krakowa" : "Near Kraków") : c.area === "region" ? (locale === "pl" ? "Dalej w Małopolsce" : "Wider Małopolska") : "Kraków"}</p>
                   <div className="text-sm text-gray-700 mb-2">
-                    {c.doubles}{" "}{t("Doubles")}{c.singles ? ` • ${c.singles} ${locale === "pl" ? "singlowe" : "Singles"}` : ""}
+                    {locale === "pl" ? `Korty deblowe: ${c.doubles}` : `${c.doubles} doubles courts`}{c.singles ? (locale === "pl" ? ` • Korty singlowe: ${c.singles}` : ` • Singles courts: ${c.singles}`) : ""}
                     <span className="ml-2 inline-block rounded-md bg-stone-100 px-2 py-1 text-xs">{getFacilityType(c.indoor)}</span>
                   </div>
                   <div className="mt-1 pt-2 border-t border-gray-100 text-sm">
@@ -130,13 +141,15 @@ export default function CourtsPage({ locale }: { locale: Locale }) {
                           href={c.bookingUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="font-semibold text-orange-700 underline underline-offset-4 hover:text-orange-800"
+                          data-analytics-event="booking_click" className="button-primary w-full"
                         >
-                          {t(c.booking)}
+                          {c.bookingSearchName ? (locale === "pl" ? "Znajdź w Tenis4U" : "Find in Tenis4U") : (locale === "pl" ? "Rezerwuj" : "Book")} {!c.bookingSearchName && "·"} {!c.bookingSearchName && t(c.booking)}
                         </a>
                       ) : t(c.booking)}
                     </span>
                   </div>
+                  {c.bookingSearchName && <p className="text-sm text-stone-600">{locale === "pl" ? "Wyszukaj klub:" : "Search for:"} <strong>{c.bookingSearchName}</strong></p>}
+                  {c.practical && <div className="mt-2 border-t border-stone-100 pt-3 text-sm text-stone-600"><p>{c.practical[locale]}</p><a href={c.practical.source} target="_blank" rel="noopener noreferrer" className="mt-2 inline-block underline">{locale === "pl" ? "Źródło: klub / rezerwacje" : "Source: club / booking page"}</a><p className="mt-1 text-xs">{locale === "pl" ? "Sprawdzono:" : "Checked:"} <time dateTime="2026-09-05">05.09.2026</time></p></div>}
                   {(c.instagram || c.website) && (
                     <div className="mt-1 text-sm flex items-center gap-1.5 break-all">
                       {c.instagram ? (
@@ -181,6 +194,7 @@ export default function CourtsPage({ locale }: { locale: Locale }) {
 
       </div>
 
+      <NextSteps locale={locale} page="courts" />
       {/* ---- CTA: Submit a Court / Club ---- */}
       <section id="courts-cta" data-testid="courts-cta-section" className="mt-12 rounded-2xl overflow-hidden border border-stone-200 bg-stone-100 text-stone-900">
         <div className="grid md:grid-cols-2">
@@ -207,7 +221,7 @@ export default function CourtsPage({ locale }: { locale: Locale }) {
                 <Building2 className="w-6 h-6 text-orange-700" />
               </div>
               <h3 className="text-2xl font-bold mb-2">{t("Are you a padel club?")}</h3>
-              <p className="text-stone-600 leading-relaxed">{t("Want your club featured on this page and reach hundreds of active players in Kraków and Małopolska? Get in touch, we&apos;d love to feature you.")}</p>
+              <p className="text-stone-600 leading-relaxed">{t("Want your club featured on this page and reach local players in Kraków and Małopolska? Get in touch, we&apos;d love to feature you.")}</p>
             </div>
             <Link
               href={localizePath("/community", locale)}

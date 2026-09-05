@@ -1,4 +1,6 @@
 "use client";
+import { getTranslator } from "@/lib/translations";
+import type { Locale } from "@/lib/i18n";
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
@@ -18,8 +20,6 @@ const ALL_LANGUAGES = [
   "English",
   "Spanish",
   "Polish",
-  "Ukrainian",
-  "Italian",
   "Portuguese",
   "French",
 ] as const;
@@ -28,9 +28,11 @@ type Language = (typeof ALL_LANGUAGES)[number];
 
 interface Props {
   coaches: Coach[];
+  locale: Locale;
 }
 
-export default function CoachesClient({ coaches }: Props) {
+export default function CoachesClient({ coaches, locale }: Props) {
+  const t = getTranslator(locale);
   const [search, setSearch] = useState("");
   const [selectedLanguages, setSelectedLanguages] = useState<Language[]>([]);
   const [selectedLocation, setSelectedLocation] = useState<string>("All");
@@ -73,8 +75,8 @@ export default function CoachesClient({ coaches }: Props) {
         selectedLocation === "All" || coach.location === selectedLocation;
 
       return matchesSearch && matchesLanguage && matchesLocation;
-    }).sort((a, b) => a.name.localeCompare(b.name, "en", { sensitivity: "base" }));
-  }, [coaches, search, selectedLanguages, selectedLocation]);
+    }).sort((a, b) => a.name.localeCompare(b.name, locale, { sensitivity: "base" }));
+  }, [coaches, search, selectedLanguages, selectedLocation, locale]);
 
   return (
     <>
@@ -91,8 +93,8 @@ export default function CoachesClient({ coaches }: Props) {
               />
               <input
                 type="text"
-                aria-label="Search coaches"
-                placeholder="Search coaches…"
+                aria-label={t("Search coaches")}
+                placeholder={t("Search coaches…")}
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 className="w-full pl-9 pr-9 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-orange-700"
@@ -101,7 +103,7 @@ export default function CoachesClient({ coaches }: Props) {
                 <button
                   onClick={() => setSearch("")}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                  aria-label="Clear search"
+                  aria-label={t("Clear search")}
                 >
                   <X size={14} />
                 </button>
@@ -112,14 +114,14 @@ export default function CoachesClient({ coaches }: Props) {
             <div className="flex items-center gap-2">
               <MapPin size={16} className="text-orange-700 shrink-0" />
               <select
-                aria-label="Coach location"
+                aria-label={t("Coach location")}
                 value={selectedLocation}
                 onChange={(e) => setSelectedLocation(e.target.value)}
                 className="py-2 pl-3 pr-8 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-orange-700 bg-white"
               >
                 {locations.map((loc) => (
-                  <option key={loc} value={loc}>
-                    {loc}
+                  <option key={t(loc)} value={t(loc)}>
+                    {t(loc)}
                   </option>
                 ))}
               </select>
@@ -133,7 +135,7 @@ export default function CoachesClient({ coaches }: Props) {
               const active = selectedLanguages.includes(lang);
               return (
                 <button
-                  key={lang}
+                  key={t(lang)}
                   aria-pressed={active}
                   onClick={() => toggleLanguage(lang)}
                   className={`min-h-11 px-3 py-2 rounded-lg text-sm font-medium border transition ${
@@ -142,7 +144,7 @@ export default function CoachesClient({ coaches }: Props) {
                       : "bg-white text-gray-600 border-gray-200 hover:border-orange-700"
                   }`}
                 >
-                  {lang}
+                  {t(lang)}
                 </button>
               );
             })}
@@ -151,7 +153,7 @@ export default function CoachesClient({ coaches }: Props) {
                 onClick={clearFilters}
                 className="ml-auto flex items-center gap-1 text-xs text-gray-400 hover:text-gray-600 transition"
               >
-                <X size={12} /> Clear filters
+                <X size={12} /> {t("Clear filters")}
               </button>
             )}
           </div>
@@ -161,11 +163,11 @@ export default function CoachesClient({ coaches }: Props) {
       {/* Coach Cards */}
       <section className="pb-12 px-4">
         <div className="max-w-6xl mx-auto">
-          <p className="mb-5 text-sm text-stone-600">Sorted alphabetically by name (A–Z).</p>
+          <p className="mb-5 text-sm text-stone-600">{t("Sorted alphabetically by name (A–Z).")}</p>
           {filtered.length === 0 ? (
             <div className="text-center py-24 text-gray-400">
-              <p className="text-xl font-semibold mb-2">No coaches found</p>
-              <p className="text-sm">Try adjusting your filters.</p>
+              <p className="text-xl font-semibold mb-2">{t("No coaches found")}</p>
+              <p className="text-sm">{t("Try adjusting your filters.")}</p>
             </div>
           ) : (
             <div className="grid items-start sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -181,7 +183,7 @@ export default function CoachesClient({ coaches }: Props) {
                         fill
                         sizes="(min-width: 1024px) 360px, (min-width: 640px) 50vw, 100vw"
                         src={coach.photo}
-                        alt={`${coach.name} – Padel Coach`}
+                        alt={`${coach.name}, ${t("Padel Coach")}`}
                         className="w-full h-full object-cover"
                       />
                     ) : (
@@ -208,34 +210,35 @@ export default function CoachesClient({ coaches }: Props) {
                     <div className="flex flex-wrap gap-1.5">
                       {coach.languages.map((lang) => (
                         <span
-                          key={lang}
+                          key={t(lang)}
                           className="px-2 py-0.5 rounded-full bg-stone-100 text-stone-700 text-xs font-medium"
                         >
-                          {lang}
+                          {t(lang)}
                         </span>
                       ))}
                     </div>
 
                     {/* Instagram */}
                     <div className="mt-1">
-                      <p className="text-xs text-gray-400 mb-1">Contact via:</p>
+                      <p className="text-xs text-gray-400 mb-1">{t("Contact via:")}</p>
                       {coach.instagram ? (
                         <Link
                           href={coach.instagram}
+                          data-analytics-event="coach_contact"
                           target="_blank"
                           rel="noopener noreferrer"
                           className="button-primary w-full break-all"
                         >
-                          <Instagram size={16} /> Contact on Instagram
+                          <Instagram size={16} /> {t("Contact on Instagram")}
                         </Link>
                       ) : (
                         <span className="inline-flex items-center gap-2 text-gray-400 text-sm">
-                          <Instagram size={16} /> Details coming soon
+                          <Instagram size={16} /> {t("Details coming soon")}
                         </span>
                       )}
                     </div>
                     <details className="group border-t border-stone-200 pt-4">
-                      <summary className="cursor-pointer text-sm font-semibold text-stone-900">About {coach.name}</summary>
+                      <summary className="cursor-pointer text-sm font-semibold text-stone-900">{t("About")} {coach.name}</summary>
                       <p className="mt-4 whitespace-pre-line text-sm leading-relaxed text-stone-600">{coach.description}</p>
                     </details>
                   </div>
