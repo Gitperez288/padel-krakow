@@ -57,3 +57,12 @@ model UsageDaily {
 
   @@id([day, event, page, locale])
 }
+
+// Short-lived HMAC identifiers for login protection. No raw IP or credentials.
+model LoginRateLimit {
+  key       String   @id
+  count     Int
+  expiresAt DateTime @db.Timestamptz(3)
+
+  @@index([expiresAt])
+}

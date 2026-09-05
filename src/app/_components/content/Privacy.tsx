@@ -42,6 +42,7 @@ export default function PrivacyPage({ locale }: { locale: Locale }) {
               <li>
                 <strong className="text-gray-800">{t("Usage data:")}</strong>{" "}{t("Standard web server logs (IP addresses, browser type, pages visited) retained briefly for security and performance purposes.")}</li>
             </ul>
+            <p className="mt-3">{t("Login protection stores a keyed hash of your IP address, an attempt count and an expiry time in our database. It does not store your raw IP address or password in these counters. Expired counters older than one day are removed when login activity resumes.")}</p>
             <p className="mt-3">{t("We measure anonymous daily totals for page views, community links, invitation reveals, WhatsApp clicks, booking links and coach contacts. We store only the date, action, page category, language and count. We do not store visitor identifiers, IP addresses, referrers, search terms or invitation URLs in these counters. No analytics cookies are used. Do Not Track and Global Privacy Control signals are respected.")}</p>
           </section>
 
