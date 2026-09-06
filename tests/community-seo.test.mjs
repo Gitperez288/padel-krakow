@@ -10,7 +10,14 @@ const ts = require('typescript');
 const root = fileURLToPath(new URL('../', import.meta.url));
 const writes = [];
 let failStorage = false;
-const db = { usageDaily: { upsert: async data => { if (failStorage) throw Error('offline'); writes.push(data); }, deleteMany: async () => ({ count: 0 }) } };
+const events = [];
+const db = { $transaction: promises => Promise.all(promises), usageEvent: { create: async data => { if (failStorage) throw Error("offline"); events.push(data); }, deleteMany: async () => ({ count: 0 }) }, usageDaily: { upsert: async data => { if (failStorage) throw Error('offline'); writes.push(data); }, deleteMany: async () => ({ count: 0 }) } };
+let session = null;
+let role = 'author';
+let exportReport;
+let exportQueries = [];
+db.user = { findUnique: async () => ({ role }) };
+db.usageEvent.findMany = async query => { exportQueries.push(query); return []; };
 const modules = new Map();
 function load(relative) {
   const filename = path.resolve(root, relative.endsWith('.ts') ? relative : relative + '.ts');
@@ -19,6 +26,8 @@ function load(relative) {
   const code = ts.transpileModule(readFileSync(filename, 'utf8'), { compilerOptions: { module: ts.ModuleKind.CommonJS, esModuleInterop: true } }).outputText;
   const localRequire = name => {
     if (name === '@/lib/db') return { db };
+    if (name === '@/auth') return { auth: async () => session };
+    if (name === '@/lib/analytics-report') return { getAnalyticsReport: async () => exportReport };
     if (name.startsWith('@/')) return load('src/' + name.slice(2));
     if (name.startsWith('.')) return load(path.relative(root, path.resolve(path.dirname(filename), name)));
     return require(name);
@@ -81,7 +90,81 @@ test('analytics fails closed when disabled, rejects unapproved data, respects pr
   assert.equal(writes.length,1);
   assert.deepEqual(Object.keys(writes[0].create).sort(),['count','day','event','locale','page']);
   assert.equal(writes[0].create.event,'whatsapp_click');
+  assert.equal(events.length, 1);
+  assert.ok(events[0].data.occurredAt instanceof Date);
+  assert.equal(events[0].data.sponsor, null);
+  const sponsorPayload = { event: 'sponsor_code_reveal', page: 'sponsors', locale: 'pl', sponsor: 'vicenti' };
+  assert.equal((await POST(request({...sponsorPayload,sponsor:'unknown'}))).status,400);
+  assert.equal((await POST(request({...sponsorPayload,page:'home'}))).status,400);
+  assert.equal((await POST(request({...payload,sponsor:'vicenti'}))).status,400);
+  assert.equal((await POST(request(sponsorPayload))).status,204);
+  assert.equal(events.at(-1).data.sponsor, 'vicenti');
+  assert.equal(events.at(-1).data.event, 'sponsor_code_reveal');
+  assert.equal((await POST(request({...sponsorPayload,event:'sponsor_click',sponsor:'jan-glazek'}))).status,204);
+  assert.equal(events.at(-1).data.sponsor, 'jan-glazek');
   failStorage = true;
   assert.equal((await POST(request(payload))).status,503);
   delete process.env.COMMUNITY_ANALYTICS_ENABLED;
+});
+
+test('30-day report includes exactly 30 UTC calendar dates and preserves historical counts', () => {
+  const { analyticsWindow, summarizeAnalytics } = load('src/lib/analytics');
+  const { start } = analyticsWindow(new Date('2026-09-06T10:30:45Z'));
+  assert.equal(start.toISOString(), '2026-08-08T00:00:00.000Z');
+  const summary = summarizeAnalytics([
+    { day: start, event: 'page_view', page: 'community', locale: 'pl', count: 3 },
+    { day: start, event: 'page_view', page: 'sponsors', locale: 'en', count: 2 },
+    { day: start, event: 'sponsor_code_reveal', page: 'sponsors', locale: 'en', count: 1 },
+  ], start);
+  assert.equal(summary.metrics[0].value, 5);
+  assert.equal(summary.metrics[1].value, 3);
+  assert.equal(summary.metrics[5].value, 1);
+  assert.equal(summary.daily.length, 30);
+  assert.equal(summary.daily[29].date, '2026-09-06');
+  assert.equal(summary.daily[0].actions, 1);
+  assert.equal(summary.languages[1].views, 3);
+});
+test('Excel workbook round-trips numeric totals, dates and text without formulas', async () => {
+  const { createAnalyticsWorkbook } = load('src/lib/analytics-workbook');
+  const { analyticsWindow, summarizeAnalytics } = load('src/lib/analytics');
+  const window = analyticsWindow(new Date('2026-09-06T10:30:45Z'));
+  const report = { ...window, ...summarizeAnalytics([], window.start), rows: [], partners: [{name:'=1+1',reveals:2,clicks:3}] };
+  const workbook = createAnalyticsWorkbook(report);
+  const bytes = await workbook.xlsx.writeBuffer();
+  const ExcelJS = require('exceljs');
+  const restored = new ExcelJS.Workbook(); await restored.xlsx.load(bytes);
+  assert.equal(restored.getWorksheet('Sponsors').getCell('A2').value, '=1+1');
+  assert.equal(restored.getWorksheet('Sponsors').getCell('B2').value, 2);
+  assert.equal(restored.getWorksheet('Read me').getCell('B3').value.toISOString(), window.end.toISOString());
+  assert.equal(restored.getWorksheet('Daily trend').rowCount, 31);
+  assert.equal(restored.getWorksheet('Summary').views[0].ySplit, 1);
+});
+
+test('Excel endpoint requires admin access and exports beyond the dashboard row limit', async () => {
+  const { GET } = load('src/app/api/admin/analytics/export/route');
+  assert.equal((await GET()).status, 401);
+  session = { user: {email:'admin@example.test'} };
+  assert.equal((await GET()).status, 403);
+  assert.equal(exportQueries.length, 0);
+  role = 'admin';
+  const { analyticsWindow, summarizeAnalytics } = load('src/lib/analytics');
+  const window = analyticsWindow(new Date('2026-09-06T10:30:45Z'));
+  exportReport = { ...window, ...summarizeAnalytics([], window.start), rows: [], partners: [] };
+  let page = 0;
+  db.usageEvent.findMany = async query => {
+    exportQueries.push(query);
+    return Array.from({length: page++ === 0 ? 2000 : 1}, (_, i) => ({ id:`event-${page}-${i}`,
+      occurredAt: window.end, event:'page_view', page:'community', locale:'en', sponsor:null }));
+  };
+  const response = await GET();
+  assert.equal(response.status, 200);
+  assert.equal(response.headers.get('cache-control'), 'private, no-store');
+  assert.match(response.headers.get('content-type'), /spreadsheetml/);
+  const workbook = new (require('exceljs').Workbook)();
+  await workbook.xlsx.load(Buffer.from(await response.arrayBuffer()));
+  assert.equal(workbook.getWorksheet('Events').rowCount, 2002);
+  assert.equal(exportQueries.length, 2);
+  assert.equal(exportQueries[1].where.OR[1].id.gt, 'event-1-1999');
+  db.usageEvent.findMany = async () => { throw Error('offline'); };
+  assert.equal((await GET()).status, 503);
 });

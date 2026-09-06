@@ -66,3 +66,15 @@ model LoginRateLimit {
 
   @@index([expiresAt])
 }
+
+// Anonymous actions for the 30-day event log. No visitor identifiers.
+model UsageEvent {
+  id         String   @id @default(cuid())
+  occurredAt DateTime @default(now()) @db.Timestamptz(3)
+  event      String
+  page       String
+  locale     String
+  sponsor    String?
+
+  @@index([occurredAt, id])
+}

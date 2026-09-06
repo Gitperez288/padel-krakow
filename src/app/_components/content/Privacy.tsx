@@ -43,7 +43,7 @@ export default function PrivacyPage({ locale }: { locale: Locale }) {
                 <strong className="text-gray-800">{t("Usage data:")}</strong>{" "}{t("Standard web server logs (IP addresses, browser type, pages visited) retained briefly for security and performance purposes.")}</li>
             </ul>
             <p className="mt-3">{t("Login protection stores a keyed hash of your IP address, an attempt count and an expiry time in our database. It does not store your raw IP address or password in these counters. Expired counters older than one day are removed when login activity resumes.")}</p>
-            <p className="mt-3">{t("We measure anonymous daily totals for page views, community links, invitation reveals, WhatsApp clicks, booking links and coach contacts. We store only the date, action, page category, language and count. We do not store visitor identifiers, IP addresses, referrers, search terms or invitation URLs in these counters. No analytics cookies are used. Do Not Track and Global Privacy Control signals are respected.")}</p>
+            <p className="mt-3">{t("We measure anonymous page views, community links, invitation reveals, WhatsApp clicks, booking links, coach contacts, sponsor code reveals, sponsor links and sponsorship enquiry clicks. We store the action, date and time, page category, language and, for sponsor actions, the sponsor identifier, together with daily totals. We do not store visitor identifiers, IP addresses, referrers, search terms or invitation URLs in these counters. No analytics cookies are used. Do Not Track and Global Privacy Control signals are respected.")}</p>
           </section>
 
           <section>
@@ -69,7 +69,7 @@ export default function PrivacyPage({ locale }: { locale: Locale }) {
           <section>
             <h2 className="text-xl font-bold text-gray-900 mb-3">{t("5. Data retention")}</h2>
             <p>{t("Administrator account data is retained for as long as the account is active. You may request deletion at any time by contacting us.")}</p>
-            <p className="mt-3">{t("Anonymous daily counts are retained for up to 400 days. Short-lived request hashes used to limit abuse are held only in server memory for up to one minute.")}</p>
+            <p className="mt-3">{t("Anonymous daily counts are retained for up to 400 days. Timestamped actions are included in reports for 30 calendar days and older records are removed during periodic cleanup when tracking receives new activity. Short-lived request hashes used to limit abuse are held only in server memory for up to one minute.")}</p>
           </section>
 
           <section>
