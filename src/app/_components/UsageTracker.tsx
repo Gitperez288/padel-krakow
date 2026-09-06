@@ -15,7 +15,7 @@ export default function UsageTracker() {
       const link = event.target instanceof Element ? event.target.closest("a") : null;
       if (!link) return;
       const namedEvent = link.dataset.analyticsEvent;
-      if (usageEvents.includes(namedEvent as UsageEvent)) { trackUsage(namedEvent as UsageEvent); return; }
+      if (usageEvents.includes(namedEvent as UsageEvent)) { trackUsage(namedEvent as UsageEvent, link.dataset.analyticsSponsor); return; }
       const url = new URL(link.href, location.origin);
       if (url.origin === location.origin && ["/community", "/pl/spolecznosc"].includes(url.pathname)) trackUsage("community_cta");
     };

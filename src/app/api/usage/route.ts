@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createHash, randomBytes } from "node:crypto";
 import { db } from "@/lib/db";
 import { usageEvents, usagePages, type UsageEvent } from "@/lib/usage";
+import { sponsors } from "@/lib/sponsors";
 export const runtime = "nodejs";
 // Best-effort per-instance abuse protection. These ephemeral hashes expire each
 // minute and are never written to the database or logs. Counts are not unique users.
@@ -43,11 +44,25 @@ export async function POST(request: NextRequest) {
     raw += decoder.decode();
     let data;
     try { data = JSON.parse(raw); } catch { return new NextResponse(null, { status: 400 }); }
-    if (!data || Object.keys(data).sort().join(",") !== "event,locale,page" || !usageEvents.includes(data.event as UsageEvent) || !usagePages.includes(data.page) || !["en", "pl"].includes(data.locale)) return new NextResponse(null, { status: 400 });
-    const day = new Date(new Date().toISOString().slice(0,10));
-    await db.usageDaily.upsert({ where: { day_event_page_locale: { day, event: data.event, page: data.page, locale: data.locale } }, create: { day, event: data.event, page: data.page, locale: data.locale, count: 1 }, update: { count: { increment: 1 } } });
+    if (!data || typeof data !== "object" || Array.isArray(data) ||
+      Object.keys(data).some(key => !["event", "locale", "page", "sponsor"].includes(key)) ||
+      !usageEvents.includes(data.event as UsageEvent) || !usagePages.includes(data.page) ||
+      !["en", "pl"].includes(data.locale)) return new NextResponse(null, { status: 400 });
+    const sponsorEvent = ["sponsor_code_reveal", "sponsor_click"].includes(data.event);
+    if (sponsorEvent ? data.page !== "sponsors" || !sponsors.some(s => s.id === data.sponsor)
+      : data.sponsor !== undefined) return new NextResponse(null, { status: 400 });
+    const occurredAt = new Date();
+    const day = new Date(occurredAt.toISOString().slice(0,10));
+    await db.$transaction([
+      db.usageDaily.upsert({ where: { day_event_page_locale: { day, event: data.event, page: data.page, locale: data.locale } }, create: { day, event: data.event, page: data.page, locale: data.locale, count: 1 }, update: { count: { increment: 1 } } }),
+      db.usageEvent.create({ data: { occurredAt, event: data.event, page: data.page, locale: data.locale, sponsor: data.sponsor ?? null } }),
+    ]);
     if (Date.now() - lastPrune > 86400000) {
       await db.usageDaily.deleteMany({ where: { day: { lt: new Date(Date.now() - 400 * 86400000) } } });
+      const eventCutoff = new Date();
+      eventCutoff.setUTCHours(0, 0, 0, 0);
+      eventCutoff.setUTCDate(eventCutoff.getUTCDate() - 29);
+      await db.usageEvent.deleteMany({ where: { occurredAt: { lt: eventCutoff } } });
       lastPrune = Date.now();
     }
     return empty();

@@ -1,6 +1,6 @@
 import { type Locale, localizePath } from "@/lib/i18n";
 import { getServerTranslator as getTranslator } from "@/lib/translations-server";
-import type { Metadata } from "next";
+import SponsorCode from "../SponsorCode";
 import Link from "next/link";
 import Image from "next/image";
 import { ExternalLink, Instagram, Tag, Globe, Handshake } from "lucide-react";
@@ -24,7 +24,7 @@ export default function SponsorsPage({ locale }: { locale: Locale }) {
       </section>
       <section className="mx-auto max-w-3xl px-4 py-10 space-y-4 text-stone-600">
         <p>{t("Explore the offers below and contact each partner directly to confirm the details.")}</p>
-        <p>{t("Interested in becoming a sponsor?")} <a href="https://www.instagram.com/padelkrkcommunity" className="underline">{t("Reach out to us on Instagram")}</a></p>
+        <p>{t("Interested in becoming a sponsor?")} <a href="https://www.instagram.com/padelkrkcommunity" data-analytics-event="sponsorship_contact" className="underline">{t("Reach out to us on Instagram")}</a></p>
       </section>
 
       {/* ── Sponsors grid ───────────────────────────────────────────────── */}
@@ -100,6 +100,7 @@ export default function SponsorsPage({ locale }: { locale: Locale }) {
                               {service.link && (
                                 <a
                                   href={service.link}
+                            data-analytics-event="sponsor_click" data-analytics-sponsor={sponsor.id}
                                   target="_blank"
                                   rel="noopener noreferrer"
                                   className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-white bg-orange-700 hover:bg-orange-700 px-3 py-1.5 rounded-lg transition"
@@ -113,20 +114,9 @@ export default function SponsorsPage({ locale }: { locale: Locale }) {
 
                       {/* Promo code */}
                       {sponsor.discountCode && (
-                        <div className="mt-4 bg-stone-50 border border-stone-200 rounded-xl p-3">
-                          <div className="flex items-center gap-2 mb-2">
-                            <Tag size={14} className="text-orange-700" />
-                            <span className="text-xs font-semibold text-stone-900 uppercase tracking-wide">{t("Community code")}</span>
-                          </div>
-                          <span className="inline-block bg-orange-700 text-white text-sm font-bold px-3 py-1 rounded-lg tracking-widest">
-                            {sponsor.discountCode}
-                          </span>
-                          {sponsor.discountNote && (
-                            <p className="mt-2 text-xs text-gray-500 leading-relaxed">
-                              {t(sponsor.discountNote)}
-                            </p>
-                          )}
-                        </div>
+                        <SponsorCode sponsorId={sponsor.id} code={sponsor.discountCode}
+                          note={sponsor.discountNote ? t(sponsor.discountNote) : null}
+                          label={t("Community code")} revealLabel={t("Reveal discount code")} />
                       )}
 
                       {/* Links */}
@@ -134,6 +124,7 @@ export default function SponsorsPage({ locale }: { locale: Locale }) {
                         {sponsor.website && (
                           <a
                             href={sponsor.website}
+                            data-analytics-event="sponsor_click" data-analytics-sponsor={sponsor.id}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="inline-flex items-center gap-1.5 text-sm font-medium text-gray-600 bg-gray-100 hover:bg-stone-100 hover:text-stone-900 px-3 py-1.5 rounded-lg transition"
@@ -143,6 +134,7 @@ export default function SponsorsPage({ locale }: { locale: Locale }) {
                         {sponsor.facebook && (
                           <a
                             href={sponsor.facebook}
+                            data-analytics-event="sponsor_click" data-analytics-sponsor={sponsor.id}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="inline-flex items-center gap-1.5 text-sm font-medium text-gray-600 bg-gray-100 hover:bg-blue-100 hover:text-blue-700 px-3 py-1.5 rounded-lg transition"
@@ -154,6 +146,7 @@ export default function SponsorsPage({ locale }: { locale: Locale }) {
                         {sponsor.instagram && (
                           <a
                             href={sponsor.instagram}
+                            data-analytics-event="sponsor_click" data-analytics-sponsor={sponsor.id}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="inline-flex items-center gap-1.5 text-sm font-medium text-gray-600 bg-gray-100 hover:bg-pink-100 hover:text-pink-600 px-3 py-1.5 rounded-lg transition"
@@ -176,7 +169,7 @@ export default function SponsorsPage({ locale }: { locale: Locale }) {
               <h2 className="text-2xl font-bold text-gray-800 mb-3">{t("Sponsors Coming Soon")}</h2>
               <p className="text-gray-500 max-w-md mx-auto mb-6 leading-relaxed">{t("We are currently building our sponsor network. Check back soon to find exclusive perks and offers from our community partners.")}</p>
               <a
-                href="https://www.instagram.com/padelkrkcommunity"
+                href="https://www.instagram.com/padelkrkcommunity" data-analytics-event="sponsorship_contact"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 bg-orange-700 text-white px-6 py-2.5 rounded-lg font-semibold hover:bg-orange-800 transition"

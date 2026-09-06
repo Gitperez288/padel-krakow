@@ -1,5 +1,5 @@
 import { localizedRoutes } from "./i18n";
-export const usageEvents = ["page_view", "community_cta", "invite_reveal", "whatsapp_click", "booking_click", "coach_contact"] as const;
+export const usageEvents = ["page_view", "community_cta", "invite_reveal", "whatsapp_click", "booking_click", "coach_contact", "sponsor_code_reveal", "sponsor_click", "sponsorship_contact"] as const;
 export type UsageEvent = typeof usageEvents[number];
 export const usagePages = [...Object.keys(localizedRoutes), "article"];
 export function usagePage(pathname: string): string | undefined {
@@ -8,11 +8,11 @@ export function usagePage(pathname: string): string | undefined {
   if (entry) return entry[0];
   if (/^\/(?:pl\/)?blog\/[^/]+$/.test(path)) return "article";
 }
-export function trackUsage(event: UsageEvent) {
+export function trackUsage(event: UsageEvent, sponsor?: string) {
   if (typeof window === "undefined" || navigator.doNotTrack === "1" || (navigator as Navigator & { globalPrivacyControl?: boolean }).globalPrivacyControl) return;
   const page = usagePage(window.location.pathname);
   if (!page) return;
-  const payload = JSON.stringify({ event, page, locale: document.documentElement.lang === "pl" ? "pl" : "en" });
+  const payload = JSON.stringify({ event, page, ...(sponsor ? { sponsor } : {}), locale: document.documentElement.lang === "pl" ? "pl" : "en" });
   // Never send hrefs, query strings, referrers, names or WhatsApp invitation tokens.
   void fetch("/api/usage", { method: "POST", headers: { "Content-Type": "application/json" }, body: payload, credentials: "omit", keepalive: true }).catch(() => {});
 }
