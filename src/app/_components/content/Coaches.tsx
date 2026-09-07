@@ -9,6 +9,15 @@ import CoachesClient, { type Coach } from "@/app/(en)/coaches/CoachesClient";
 
 const coaches: Coach[] = [
   {
+    name: "Wika Michalczyk",
+    description:
+      "I am a PZT-licensed tennis coach and padel coach. I have been playing tennis for 18 years, and I bring my competitive experience and tennis background to the dynamic world of padel.\n\nAt Padel Spot KRK / Modlniczka, I coach beginner and intermediate players.\n\nMy coaching combines technique, movement awareness and an individual approach to every player. I focus on development, quality and smart, conscious play, regardless of skill level. My goal is for every session to be effective while also building confidence and making the game enjoyable.",
+    languages: ["Polish", "English"],
+    location: "Modlniczka",
+    instagram: "https://www.instagram.com/padel.wika/",
+    photo: "/media/wika-michalczyk.jpg",
+  },
+  {
     name: "Victor Guedes",
     description:
       "My name is Victor Guedes, I'm 25 years old and originally from Brazil. I've had a racket in my hands almost my entire life; I started playing tennis at the age of 6 and discovered padel when I was 12 while living in Portugal.\n\nDuring my time there, I developed my game under the guidance of coach João Barros, as well as other top coaches from Spain and Argentina.\n\nWhether you're just getting started with padel or looking to take your game to the next level, I'd be happy to help. Feel free to join me for private lessons, match play sessions, or group games. See you on court! 🎾",
@@ -64,7 +73,9 @@ export default function CoachesPage({ locale }: { locale: Locale }) {
         <h1 className="page-heading mb-4">{locale === "pl" ? "Trenerzy padla w Krakowie" : "Padel coaches in Kraków"}</h1>
         <p className="max-w-2xl text-stone-600 leading-relaxed">{t("Meet local padel coaches for every level. Contact them directly for lessons, availability and prices.")}</p>
       </section>
-      <CommunityCTA locale={locale} />
+      <div className="mx-auto max-w-6xl px-4">
+        <CommunityCTA locale={locale} />
+      </div>
       <CoachesClient coaches={coaches.map(coach => ({ ...coach, description: t(coach.description) }))} locale={locale} />
       <section className="mx-auto max-w-6xl px-4 pb-12">
         <div className="surface flex flex-col items-start justify-between gap-6 p-6 sm:flex-row sm:items-center sm:p-8">
