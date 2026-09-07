@@ -120,7 +120,7 @@ export default function CoachesClient({ coaches, locale }: Props) {
                 className="py-2 pl-3 pr-8 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-orange-700 bg-white"
               >
                 {locations.map((loc) => (
-                  <option key={t(loc)} value={t(loc)}>
+                  <option key={loc} value={loc}>
                     {t(loc)}
                   </option>
                 ))}
