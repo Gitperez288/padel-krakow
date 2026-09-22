@@ -1,13 +1,33 @@
 import CommunityCTA from "@/app/_components/CommunityCTA";
-import { type Locale, localizePath } from "@/lib/i18n";
+import { type Locale } from "@/lib/i18n";
 import { getServerTranslator as getTranslator } from "@/lib/translations-server";
-import type { Metadata } from "next";
-import Link from "next/link";
-import { ChevronRight } from "lucide-react";
+import { Instagram } from "lucide-react";
 import CoachesClient, { type Coach } from "@/app/(en)/coaches/CoachesClient";
 
 
 const coaches: Coach[] = [
+{
+  "name": "Bartosz Puzio",
+  "description": "I'm playing racket sports all my life, but padel is where I truly feel at home.\nCertified coach by Polish Padel Federation, I constantly search for new ways to increase my understanding of this beautiful and intricate game, practicing with the best coaches in Poland and abroad.\n\nI offer individual and group training sessions and matchplays, for beginners as well as advanced players. I have special interest in padel tactics and movement around the court - come and see how big of a difference it makes!\n\nLet's hit the court to make padel easier and even more fun!",
+  "languages": [
+    "Polish",
+    "English"
+  ],
+  "location": "Kraków",
+  "instagram": "https://www.instagram.com/bartosz.padel/",
+  "photo": "/media/bartosz.webp"
+},
+{
+  "name": "Julia Piątek",
+  "description": "Hi, I'm Julka!\n\n🎾 I've been involved in tennis since the age of 5. I am a multiple Polish Championships medallist in singles, doubles and mixed doubles 🏆, and my highest position in the PZT women's rankings was No. 10.\n\n👩‍🏫 I've been working as a tennis coach for 7 years, teaching children and adults at different skill levels. I also studied in the USA 🇺🇸 at Eastern Michigan University, where I represented the university in NCAA competition.\n\n💜 I've been playing padel for 3 years. I've competed in many tournaments and earned podium finishes 🏆, and I've completed a padel instructor course. I offer individual, two-person and group training sessions.\n\nDuring my sessions at @_spotkrk_, I focus on 🎯 technique, movement, tactics and confidence, tailoring each session to every player's level and goals.\n\n😄 What matters most? Effective training, progress and plenty of fun on court!\n\n📥 Want to book a session? Send me a DM / @tenis4u.pl\n\nSee you on court! 🎾",
+  "languages": [
+    "Polish",
+    "English"
+  ],
+  "location": "Modlniczka",
+  "instagram": "https://www.instagram.com/julkaapiaa/",
+  "photo": "/media/julia.webp"
+},
   {
     name: "Wika Michalczyk",
     description:
@@ -79,8 +99,8 @@ export default function CoachesPage({ locale }: { locale: Locale }) {
       <CoachesClient coaches={coaches.map(coach => ({ ...coach, description: t(coach.description) }))} locale={locale} />
       <section className="mx-auto max-w-6xl px-4 pb-12">
         <div className="surface flex flex-col items-start justify-between gap-6 p-6 sm:flex-row sm:items-center sm:p-8">
-          <div><h2 className="text-xl font-bold text-stone-900">{t("Are you a padel coach?")}</h2><p className="mt-2 text-sm text-stone-600">{t("Join our directory for free and connect with local players.")}</p></div>
-          <Link href={localizePath("/community", locale)} className="button-secondary">{t("Get in touch")}<ChevronRight size={18}/></Link>
+          <div><h2 className="text-xl font-bold text-stone-900">{t("Are you a padel coach?")}</h2><p className="mt-2 text-sm text-stone-600">{t("Join our directory for free. DM @padelkrkcommunity on Instagram with your name, photo, a short bio, coaching languages and contact details.")}</p></div>
+          <a href="https://ig.me/m/padelkrkcommunity" target="_blank" rel="noopener noreferrer" className="button-primary shrink-0"><Instagram size={18} aria-hidden="true" />{t("DM us on Instagram")}</a>
         </div>
       </section>
     </div>
