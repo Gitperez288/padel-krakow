@@ -13,7 +13,7 @@ const coaches: Coach[] = [
     "Polish",
     "English"
   ],
-  "location": "",
+  "location": "Kraków",
   "instagram": "https://www.instagram.com/bartosz.padel/",
   "photo": "/media/bartosz.webp"
 },
