@@ -209,13 +209,13 @@ export default function CommunityPage({ locale }: { locale: Locale }) {
         className="surface max-w-6xl mx-auto p-6 sm:p-8 text-left"
       >
         <h3 className="text-xl font-bold text-stone-900 mb-3">{t("Is your club missing?")}</h3>
-        <p className="text-gray-700 text-sm leading-relaxed mb-6">{t("If your club runs a WhatsApp community and you'd like to be featured here, get in touch with us! We'll add your club to the list so more players can find and join your group.")}</p>
+        <p className="text-gray-700 text-sm leading-relaxed mb-6">{t("Want your club or its WhatsApp group listed? DM @padelkrkcommunity on Instagram with your club name, location and contact details so local players can find you.")}</p>
         <div className="flex flex-col sm:flex-row gap-3">
           <a
-            href="https://www.instagram.com/padelkrkcommunity"
+            href="https://ig.me/m/padelkrkcommunity"
             target="_blank"
             rel="noopener noreferrer"
-            className="button-secondary"
+            className="button-primary"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

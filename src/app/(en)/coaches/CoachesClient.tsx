@@ -39,7 +39,7 @@ export default function CoachesClient({ coaches, locale }: Props) {
 
   // Derive unique locations from the data
   const locations = useMemo(() => {
-    const cities = Array.from(new Set(coaches.map((c) => c.location))).sort();
+    const cities = Array.from(new Set(coaches.map((c) => c.location).filter(Boolean))).sort();
     return ["All", ...cities];
   }, [coaches]);
 
@@ -201,10 +201,10 @@ export default function CoachesClient({ coaches, locale }: Props) {
                     </h2>
 
                     {/* Location */}
-                    <div className="flex items-center gap-1.5 text-sm text-gray-500">
+                    {coach.location ? <div className="flex items-center gap-1.5 text-sm text-gray-500">
                       <MapPin size={14} className="text-stone-500 shrink-0" />
                       <span>{coach.location}</span>
-                    </div>
+                    </div> : null}
 
                     {/* Languages */}
                     <div className="flex flex-wrap gap-1.5">

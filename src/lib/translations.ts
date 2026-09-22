@@ -2,6 +2,8 @@ import extra from "./translations-ui.json";
 import type { Locale } from "./i18n";
 
 const polish: Record<string, string> = {
+"Join our directory for free. DM @padelkrkcommunity on Instagram with your name, photo, a short bio, coaching languages and contact details.": "Dołącz do naszego katalogu za darmo. Wyślij wiadomość prywatną do @padelkrkcommunity na Instagramie, podając imię i nazwisko, zdjęcie, krótki opis, języki prowadzenia treningów i dane kontaktowe.",
+"Want your club or its WhatsApp group listed? DM @padelkrkcommunity on Instagram with your club name, location and contact details so local players can find you.": "Chcesz dodać swój klub lub jego grupę na WhatsAppie? Wyślij wiadomość prywatną do @padelkrkcommunity na Instagramie z nazwą klubu, lokalizacją i danymi kontaktowymi, aby gracze z okolicy mogli Was znaleźć.",
   "Your people.": "Twoi ludzie.",
   "Your next game.": "Twój następny mecz.",
   "Join over 975 padel players in Kraków and Małopolska. Find a court, meet your partners and get playing.": "Dołącz do ponad 975 graczy w Krakowie i Małopolsce. Wybierz kort, poznaj osoby do gry i zagraj z nami.",
