@@ -12,20 +12,20 @@ const copy = {
   terms: {"en": ["Terms of Service | Padel Kraków", "Terms for using the free Padel Kraków Community website."], "pl": ["Regulamin | Padel Kraków", "Warunki korzystania z bezpłatnej strony społeczności Padel Kraków."]},
 
   home: {
-    en: ["Padel Kraków Community: Courts & Players", "Find padel courts in Kraków and Małopolska, assess your playing level and meet local players in our WhatsApp community."],
-    pl: ["Padel Kraków: korty i społeczność graczy", "Znajdź korty do padla w Krakowie i Małopolsce, sprawdź swój poziom i poznaj osoby do gry. Dołącz do społeczności na WhatsAppie."],
+    en: ["Padel Kraków Community: Courts & Players", "Find padel courts and players in Kraków and Małopolska. Join free WhatsApp matchmaking by level. English and Polish are both welcome."],
+    pl: ["Padel Kraków: korty i społeczność graczy", "Znajdź korty i osoby do padla w Krakowie i Małopolsce. Dołącz bezpłatnie do grup WhatsApp według poziomu. Polski i angielski mile widziane."],
   },
   courts: {
     en: ["Padel Courts in Kraków & Małopolska", "Compare padel courts in Kraków and Małopolska. Check addresses, indoor and outdoor facilities, court counts and booking options."],
     pl: ["Korty do padla w Krakowie i Małopolsce", "Gdzie grać w padla w Krakowie? Porównaj korty, adresy, hale i obiekty na zewnątrz. Sprawdź sposoby rezerwacji w Krakowie i Małopolsce."],
   },
   community: {
-    en: ["Padel Kraków WhatsApp Community | Find Players", "Find partners for padel in Kraków and Małopolska. Join our WhatsApp community, arrange matches and connect with local club groups."],
-    pl: ["Padel Kraków: grupa WhatsApp i osoby do gry", "Szukasz osób do gry w padla w Krakowie? Dołącz do społeczności na WhatsAppie, umawiaj mecze i poznaj lokalne grupy klubowe."],
+    en: ["Padel Kraków WhatsApp Community | Find Players", "Find padel players in Kraków. Join our free WhatsApp community and choose matchmaking by level: D–C2, C1–B2 or B1+. English and Polish welcome."],
+    pl: ["Padel Kraków: grupa WhatsApp i osoby do gry", "Znajdź osoby do padla w Krakowie. Dołącz bezpłatnie na WhatsAppie i wybierz grupę: D–C2, C1–B2 lub B1+. Polski i angielski mile widziane."],
   },
   levels: {
-    en: ["Padel Playing Levels: Find Your Level", "Assess your padel level with practical descriptions of skills, positioning and teamwork. Find compatible players in Kraków."],
-    pl: ["Poziomy gry w padla: sprawdź swój poziom", "Jak określić swój poziom w padlu? Porównaj umiejętności, ustawienie i współpracę w parze, aby łatwiej znaleźć osoby do wspólnej gry."],
+    en: ["Padel Playing Levels: Find Your Level", "Find your community letter level and choose Beginner & Developing (D–C2), Intermediate (C1–B2) or Advanced (B1+) matchmaking in Kraków."],
+    pl: ["Poziomy gry w padla: sprawdź swój poziom", "Sprawdź swój poziom literowy i wybierz grupę do gry w Krakowie: początkujący (D–C2), średniozaawansowani (C1–B2) lub zaawansowani (B1+)."],
   },
 } as const;
 

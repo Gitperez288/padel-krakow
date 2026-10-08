@@ -6,7 +6,7 @@ const polish: Record<string, string> = {
 "Want your club or its WhatsApp group listed? DM @padelkrkcommunity on Instagram with your club name, location and contact details so local players can find you.": "Chcesz dodać swój klub lub jego grupę na WhatsAppie? Wyślij wiadomość prywatną do @padelkrkcommunity na Instagramie z nazwą klubu, lokalizacją i danymi kontaktowymi, aby gracze z okolicy mogli Was znaleźć.",
   "Your people.": "Twoi ludzie.",
   "Your next game.": "Twój następny mecz.",
-  "Join over 975 padel players in Kraków and Małopolska. Find a court, meet your partners and get playing.": "Dołącz do ponad 975 graczy w Krakowie i Małopolsce. Wybierz kort, poznaj osoby do gry i zagraj z nami.",
+  "Join over 1000 padel players in Kraków and Małopolska. Find a court, meet your partners and get playing.": "Dołącz do ponad 1000 graczy w Krakowie i Małopolsce. Wybierz kort, poznaj osoby do gry i zagraj z nami.",
   "All levels welcome": "Każdy poziom mile widziany",
   "Alex Cabezas playing padel": "Alex Cabezas podczas gry w padla",
   "On court with Alex Cabezas": "Na korcie z Alexem Cabezasem",
@@ -29,7 +29,7 @@ const polish: Record<string, string> = {
 
   ", on a mission to grow padel across Kraków and Małopolska.": ", którzy wspólnie rozwijają padla w Krakowie i Małopolsce.",
   ", players can connect and organise matches anywhere, from Kraków to Niepołomice, Skawina, and beyond. Use these communities to meet new partners, schedule games, and grow the sport together. 💪": " gracze mogą poznawać się i umawiać mecze w Krakowie, Niepołomicach, Skawinie i innych miejscowościach. Poznawaj nowe osoby, graj i rozwijaj padla razem z nami. 💪",
-  "975 players": "975 graczy",
+  "1000 players": "1000 graczy",
   "@padelkrkcommunity: join the conversation.": "@padelkrkcommunity: bądź na bieżąco.",
   "Active players": "Graczy",
   "Advanced": "Zaawansowany",
