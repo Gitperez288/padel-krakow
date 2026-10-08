@@ -1,3 +1,4 @@
+import { COMMUNITY_MEMBER_COUNT } from "@/lib/community";
 import UsageTracker from "./UsageTracker";
 import { getTranslator } from "@/lib/translations";
 import { localizePath, type Locale } from "@/lib/i18n";
@@ -23,7 +24,7 @@ export const metadata: Metadata = {
     template: "%s | Padel Kraków",
   },
   description:
-    "Join a community with 975+ members in Kraków and Małopolska. A people-first community on a mission to grow the sport. Discover court locations, skill levels, community groups, and the latest padel news.",
+    `Join a community with ${COMMUNITY_MEMBER_COUNT} members in Kraków and Małopolska. A people-first community on a mission to grow the sport. Discover court locations, skill levels, community groups, and the latest padel news.`,
   keywords: [
     "padel Kraków",
     "padel Krakow",
@@ -53,7 +54,7 @@ export const metadata: Metadata = {
     siteName: "Padel Kraków Community",
     title: "Padel Kraków Community",
     description:
-      "Join a community with 975+ members in a people-first community growing padel in Kraków and Małopolska. Find courts, levels, and local groups.",
+      `Join a community with ${COMMUNITY_MEMBER_COUNT} members in a people-first community growing padel in Kraków and Małopolska. Find courts, levels, and local groups.`,
     images: [
       {
         url: "/og-image.jpg",
@@ -65,9 +66,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Padel Kraków Community – 975+ Members",
+    title: `Padel Kraków Community – ${COMMUNITY_MEMBER_COUNT} Members`,
     description:
-      "People-first padel community in Kraków and Małopolska. 975+ members, multiple courts, all levels welcome.",
+      `People-first padel community in Kraków and Małopolska. ${COMMUNITY_MEMBER_COUNT} members, multiple courts, all levels welcome.`,
     images: ["/og-image.jpg"],
   },
 };
@@ -209,7 +210,7 @@ export default function SiteLayout({ children, locale }: { children: ReactNode; 
               name: "Padel Kraków Community",
               url: SITE_URL,
               description:
-                "Local padel community in Kraków and Małopolska with 975+ members.",
+                `Local padel community in Kraków and Małopolska with ${COMMUNITY_MEMBER_COUNT} members.`,
               sport: "Padel",
               logo: SITE_URL + "/dragon-logo.png",
               areaServed: [{ "@type": "City", name: "Kraków" }, { "@type": "AdministrativeArea", name: "Małopolska" }],

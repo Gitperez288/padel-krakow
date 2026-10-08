@@ -1,6 +1,7 @@
 "use client";
 import { trackUsage } from "@/lib/usage";
 import CommunitySteps from "../CommunitySteps";
+import { COMMUNITY_MEMBER_COUNT, languagePolicy } from "@/lib/community";
 
 import { getTranslator } from "@/lib/translations";
 import { localizePath, type Locale } from "@/lib/i18n";
@@ -124,12 +125,13 @@ export default function CommunityPage({ locale }: { locale: Locale }) {
             <Image src="/dragon-logo.png" alt={t("Padel Kraków community dragon mascot")} width={160} height={160} sizes="160px" className="h-32 w-32 shrink-0 rounded-2xl object-contain sm:h-40 sm:w-40" priority/>
             <div>
               <h2 className="text-2xl font-bold text-stone-900 mb-2 sm:text-3xl">{mainCommunity.name}</h2>
-              <p className="text-sm text-gray-600">{t("WhatsApp Community")} · {locale === "pl" ? "Ponad 975 członków" : "975+ members"}</p>
+              <p className="text-sm text-gray-600">{t("WhatsApp Community")} · {locale === "pl" ? "Ponad 1000 członków" : `${COMMUNITY_MEMBER_COUNT} members`}</p>
             </div>
           </div>
           <p className="text-gray-700 mb-6 leading-relaxed">
             {t(mainCommunity.desc)}
           </p>
+          <p className="mb-6 text-sm text-stone-600">{languagePolicy[locale]}</p>
           {revealStatus === "revealed" && whatsAppUrl ? (
             <a
               href={whatsAppUrl}

@@ -1,9 +1,9 @@
 import { type Locale, localizePath } from "@/lib/i18n";
 import { getServerTranslator as getTranslator } from "@/lib/translations-server";
-import type { Metadata } from "next";
+import { languagePolicy, matchmakingGroups, matchmakingRules } from "@/lib/community";
+import MatchPostTemplate from "../MatchPostTemplate";
 import Link from "next/link";
 import {
-  Users,
   ShoppingBag,
   Megaphone,
   MessageCircle,
@@ -14,34 +14,6 @@ import {
 
 
 const groups = [
-  {
-    icon: Users,
-    color: "from-blue-500 to-blue-600",
-    title: "Padel Matchmaking",
-    rules: [
-      {
-        heading: "Rate yourself honestly",
-        body: "Use our skill level guide to find your level and include it every time you post a match or look for players. Honest self-rating keeps games balanced and fun for everyone.",
-        link: { label: "Find your level", href: "/levels" },
-      },
-      {
-        heading: "Be specific when organising a match",
-        body: "Include: date and time, venue, number of players needed, and the level you are looking for. The more detail you share, the faster you find players.",
-      },
-      {
-        heading: "Cancelled? Let the group know",
-        body: "If you cancel a reservation, post it in the group immediately so someone else can book the court and keep the game going.",
-      },
-      {
-        heading: "Keep it on topic",
-        body: "This group is for organising matches only. For general chat, use Padel Chat. For club announcements, use Club Announcements.",
-      },
-      {
-        heading: "Be kind",
-        body: "A friendly message goes a long way. Respect other players regardless of their level or background.",
-      },
-    ],
-  },
   {
     icon: ShoppingBag,
     color: "from-green-500 to-green-600",
@@ -84,7 +56,7 @@ const groups = [
       },
       {
         heading: "Relevant content only",
-        body: "Keep posts directly related to your club's padel activity. Avoid unrelated content.",
+        body: "Use: club, event, date, short description and booking link. Keep discussion in Padel Chat.",
       },
       {
         heading: "Coaches and independent organisers",
@@ -122,7 +94,7 @@ const groups = [
       },
       {
         heading: "Same rules as Matchmaking",
-        body: "All Padel Matchmaking rules apply here: rate yourself honestly, be specific when organising a match, inform the group of cancellations, and be kind.",
+        body: "All three matchmaking groups share the rules above. In Girls Padel Kraków, use the same template, requested letter levels and FULL / KOMPLET updates.",
         link: { label: "See Matchmaking rules above", href: "#padel-matchmaking" },
       },
     ],
@@ -140,7 +112,7 @@ export default function GuidelinesPage({ locale }: { locale: Locale }) {
         >{t("← Back to Home")}</Link>
 
         <h1 className="text-4xl font-bold text-stone-900 mt-6 mb-2">{t("Community Guidelines")}</h1>
-        <p className="text-sm text-gray-500 mb-10">{t("Last updated: September 2026")}</p>
+        <p className="text-sm text-gray-500 mb-10">{t("Last updated: October 2026")}</p>
 
         <div className="surface p-6 mb-6 space-y-4">
           <p>{t("Welcome to our free community for padel players in Kraków and Małopolska. All levels, local residents and visitors are welcome. Join topic groups to find games, chat and follow club announcements.")}</p>
@@ -153,7 +125,7 @@ export default function GuidelinesPage({ locale }: { locale: Locale }) {
           <Globe className="w-6 h-6 text-orange-700 flex-shrink-0 mt-0.5" />
           <div className="text-gray-700 leading-relaxed">
             <p className="font-semibold text-gray-900 mb-1">{t("Language policy")}</p>
-            <p>{t("Polish and English are both welcome. You can post in either language. A translation is helpful when needed, but it is not required.")}</p>
+            <p>{languagePolicy[locale]}</p>
           </div>
         </div>
 
@@ -183,6 +155,15 @@ export default function GuidelinesPage({ locale }: { locale: Locale }) {
 
         {/* Group-specific rules */}
         <h2 className="text-2xl font-bold text-gray-900 mb-6">{t("Rules by group")}</h2>
+
+        <section id="padel-matchmaking" className="surface mb-6 scroll-mt-24 p-6">
+          <h3 className="mb-3 text-xl font-bold">{locale === "pl" ? "Zasady trzech grup Matchmaking" : "Rules for all three matchmaking groups"}</h3>
+          <ul className="mb-5 space-y-2">{matchmakingGroups.map(group => <li key={group.id} className="text-sm font-semibold">{group.name}</li>)}</ul>
+          <p className="mb-4 text-sm">{locale === "pl" ? "Oceń swój poziom uczciwie. Możesz dołączyć do dwóch sąsiednich grup, ale zgłaszaj się tylko do meczów na swoim zwykłym poziomie." : "Rate your usual game honestly. You may join two neighbouring groups, but respond only to matches that fit your usual level."}</p>
+          <Link href={localizePath("/levels", locale)} className="mb-5 inline-block underline">{t("Find your level")}</Link>
+          <MatchPostTemplate locale={locale} />
+          <ul className="mt-5 list-disc space-y-3 pl-5 text-sm">{matchmakingRules[locale].map(rule => <li key={rule}>{rule}</li>)}</ul>
+        </section>
 
         <div className="space-y-6">
           {groups.map((group) => {

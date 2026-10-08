@@ -1,22 +1,23 @@
 import Link from "next/link";
+import { levelAdvice } from "@/lib/community";
 import { localizedRoutes, type Locale, type PageKey } from "@/lib/i18n";
 
 const content = {
   home: {
-    en: { title: "Your next game starts here", text: "Choose a court, check your level and meet people to play with. You do not need to arrive with a ready-made group.", links: [["courts", "Compare courts in Kraków and Małopolska"], ["community", "Find players and arrange a match"]] },
-    pl: { title: "Zaplanuj swoją następną grę", text: "Wybierz kort, sprawdź swój poziom i poznaj osoby do wspólnej gry. Nie musisz mieć własnej grupy graczy.", links: [["courts", "Porównaj korty w Krakowie i Małopolsce"], ["community", "Znajdź osoby do gry"]] },
+    en: { title: "Your next game starts here", text: "Choose a court, check your letter level and join the matching matchmaking group to find players.", links: [["courts", "Compare courts in Kraków and Małopolska"], ["community", "Find players and arrange a match"]] },
+    pl: { title: "Zaplanuj swoją następną grę", text: "Wybierz kort, sprawdź poziom literowy i dołącz do odpowiedniej grupy Matchmaking, aby znaleźć osoby do gry.", links: [["courts", "Porównaj korty w Krakowie i Małopolsce"], ["community", "Znajdź osoby do gry"]] },
   },
   courts: {
     en: { title: "Choose a court and plan your game", text: "Check the address: this guide includes Kraków, nearby towns and venues elsewhere in Małopolska. Court counts refer to doubles or singles courts, not players. Before booking, confirm the current price, racket rental and availability directly with the club. Use the directions link to plan your journey. Practical notes include their source and check date.", links: [["community", "Found a court? Find players at your level"], ["levels", "Check your playing level"]] },
     pl: { title: "Wybierz kort i zaplanuj grę", text: "Sprawdź adres: zestawienie obejmuje Kraków, pobliskie miejscowości i pozostałą część Małopolski. Liczby oznaczają korty deblowe lub singlowe, nie graczy. Przed rezerwacją potwierdź w klubie aktualną cenę, możliwość wypożyczenia rakiety i dostępność. Trasę zaplanujesz przez link dojazdu. Praktyczne informacje zawierają źródło i datę sprawdzenia.", links: [["community", "Masz już kort? Znajdź osoby do gry"], ["levels", "Sprawdź swój poziom gry"]] },
   },
   community: {
-    en: { title: "How to find a game", text: "Open the invitation above, read the group rules and introduce yourself with your level, preferred courts and available times. Join a game or propose your own, then confirm the booking and share the costs.", links: [["levels", "Not sure of your level? Read our guide"], ["courts", "Choose a court for your match"]] },
-    pl: { title: "Jak znaleźć osoby do gry?", text: "Otwórz zaproszenie powyżej, przeczytaj zasady grupy i przedstaw się: podaj swój poziom, preferowane korty i dostępne terminy. Dołącz do meczu lub zaproponuj własny, a następnie ustalcie rezerwację i podział kosztów.", links: [["levels", "Nie znasz swojego poziomu? Sprawdź przewodnik"], ["courts", "Wybierz kort na wspólny mecz"]] },
+    en: { title: "How to find a game", text: "Open the invitation, manually join the matchmaking group for your level and read the rules. Post the requested letter level, date, time, club, players needed, duration and booking status. Confirm participation and costs, then reply FULL / KOMPLET ✅ when filled.", links: [["levels", "Not sure of your level? Read our guide"], ["courts", "Choose a court for your match"]] },
+    pl: { title: "Jak znaleźć osoby do gry?", text: "Otwórz zaproszenie, ręcznie dołącz do grupy Matchmaking pasującej do poziomu i przeczytaj zasady. W ogłoszeniu podaj wymagany poziom literowy, datę, godzinę, klub, liczbę brakujących osób, czas gry i status rezerwacji. Ustal uczestnictwo i koszty. Po zebraniu kompletu odpowiedz FULL / KOMPLET ✅.", links: [["levels", "Nie znasz swojego poziomu? Sprawdź przewodnik"], ["courts", "Wybierz kort na wspólny mecz"]] },
   },
   levels: {
-    en: { title: "Assess your typical game, not your best shot", text: "Think about several recent matches: can you maintain a rally, defend after the glass and move forward with your partner? If you are between levels, start with the lower group and adjust after playing. This is an approximate community guide, not an official rating or a universal conversion between club and app scales.", links: [["community", "Find players at a similar level"], ["courts", "Find a court for your next game"]] },
-    pl: { title: "Oceń swoją zwykłą grę, nie najlepsze uderzenie", text: "Przypomnij sobie kilka ostatnich meczów: czy utrzymujesz wymianę, bronisz po odbiciu od szyby i podchodzisz do siatki razem z partnerem? Jeśli wahasz się między poziomami, zacznij od niższej grupy i zweryfikuj ocenę po grze. To orientacyjny przewodnik społeczności, a nie oficjalny ranking ani uniwersalny przelicznik skal klubowych i aplikacji.", links: [["community", "Znajdź graczy na podobnym poziomie"], ["courts", "Znajdź kort na następny mecz"]] },
+    en: { title: "Assess your typical game, not your best shot", text: levelAdvice.en, links: [["community", "Find players at a similar level"], ["courts", "Find a court for your next game"]] },
+    pl: { title: "Oceń swoją zwykłą grę, nie najlepsze uderzenie", text: levelAdvice.pl, links: [["community", "Znajdź graczy na podobnym poziomie"], ["courts", "Znajdź kort na następny mecz"]] },
   },
 } as const;
 

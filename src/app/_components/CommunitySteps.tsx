@@ -1,30 +1,33 @@
 import Link from "next/link";
 import { localizePath, type Locale } from "@/lib/i18n";
-const groups = [
-  ["Padel Matchmaking", "Find partners and organise matches. Post your level, date, time, venue and how many players you need.", "Szukaj osób do gry i umawiaj mecze. Podaj poziom, datę, godzinę, klub i liczbę brakujących osób."],
-  ["Padel Chat", "Ask questions and chat about padel, equipment and training.", "Zadawaj pytania i rozmawiaj o padlu, sprzęcie oraz treningach."],
-  ["Club Announcements", "Follow local clubs' announcements and padel updates.", "Śledź ogłoszenia lokalnych klubów i aktualności padlowe."],
-  ["Girls Padel Kraków", "A space for women to meet other players and organise games.", "Miejsce dla kobiet, które chcą poznać partnerki i umawiać gry."],
-  ["Padel Market", "Buy and sell secondhand padel equipment locally.", "Kupuj i sprzedawaj używany sprzęt do padla w okolicy."],
-];
+import { languagePolicy, otherCommunityGroups } from "@/lib/community";
+import MatchmakingGuide from "./MatchmakingGuide";
+import MatchPostTemplate from "./MatchPostTemplate";
+
 export default function CommunitySteps({ locale }: { locale: Locale }) {
   const pl = locale === "pl";
   return <section className="mx-auto max-w-6xl py-8 text-left" aria-labelledby="first-game">
     <h2 id="first-game" className="text-2xl font-bold">{pl ? "Od dołączenia do pierwszej gry" : "From joining to your first game"}</h2>
     <ol className="my-6 grid list-inside list-decimal gap-4 sm:grid-cols-3">
-      <li className="surface p-5">{pl ? "Otwórz zaproszenie i dołącz do społeczności WhatsApp. Dołączenie jest bezpłatne." : "Open the invitation and join our WhatsApp community. Membership is free."}</li>
-      <li className="surface p-5">{pl ? "Otwórz listę grup w społeczności. Ręcznie dołącz do Padel Matchmaking oraz pozostałych grup, które Cię interesują." : "Open the community's group list. Manually join Padel Matchmaking and any other groups that interest you."}</li>
-      <li className="surface p-5">{pl ? "Przedstaw się i napisz, kiedy chcesz zagrać. Polski i angielski są mile widziane." : "Introduce yourself and say when you want to play. Polish and English are both welcome."}</li>
+      <li className="surface p-5">{pl ? "Otwórz zaproszenie i dołącz bezpłatnie do społeczności WhatsApp." : "Open the invitation and join our WhatsApp community for free."}</li>
+      <li className="surface p-5">{pl ? "Sprawdź swój poziom i otwórz listę grup w społeczności. Ręcznie dołącz do odpowiedniej grupy Matchmaking oraz innych grup, które Cię interesują." : "Check your level and open the community's group list. Manually join the matching level group and any other groups that interest you."}</li>
+      <li className="surface p-5">{pl ? "Odpowiedz na ogłoszenie pasujące do Twojego poziomu lub opublikuj własne, korzystając z szablonu poniżej." : "Respond to a match that fits your level or post your own using the template below."}</li>
     </ol>
-    <p className="mb-6 font-semibold text-orange-800">{pl ? "Samo dołączenie do społeczności nie zapisuje Cię automatycznie do wszystkich grup." : "Joining the community does not automatically add you to all five groups."}</p>
-    <div className="grid gap-4 sm:grid-cols-2">{groups.map(([name,en,polish]) => <div key={name} className="surface p-5"><h3 className="font-bold">{name}</h3><p className="mt-2 text-sm text-stone-600">{pl ? polish : en}</p></div>)}</div>
-    <div className="surface mt-6 p-6"><h3 className="font-bold">{pl ? "Przykładowa wiadomość do Padel Matchmaking" : "Example message for Padel Matchmaking"}</h3><blockquote className="mt-3 border-l-2 border-orange-700 pl-4 text-stone-600">{pl ? "Cześć! Szukam [liczba] osób na padla [data, godzina] w [klub]. Mój poziom: [poziom]. Kort [zarezerwowany / do rezerwacji]. Kto chce zagrać?" : "Hi! Looking for [number] players for padel on [date, time] at [club]. My level is [level]. Court [booked / still to book]. Who's in?"}</blockquote><p className="mt-4 text-sm"><Link className="underline" href={localizePath("/levels", locale)}>{pl ? "Sprawdź swój poziom" : "Find your level"}</Link> · <Link className="underline" href={localizePath("/guidelines", locale)}>{pl ? "Przeczytaj zasady grup" : "Read the group guidelines"}</Link></p></div>
+    <p className="mb-5 font-semibold text-orange-800">{pl ? "Dołączenie do społeczności nie zapisuje Cię automatycznie do grup tematycznych." : "Joining the community does not automatically add you to the topic groups."}</p>
+    <p className="surface mb-6 p-5">{languagePolicy[locale]}</p>
+    <MatchmakingGuide locale={locale} showJoinLink={false} />
+    <h2 className="mb-4 text-2xl font-bold">{pl ? "Pozostałe grupy" : "Other groups"}</h2>
+    <div className="grid gap-4 sm:grid-cols-2">{otherCommunityGroups.map(group => <article key={group.name} className="surface p-5"><h3 className="font-bold">{group.name}</h3><p className="mt-2 text-sm text-stone-600">{group.description[locale]}</p></article>)}</div>
+    <p className="my-5 text-sm text-stone-600">{pl ? "W ogłoszeniach całej społeczności administratorzy publikują ważne aktualności i informacje organizacyjne." : "Community-wide Announcements carries important admin updates and community information."}</p>
+    <MatchPostTemplate locale={locale} />
+    <p className="mt-4 text-sm"><Link className="underline" href={localizePath("/levels", locale)}>{pl ? "Sprawdź swój poziom" : "Find your level"}</Link> · <Link className="underline" href={localizePath("/guidelines", locale)}>{pl ? "Przeczytaj zasady grup" : "Read the group guidelines"}</Link></p>
     <h2 className="mt-10 mb-5 text-2xl font-bold">{pl ? "Pytania przed dołączeniem" : "Before you join"}</h2>
     {[
-      ["Can beginners join?", "Yes. All levels are welcome. Include your level when looking for a game, and ask for help if you are unsure.", "Czy początkujący mogą dołączyć?", "Tak. Zapraszamy osoby na każdym poziomie. Podaj swój poziom, gdy szukasz gry. Jeśli nie masz pewności, poproś o pomoc."],
-      ["Do I need to speak English?", "No. You can post in Polish or English. An English translation is not a requirement.", "Czy muszę mówić po angielsku?", "Nie. Możesz pisać po polsku lub angielsku. Tłumaczenie na angielski nie jest wymagane."],
+      ["Can beginners join?", "Yes. Start with Beginner & Developing (D–C2). D is for people new to padel; ask for help if unsure of your level.", "Czy początkujący mogą dołączyć?", "Tak. Zacznij od Beginner & Developing (D–C2). D oznacza pierwsze kroki w padlu. Jeśli nie znasz swojego poziomu, poproś o pomoc."],
+      ["Do I need to speak English?", languagePolicy.en, "Czy muszę mówić po angielsku?", languagePolicy.pl],
+      ["Can I join two level groups?", "Yes, if you are near a boundary. Respond only to matches whose requested letter level or range fits your usual game.", "Czy mogę dołączyć do dwóch grup poziomów?", "Tak, jeśli jesteś blisko granicy poziomów. Zgłaszaj się tylko do meczów, których wymagany poziom lub zakres literowy odpowiada Twojej zwykłej grze."],
       ["Can I join while visiting Kraków?", "Yes. Visitors are welcome. Share the dates you will be here and your preferred area.", "Czy mogę dołączyć podczas wizyty w Krakowie?", "Tak. Goście są mile widziani. Podaj daty pobytu i preferowaną okolicę."],
-      ["Is joining free?", "Yes. Community membership is free. Court bookings, lessons and any paid activities are arranged separately with their providers.", "Czy dołączenie jest bezpłatne?", "Tak. Członkostwo jest bezpłatne. Rezerwacje kortów, treningi i ewentualne płatne aktywności ustalasz osobno z ich organizatorami."],
+      ["Is joining free?", "Yes. Community membership is free. Court bookings, lessons and paid activities are arranged separately with their providers.", "Czy dołączenie jest bezpłatne?", "Tak. Członkostwo jest bezpłatne. Rezerwacje kortów, treningi i płatne aktywności ustalasz osobno z ich organizatorami."],
     ].map(([q,a,pq,pa]) => <details key={q} className="border-b border-stone-200 py-4"><summary className="cursor-pointer font-semibold">{pl ? pq : q}</summary><p className="mt-3 text-stone-600">{pl ? pa : a}</p></details>)}
   </section>;
 }

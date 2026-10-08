@@ -1,3 +1,4 @@
+import { COMMUNITY_MEMBER_COUNT, languagePolicy } from "@/lib/community";
 import { hasPolishPost } from "@/lib/blog-locales";
 import { localizedPost, publicAuthor } from "@/lib/blog-content";
 import { getServerTranslator as getTranslator } from "@/lib/translations-server";
@@ -44,8 +45,8 @@ export default async function HomePage({ locale }: { locale: Locale }) {
 
   const features = [
     { icon: MapPin, title: t("Find Padel Courts"), description: t("Compare clubs, find your court and book a game."), href: "/courts" },
-    { icon: Users, title: t("Community Groups"), description: t("Meet local players and arrange your next match."), href: "/community" },
-    { icon: Target, title: t("Find Your Level"), description: t("Skill levels from beginner to professional."), href: "/levels" },
+    { icon: Users, title: t("Community Groups"), description: (locale === "pl" ? "Wybierz grupę Matchmaking pasującą do Twojego poziomu." : "Choose the matchmaking group that fits your level."), href: "/community" },
+    { icon: Target, title: t("Find Your Level"), description: (locale === "pl" ? "Poznaj skalę literową naszej społeczności." : "Find your community letter level."), href: "/levels" },
     { icon: Handshake, title: t("Find a coach"), description: t("Build confidence with a local padel coach."), href: "/coaches" },
   ];
 
@@ -59,13 +60,14 @@ export default async function HomePage({ locale }: { locale: Locale }) {
               <p className="eyebrow">Kraków & Małopolska</p>
             </div>
             <h1 className="text-5xl font-extrabold leading-[1.08] tracking-tighter text-stone-900 sm:text-6xl lg:text-7xl"><span className="block text-2xl mb-3 sm:text-3xl">{locale === "pl" ? "Padel w Krakowie" : "Padel in Kraków"}</span>{t("Your people.")}<br/>{t("Your next game.")}</h1>
-            <p className="mt-6 max-w-lg text-lg leading-relaxed text-stone-600">{t("975+ community members. Free to join. Polish and English welcome. Find a court, meet your partners and get playing.")}</p>
+            <p className="mt-6 max-w-lg text-lg leading-relaxed text-stone-600">{(locale === "pl" ? "Ponad 1000 członków społeczności. Dołączenie jest bezpłatne. Znajdź kort i grupę Matchmaking na swoim poziomie." : `${COMMUNITY_MEMBER_COUNT} community members. Free to join. Find a court and the matchmaking group for your level.`)}</p>
+            <p className="mt-3 max-w-lg text-sm text-stone-600">{languagePolicy[locale]}</p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link href={localizePath("/community", locale)} className="button-primary">{t("Join the Community")}<ArrowRight size={17}/></Link>
               <Link href={localizePath("/courts", locale)} className="button-secondary">{t("Find Padel Courts")}</Link>
             </div>
             <div className="mt-8 flex items-center gap-4 border-t border-stone-200 pt-6 text-sm text-stone-600">
-              <span className="text-2xl font-bold text-stone-900">975+</span><span>{locale === "pl" ? "Członków społeczności" : "Community members"}</span><span aria-hidden="true" className="h-5 border-l border-stone-300"/><span>{t("All levels welcome")}</span>
+              <span className="text-2xl font-bold text-stone-900">{COMMUNITY_MEMBER_COUNT}</span><span>{locale === "pl" ? "Członków społeczności" : "Community members"}</span><span aria-hidden="true" className="h-5 border-l border-stone-300"/><span>{t("All levels welcome")}</span>
             </div>
           </div>
           <figure className="relative overflow-hidden rounded-2xl bg-stone-200">
