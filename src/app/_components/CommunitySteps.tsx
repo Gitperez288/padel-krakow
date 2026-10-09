@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { localizePath, type Locale } from "@/lib/i18n";
-import { languagePolicy, otherCommunityGroups } from "@/lib/community";
+import { languagePolicy, otherCommunityGroups, matchmakingGroups } from "@/lib/community";
 import MatchmakingGuide from "./MatchmakingGuide";
 import MatchPostTemplate from "./MatchPostTemplate";
 
@@ -23,7 +23,7 @@ export default function CommunitySteps({ locale }: { locale: Locale }) {
     <p className="mt-4 text-sm"><Link className="underline" href={localizePath("/levels", locale)}>{pl ? "Sprawdź swój poziom" : "Find your level"}</Link> · <Link className="underline" href={localizePath("/guidelines", locale)}>{pl ? "Przeczytaj zasady grup" : "Read the group guidelines"}</Link></p>
     <h2 className="mt-10 mb-5 text-2xl font-bold">{pl ? "Pytania przed dołączeniem" : "Before you join"}</h2>
     {[
-      ["Can beginners join?", "Yes. Start with Beginner & Developing (D–C2) · ≈0–2.5. D is for people new to padel; ask for help if unsure of your level.", "Czy początkujący mogą dołączyć?", "Tak. Zacznij od Beginner & Developing (D–C2) · ≈0–2.5. D oznacza pierwsze kroki w padlu. Jeśli nie znasz swojego poziomu, poproś o pomoc."],
+      ["Can beginners join?", "Yes. Start with Beginner & Developing (D–C2). D is for people new to padel; ask for help if unsure of your level." + " Numeric reference: ≈" + matchmakingGroups[0].numericRange + ".", "Czy początkujący mogą dołączyć?", "Tak. Zacznij od Beginner & Developing (D–C2). D oznacza pierwsze kroki w padlu. Jeśli nie znasz swojego poziomu, poproś o pomoc." + " Orientacyjnie: ≈" + matchmakingGroups[0].numericRange + "."],
       ["Do I need to speak English?", languagePolicy.en, "Czy muszę mówić po angielsku?", languagePolicy.pl],
       ["Can I join two level groups?", "Yes, if you are near a boundary. Respond only to matches whose requested letter level or range fits your usual game.", "Czy mogę dołączyć do dwóch grup poziomów?", "Tak, jeśli jesteś blisko granicy poziomów. Zgłaszaj się tylko do meczów, których wymagany poziom lub zakres literowy odpowiada Twojej zwykłej grze."],
       ["Can I join while visiting Kraków?", "Yes. Visitors are welcome. Share the dates you will be here and your preferred area.", "Czy mogę dołączyć podczas wizyty w Krakowie?", "Tak. Goście są mile widziani. Podaj daty pobytu i preferowaną okolicę."],
