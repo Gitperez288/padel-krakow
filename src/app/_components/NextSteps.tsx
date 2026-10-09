@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { levelAdvice } from "@/lib/community";
+import { levelAdvice, numericPostingAdvice } from "@/lib/community";
 import { localizedRoutes, type Locale, type PageKey } from "@/lib/i18n";
 
 const content = {
@@ -26,6 +26,7 @@ export default function NextSteps({ locale, page }: { locale: Locale; page: keyo
   return <section className="max-w-6xl mx-auto my-8 rounded-2xl border border-stone-200 bg-white p-6 text-left">
     <h2 className="text-xl font-bold text-stone-900 mb-3">{section.title}</h2>
     <p className="text-gray-700 leading-relaxed">{section.text}</p>
+    {(page === "home" || page === "community") && <p className="mt-3 text-sm text-stone-600">{numericPostingAdvice[locale]}</p>}
     <ul className="mt-4 flex flex-wrap gap-x-8 gap-y-3">
       {section.links.map(([key, label]) => <li key={key}><Link className="font-semibold text-stone-900 underline underline-offset-4" href={localizedRoutes[key][locale]}>{label}</Link></li>)}
     </ul>

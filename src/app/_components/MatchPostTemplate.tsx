@@ -1,5 +1,5 @@
 import type { Locale } from "@/lib/i18n";
-import { matchExample, matchTemplate } from "@/lib/community";
+import { matchExample, matchTemplate, numericPostingAdvice } from "@/lib/community";
 
 export default function MatchPostTemplate({ locale }: { locale: Locale }) {
   return <div className="surface p-5 text-left">
@@ -7,5 +7,6 @@ export default function MatchPostTemplate({ locale }: { locale: Locale }) {
     <p className="mt-3 break-words text-sm text-stone-600">{matchTemplate[locale]}</p>
     <blockquote className="mt-4 border-l-2 border-orange-700 pl-4 font-medium">{matchExample[locale]}</blockquote>
     <p className="mt-4 text-sm">{locale === "pl" ? "To przykład. Podaj wymagany poziom, nawet w grupie przypisanej do poziomów. Po zebraniu kompletu odpowiedz na swoje ogłoszenie: FULL / KOMPLET ✅." : "This is an example. Specify the requested level even within a level group. When filled, reply to your original post: FULL / KOMPLET ✅."}</p>
+    <p className="mt-3 text-sm text-stone-600">{numericPostingAdvice[locale]}</p>
   </div>;
 }

@@ -3,6 +3,31 @@ import type { Locale } from "./i18n";
 export const COMMUNITY_MEMBER_COUNT = "1,000+";
 export const LEVEL_ORDER = ["D", "C4", "C3", "C2", "C1", "B4", "B3", "B2", "B1", "A4", "A3", "A2", "A1"] as const;
 
+
+export const numericLevelRanges = {
+  D: { en: "Below 1.0", pl: "Poniżej 1.0" },
+  "C4–C3": { en: "1.0–2.0", pl: "1.0–2.0" },
+  C2: { en: "2.5", pl: "2.5" },
+  C1: { en: "3.0", pl: "3.0" },
+  "B4–B3": { en: "3.5–4.0", pl: "3.5–4.0" },
+  "C1–B3": { en: "3.0–4.0", pl: "3.0–4.0" },
+  B2: { en: "4.5", pl: "4.5" },
+  B1: { en: "5.0", pl: "5.0" },
+  "A4–A1": { en: "5.5–6.0+", pl: "5.5–6.0+" },
+} as const;
+
+export const numericReferenceLetters = ["D", "C4–C3", "C2", "C1", "B4–B3", "B2", "B1", "A4–A1"] as const;
+
+export const numericLevelAdvice = {
+  en: "Numbers are approximate equivalents in our community guide, not direct conversions from apps or clubs. They are reference points, not strict decimal cutoffs. If your number falls between them, compare your usual game with the skill descriptions and use the existing advice for neighbouring groups.",
+  pl: "Liczby to orientacyjne odpowiedniki w przewodniku naszej społeczności, a nie bezpośredni przelicznik skal aplikacji i klubów. Są punktami odniesienia, a nie ścisłymi granicami dziesiętnymi. Jeśli Twój poziom wypada pomiędzy nimi, porównaj swoją zwykłą grę z opisami umiejętności i skorzystaj z istniejących wskazówek dotyczących sąsiednich grup.",
+} as const;
+
+export const numericPostingAdvice = {
+  en: "You can also use numbers from our guide. Showing both letters and numbers, for example B2 (≈4.5), helps everyone understand the requested level.",
+  pl: "Możesz też używać liczb z naszego przewodnika. Podanie liter i liczb, np. B2 (≈4.5), pomaga wszystkim zrozumieć wymagany poziom.",
+} as const;
+
 export const languagePolicy = {
   en: "English and Polish are both welcome. Post in whichever you prefer. Translations are optional, and admins will not police your language choice.",
   pl: "Polski i angielski są mile widziane. Pisz w języku, który wolisz. Tłumaczenia są opcjonalne, a administratorzy nie będą kontrolować wyboru języka.",
@@ -18,6 +43,7 @@ export const matchmakingGroups = [
     id: "beginner",
     name: "🎾 Padel Matchmaking · Beginner & Developing (D–C2)",
     range: "D–C2",
+    numericRange: "0–2.5",
     levels: ["D", "C4", "C3", "C2"],
     label: { en: "Beginner & Developing", pl: "Początkujący i rozwijający umiejętności" },
     summary: {
@@ -29,6 +55,7 @@ export const matchmakingGroups = [
     id: "intermediate",
     name: "🎾 Padel Matchmaking · Intermediate (C1–B2)",
     range: "C1–B2",
+    numericRange: "3.0–4.5",
     levels: ["C1", "B4", "B3", "B2"],
     label: { en: "Intermediate", pl: "Średniozaawansowani" },
     summary: {
@@ -40,6 +67,7 @@ export const matchmakingGroups = [
     id: "advanced",
     name: "🎾 Padel Matchmaking · Advanced (B1+)",
     range: "B1+",
+    numericRange: "5.0+",
     levels: ["B1", "A4", "A3", "A2", "A1"],
     label: { en: "Advanced", pl: "Zaawansowani" },
     summary: {
@@ -49,6 +77,10 @@ export const matchmakingGroups = [
   },
 ] as const;
 
+export function matchmakingGroupName(group: { name: string; numericRange: string }) {
+  return group.name + " · ≈" + group.numericRange;
+}
+
 export const otherCommunityGroups = [
   { name: "Padel Chat", description: { en: "Questions, equipment, training and general padel conversation.", pl: "Pytania, sprzęt, treningi i rozmowy o padlu." } },
   { name: "Club Announcements", description: { en: "Local club events, leagues, tournaments and updates. Keep discussion in Padel Chat.", pl: "Wydarzenia, ligi, turnieje i aktualności klubów. Dyskusje prowadź w Padel Chat." } },
@@ -57,13 +89,13 @@ export const otherCommunityGroups = [
 ] as const;
 
 export const matchTemplate = {
-  en: "[DD/MM] | [time] | [club] | [letter level/range] | Need [number] players | [duration] min | Court [booked / to book]",
-  pl: "[DD/MM] | [godzina] | [klub] | [poziom/zakres literowy] | Brakuje [liczba] osób | [czas] min | Kort [zarezerwowany / do rezerwacji]",
+  en: "[DD/MM] | [time] | [club] | [letter level/range] ([≈numeric level/range]) | Need [number] players | [duration] min | Court [booked / to book]",
+  pl: "[DD/MM] | [godzina] | [klub] | [poziom/zakres literowy] ([≈poziom/zakres liczbowy]) | Brakuje [liczba] osób | [czas] min | Kort [zarezerwowany / do rezerwacji]",
 } as const;
 
 export const matchExample = {
-  en: "16/10 | 19:00 | Błonia Sport | B4–B3 | Need 2 players | 90 min | Court booked ✅",
-  pl: "16/10 | 19:00 | Błonia Sport | B4–B3 | Brakuje 2 osób | 90 min | Kort zarezerwowany ✅",
+  en: `16/10 | 19:00 | Błonia Sport | B4–B3 (≈${numericLevelRanges["B4–B3"].en}) | Need 2 players | 90 min | Court booked ✅`,
+  pl: `16/10 | 19:00 | Błonia Sport | B4–B3 (≈${numericLevelRanges["B4–B3"].pl}) | Brakuje 2 osób | 90 min | Kort zarezerwowany ✅`,
 } as const;
 
 export const matchmakingRules: Record<Locale, readonly string[]> = {

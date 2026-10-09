@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { localizePath, type Locale } from "@/lib/i18n";
-import { LEVEL_ORDER, matchmakingGroups, skillStages } from "@/lib/community";
+import { LEVEL_ORDER, matchmakingGroups, skillStages, numericLevelRanges, numericReferenceLetters } from "@/lib/community";
 import MatchmakingGuide from "../MatchmakingGuide";
 import NextSteps from "../NextSteps";
 
@@ -20,18 +20,29 @@ export default function LevelsPage({ locale }: { locale: Locale }) {
       <p className="mt-2 text-sm text-stone-600">{pl ? "W ramach każdej litery 4 jest najniższym, a 1 najwyższym poziomem. B1+ oznacza B1 oraz A4, A3, A2 i A1." : "Within each letter, 4 is lowest and 1 is highest. B1+ means B1 plus A4, A3, A2 and A1."}</p>
     </section>
 
+    <section className="surface my-8 p-5" aria-labelledby="numeric-reference">
+      <h2 id="numeric-reference" className="text-xl font-bold">{pl ? "Litery i liczby: szybkie porównanie" : "Letters and numbers: quick reference"}</h2>
+      <div className="mt-4 overflow-x-auto">
+        <table className="w-full text-left text-sm">
+          <caption className="sr-only">{pl ? "Orientacyjne odpowiedniki liczbowe poziomów literowych naszej społeczności" : "Approximate numeric equivalents of our community letter levels"}</caption>
+          <thead><tr className="border-b border-stone-200"><th scope="col" className="py-2 pr-4">{pl ? "Poziom literowy" : "Letter level"}</th><th scope="col" className="py-2">{pl ? "Orientacyjny poziom liczbowy" : "Approximate numeric level"}</th></tr></thead>
+          <tbody>{numericReferenceLetters.map(letter => <tr key={letter} className="border-b border-stone-100"><th scope="row" className="py-2 pr-4 font-semibold">{letter}</th><td className="py-2">{numericLevelRanges[letter][locale]}</td></tr>)}</tbody>
+        </table>
+      </div>
+    </section>
+
     <h2 className="mb-4 text-2xl font-bold">{pl ? "Przewodnik po umiejętnościach" : "Skill guide"}</h2>
     <nav id="levels-ladder" data-testid="levels-ladder-section" aria-label={pl ? "Przejdź do opisu poziomu" : "Jump to a skill stage"} className="mb-6 flex flex-wrap gap-2">
-      {skillStages.map(stage => <a key={stage.id} href={"#skill-" + stage.id} className="button-secondary">{stage.letter}</a>)}
+      {skillStages.map(stage => <a key={stage.id} href={"#skill-" + stage.id} className="button-secondary">{stage.letter} <span className="text-xs font-normal">· ≈{numericLevelRanges[stage.letter][locale]}</span></a>)}
     </nav>
     <section id="levels-cards" data-testid="levels-cards-section" className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {skillStages.map(stage => {
         const group = matchmakingGroups.find(group => group.id === stage.group)!;
         return <article id={"skill-" + stage.id} key={stage.id} className="surface scroll-mt-24 p-6">
-          <p className="mb-2 text-2xl font-bold text-orange-800">{stage.letter}</p>
+          <p className="mb-2 text-2xl font-bold text-orange-800">{stage.letter} <span className="text-base font-semibold text-stone-600">· ≈{numericLevelRanges[stage.letter][locale]}</span></p>
           <h3 className="text-xl font-bold">{stage.title[locale]}</h3>
           <p className="my-3 text-stone-600">{stage.description[locale]}</p>
-          <p className="text-sm font-semibold">{pl ? "Grupa" : "Group"}: {group.label[locale]} ({group.range})</p>
+          <p className="text-sm font-semibold">{pl ? "Grupa" : "Group"}: {group.label[locale]} ({group.range}) <span className="font-normal text-stone-600">· ≈{group.numericRange}</span></p>
         </article>;
       })}
     </section>
