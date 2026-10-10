@@ -162,7 +162,7 @@ export default function GuidelinesPage({ locale }: { locale: Locale }) {
           <p className="mb-4 text-sm">{levelAdvice[locale]}</p>
           <Link href={localizePath("/levels", locale)} className="mb-5 inline-block underline">{t("Find your level")}</Link>
           <MatchPostTemplate locale={locale} />
-          <ul className="mt-5 list-disc space-y-3 pl-5 text-sm">{matchmakingRules[locale].map(rule => <li key={rule}>{rule}</li>)}</ul>
+          <ul className="mt-5 list-disc space-y-3 pl-5 text-sm">{matchmakingRules[locale].slice(2).map(rule => <li key={rule}>{rule}</li>)}</ul>
         </section>
 
         <div className="space-y-6">
