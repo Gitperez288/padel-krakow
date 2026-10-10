@@ -1,12 +1,14 @@
 import type { Locale } from "@/lib/i18n";
-import { matchExample, matchTemplate, numericPostingAdvice } from "@/lib/community";
+import { matchExample, matchTemplate } from "@/lib/community";
+import CopyMatchTemplate from "./CopyMatchTemplate";
 
 export default function MatchPostTemplate({ locale }: { locale: Locale }) {
+  const pl = locale === "pl";
   return <div className="surface p-5 text-left">
-    <h3 className="font-bold">{locale === "pl" ? "Szablon ogłoszenia meczu" : "Match post template"}</h3>
-    <p className="mt-3 break-words text-sm text-stone-600">{matchTemplate[locale]}</p>
-    <blockquote className="mt-4 border-l-2 border-orange-700 pl-4 font-medium">{matchExample[locale]}</blockquote>
-    <p className="mt-4 text-sm">{locale === "pl" ? "To przykład. Podaj wymagany poziom, nawet w grupie przypisanej do poziomów. Po zebraniu kompletu odpowiedz na swoje ogłoszenie: FULL / KOMPLET ✅." : "This is an example. Specify the requested level even within a level group. When filled, reply to your original post: FULL / KOMPLET ✅."}</p>
-    <p className="mt-3 text-sm text-stone-600">{numericPostingAdvice[locale]}</p>
+    <h3 className="font-bold">{pl ? "Szablon ogłoszenia meczu" : "Match post template"}</h3>
+    <CopyMatchTemplate template={matchTemplate[locale]} locale={locale} />
+    <p className="mt-5 text-sm font-semibold">{pl ? "Przykład" : "Example"}</p>
+    <blockquote className="mt-2 whitespace-pre-line border-l-2 border-orange-700 pl-4 text-sm leading-7">{matchExample[locale]}</blockquote>
+    <p className="mt-4 text-sm">{pl ? "Podaj wymagany poziom. Po zebraniu kompletu odpowiedz na swoje ogłoszenie: FULL / KOMPLET ✅." : "Include the requested level. When filled, reply to your post: FULL / KOMPLET ✅."}</p>
   </div>;
 }

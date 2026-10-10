@@ -1,6 +1,6 @@
 import { type Locale, localizePath } from "@/lib/i18n";
 import { getServerTranslator as getTranslator } from "@/lib/translations-server";
-import { languagePolicy, matchmakingGroups, matchmakingGroupName, matchmakingRules } from "@/lib/community";
+import { languagePolicy, levelAdvice, matchmakingGroups, matchmakingGroupName, matchmakingRules } from "@/lib/community";
 import MatchPostTemplate from "../MatchPostTemplate";
 import Link from "next/link";
 import {
@@ -159,10 +159,10 @@ export default function GuidelinesPage({ locale }: { locale: Locale }) {
         <section id="padel-matchmaking" className="surface mb-6 scroll-mt-24 p-6">
           <h3 className="mb-3 text-xl font-bold">{locale === "pl" ? "Zasady trzech grup Matchmaking" : "Rules for all three matchmaking groups"}</h3>
           <ul className="mb-5 space-y-2">{matchmakingGroups.map(group => <li key={group.id} className="text-sm font-semibold">{matchmakingGroupName(group)}</li>)}</ul>
-          <p className="mb-4 text-sm">{locale === "pl" ? "Oceń swój poziom uczciwie. Możesz dołączyć do dwóch sąsiednich grup, ale zgłaszaj się tylko do meczów na swoim zwykłym poziomie." : "Rate your usual game honestly. You may join two neighbouring groups, but respond only to matches that fit your usual level."}</p>
+          <p className="mb-4 text-sm">{levelAdvice[locale]}</p>
           <Link href={localizePath("/levels", locale)} className="mb-5 inline-block underline">{t("Find your level")}</Link>
           <MatchPostTemplate locale={locale} />
-          <ul className="mt-5 list-disc space-y-3 pl-5 text-sm">{matchmakingRules[locale].map(rule => <li key={rule}>{rule}</li>)}</ul>
+          <ul className="mt-5 list-disc space-y-3 pl-5 text-sm">{matchmakingRules[locale].slice(2).map(rule => <li key={rule}>{rule}</li>)}</ul>
         </section>
 
         <div className="space-y-6">
