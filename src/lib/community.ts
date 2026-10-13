@@ -50,21 +50,21 @@ export const matchmakingGroups = [
   },
   {
     id: "intermediate",
-    name: "🎾 Padel Matchmaking · Intermediate (C1–B2)",
-    range: "C1–B2",
-    numericRange: "3.0–4.5",
-    levels: ["C1", "B4", "B3", "B2"],
+    name: "🎾 Padel Matchmaking · Intermediate (C1–B3)",
+    range: "C1–B3",
+    numericRange: "3.0–4.0",
+    levels: ["C1", "B4", "B3"],
     label: { en: "Intermediate", pl: "Średniozaawansowani" },
     summary: { en: "Build consistency, tactics and teamwork.", pl: "Rozwijaj regularność, taktykę i współpracę." },
   },
   {
     id: "advanced",
-    name: "🎾 Padel Matchmaking · Advanced (B1+)",
-    range: "B1+",
-    numericRange: "5.0+",
-    levels: ["B1", "A4", "A3", "A2", "A1"],
-    label: { en: "Advanced", pl: "Zaawansowani" },
-    summary: { en: "Play demanding rallies with control and tactical awareness.", pl: "Graj wymagające wymiany z kontrolą i świadomą taktyką." },
+    name: "🎾 Padel Matchmaking · Upper Intermediate+ (B2+)",
+    range: "B2+",
+    numericRange: "4.5+",
+    levels: ["B2+"],
+    label: { en: "Upper Intermediate+", pl: "Mocni średniozaawansowani+" },
+    summary: { en: "Play faster rallies with control and tactical awareness.", pl: "Graj w szybszym tempie z kontrolą i świadomą taktyką." },
   },
 ] as const;
 
@@ -136,7 +136,7 @@ export const skillStages = [
     },
   },
   {
-    id: "strong-intermediate", letter: "B2", group: "intermediate", title: { en: "Strong intermediate", pl: "Mocny średniozaawansowany" },
+    id: "strong-intermediate", letter: "B2", group: "advanced", title: { en: "Strong intermediate", pl: "Mocny średniozaawansowany" },
     bullets: {
       en: ["Maintaining control at higher pace.", "Moving reliably between defence and attack.", "Adapting shots and positioning to opponents."],
       pl: ["Utrzymujesz kontrolę przy wyższym tempie.", "Pewnie przechodzisz między obroną a atakiem.", "Dobierasz uderzenia i ustawienie do rywali."],

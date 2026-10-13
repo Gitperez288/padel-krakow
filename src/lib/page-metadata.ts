@@ -20,12 +20,12 @@ const copy = {
     pl: ["Korty do padla w Krakowie i Małopolsce", "Gdzie grać w padla w Krakowie? Porównaj korty, adresy, hale i obiekty na zewnątrz. Sprawdź sposoby rezerwacji w Krakowie i Małopolsce."],
   },
   community: {
-    en: ["Padel Kraków WhatsApp Community | Find Players", "Find padel players in Kraków. Join our free WhatsApp community and choose matchmaking by level: D–C2, C1–B2 or B1+. English and Polish welcome."],
-    pl: ["Padel Kraków: grupa WhatsApp i osoby do gry", "Znajdź osoby do padla w Krakowie. Dołącz bezpłatnie na WhatsAppie i wybierz grupę: D–C2, C1–B2 lub B1+. Polski i angielski mile widziane."],
+    en: ["Padel Kraków WhatsApp Community | Find Players", "Find padel players in Kraków. Join our free WhatsApp community and choose matchmaking by level: D–C2, C1–B3 or B2+. English and Polish welcome."],
+    pl: ["Padel Kraków: grupa WhatsApp i osoby do gry", "Znajdź osoby do padla w Krakowie. Dołącz bezpłatnie na WhatsAppie i wybierz grupę: D–C2, C1–B3 lub B2+. Polski i angielski mile widziane."],
   },
   levels: {
-    en: ["Padel Playing Levels: Find Your Level", "Find your community letter level and choose Beginner & Developing (D–C2), Intermediate (C1–B2) or Advanced (B1+) matchmaking in Kraków."],
-    pl: ["Poziomy gry w padla: sprawdź swój poziom", "Sprawdź swój poziom literowy i wybierz grupę do gry w Krakowie: początkujący (D–C2), średniozaawansowani (C1–B2) lub zaawansowani (B1+)."],
+    en: ["Padel Playing Levels: Find Your Level", "Find your community letter level and choose Beginner & Developing (D–C2), Intermediate (C1–B3) or Upper Intermediate+ (B2+) matchmaking in Kraków."],
+    pl: ["Poziomy gry w padla: sprawdź swój poziom", "Sprawdź swój poziom literowy i wybierz grupę do gry w Krakowie: początkujący (D–C2), średniozaawansowani (C1–B3) lub mocni średniozaawansowani+ (B2+)."],
   },
 } as const;
 
