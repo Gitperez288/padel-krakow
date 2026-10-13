@@ -20,7 +20,7 @@ export default function LevelsPage({ locale }: { locale: Locale }) {
       <p className="mt-1 font-semibold leading-loose">{LEVEL_ORDER.join(" → ")}</p>
       <p className="mt-3 text-sm text-stone-600">{pl ? "Liczby" : "Numbers"}</p>
       <p className="mt-1 font-semibold leading-loose">{numericProgression.join(" → ")}</p>
-      <p className="mt-2 text-sm text-stone-600">{pl ? "W ramach każdej litery: 4 najniżej, 1 najwyżej. B1+ obejmuje wszystkie poziomy A." : "Within each letter: 4 is lowest, 1 is highest. B1+ includes all A levels."} {numericLevelAdvice[locale]}</p>
+      <p className="mt-2 text-sm text-stone-600">{pl ? "W ramach każdej litery: 4 najniżej, 1 najwyżej." : "Within each letter: 4 is lowest, 1 is highest."} {numericLevelAdvice[locale]}</p>
     </section>
 
     <h2 className="mb-4 text-2xl font-bold">{pl ? "Przewodnik po umiejętnościach" : "Skill guide"}</h2>
