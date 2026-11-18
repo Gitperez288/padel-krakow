@@ -36,9 +36,8 @@
     "remark": "^15.0.1",
     "remark-html": "^16.0.1",
     "sanitize-html": "^2.17.4",
-    "sharp": "^0.34.5",
-    "slugify": "^1.6.6",
-    "zod": "^3.22.4"
+    "sharp": "0.35.5",
+    "slugify": "^1.6.6"
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.10",
@@ -48,10 +47,21 @@
     "@types/react": "npm:types-react@19.0.0-rc.1",
     "@types/react-dom": "npm:types-react-dom@19.0.0-rc.1",
     "autoprefixer": "^10.4.19",
-    "postcss": "^8.4.38",
+    "postcss": "8.5.33",
     "prisma": "^5.22.0",
     "tailwindcss": "^3.4.4",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.2"
+  },
+  "overrides": {
+    "next": {
+      "postcss": "8.5.33"
+    },
+    "exceljs": {
+      "uuid": "11.1.1"
+    },
+    "@tailwindcss/typography": {
+      "postcss-selector-parser": "6.1.5"
+    }
   }
 }
