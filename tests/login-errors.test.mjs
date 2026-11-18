@@ -22,6 +22,26 @@ async function routeResult(limit, segments = ['callback', 'credentials']) {
   const response = await POST(new NextRequest('https://example.com/api/auth/' + segments.join('/'), { method: 'POST' }), { params: Promise.resolve({ nextauth: segments }) });
   return { response, calls };
 }
+test('private post reads use the current account and enforce ownership', async () => {
+  const draft = { id: 'draft', authorId: 'writer' };
+  for (const [role, id, expected] of [
+    ['admin', 'editor', 200], ['author', 'writer', 200],
+    ['author', 'other', 404], ['disabled', 'writer', 403],
+    [null, 'removed', 403], [null, null, 401],
+  ]) {
+    const { GET } = load('src/app/api/blog/[id]/route.ts', {
+      '@/auth': { auth: async () => id ? { user: { email: 'person@example.com' } } : null },
+      '@/lib/blog-content': {},
+      '@/lib/db': { db: {
+        user: { findUnique: async () => role ? { id, role } : null },
+        post: { findFirst: async ({ where }) =>
+          Object.entries(where).every(([key, value]) => draft[key] === value) ? draft : null },
+      } },
+    });
+    const response = await GET(undefined, { params: Promise.resolve({ id: draft.id }) });
+    assert.equal(response.status, expected, String(id));
+  }
+});
 test('database failure returns a NextAuth-compatible 503 before credential verification', async () => {
   const { response, calls } = await routeResult(async () => { throw Error('offline'); });
   assert.equal(response.status, 503);

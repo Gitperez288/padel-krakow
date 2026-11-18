@@ -173,19 +173,14 @@ npm run dev
 - **Public Site**: http://localhost:3000
 - **Admin Login**: http://localhost:3000/auth/login
   - Email: `admin@padel-krakow.com`
-  - Password: `change-me-in-production`
+  - Use the admin password supplied during setup.
 - **Admin Dashboard**: http://localhost:3000/admin/blog
 
 ---
 
-## 📋 Default Admin Credentials
+## Account setup
 
-⚠️ **IMPORTANT**: Change these immediately after first login!
-
-| Role | Email | Password |
-|------|-------|----------|
-| Admin | `admin@padel-krakow.com` | `change-me-in-production` |
-| Author | `author@padel-krakow.com` | `change-me-in-production` |
+Set ADMIN_PASSWORD and AUTHOR_PASSWORD to unique passwords before running the seed command.
 
 ---
 
@@ -265,7 +260,7 @@ npm run dev
 1. ✅ Review this summary
 2. ✅ Read SETUP_GUIDE.md
 3. ✅ Set up locally and test
-4. ✅ Change default passwords
+4. ✅ Set unique account passwords
 5. ✅ Deploy to Vercel
 6. ✅ Create first blog post
 7. ✅ Verify in Google Search Console

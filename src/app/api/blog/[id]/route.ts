@@ -17,8 +17,16 @@ export async function GET(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const post = await db.post.findUnique({
-      where: { id },
+    const user = await db.user.findUnique({
+      where: { email: session.user.email },
+      select: { id: true, role: true },
+    });
+    if (!user || (user.role !== "admin" && user.role !== "author")) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+
+    const post = await db.post.findFirst({
+      where: user.role === "admin" ? { id } : { id, authorId: user.id },
       include: {
         author: {
           // Exclude email from the response to avoid unintended data exposure

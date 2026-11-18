@@ -1,13 +1,15 @@
 import { db } from "@/lib/db";
 import bcrypt from "bcryptjs";
 
-// Default admin credentials - OVERRIDE IN PRODUCTION
+// Account addresses used during setup
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "admin@example.com";
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "change-me-in-production";
 const AUTHOR_EMAIL = process.env.AUTHOR_EMAIL || "author@example.com";
-const AUTHOR_PASSWORD = process.env.AUTHOR_PASSWORD || "change-me-in-production";
 
 async function main() {
+  const { ADMIN_PASSWORD, AUTHOR_PASSWORD } = process.env;
+  if (!ADMIN_PASSWORD || !AUTHOR_PASSWORD) {
+    throw new Error("Set ADMIN_PASSWORD and AUTHOR_PASSWORD before seeding.");
+  }
   console.log("Seeding database...");
 
   // Create admin user
@@ -53,8 +55,8 @@ async function main() {
 main()
   .catch((e) => {
     console.error(e);
-    process.exit(1);
+    process.exitCode = 1;
   })
   .finally(async () => {
-    process.exit(0);
+    await db.$disconnect();
   });

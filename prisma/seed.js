@@ -4,11 +4,13 @@ const bcrypt = require('bcryptjs');
 const db = new PrismaClient();
 
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@padel-krakow.com';
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'change-me-in-production';
 const AUTHOR_EMAIL = process.env.AUTHOR_EMAIL || 'author@padel-krakow.com';
-const AUTHOR_PASSWORD = process.env.AUTHOR_PASSWORD || 'change-me-in-production';
 
 async function main() {
+  const { ADMIN_PASSWORD, AUTHOR_PASSWORD } = process.env;
+  if (!ADMIN_PASSWORD || !AUTHOR_PASSWORD) {
+    throw new Error("Set ADMIN_PASSWORD and AUTHOR_PASSWORD before seeding.");
+  }
   console.log('Seeding database...');
 
   // Create admin user
